@@ -3,8 +3,10 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from "connect-mongo";
+import helmet from "helmet";
 import dotenv from 'dotenv';
 import UserRoutes from './routes/userRoutes'
+import ipRoutes from "./routes/ipRoutes";
 
 dotenv.config();
 
@@ -15,6 +17,7 @@ const app = express();
 
 app.set('trust proxy', 1);
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
@@ -39,13 +42,9 @@ app.use(session({
     }
 }));
 
-app.get("/ip", async (req, res) => {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    res.send({ ip: data.ip });
-});
 
 app.use('/api/user', UserRoutes);
+app.use("/ip", ipRoutes);
 
 
 app.listen(PORT, () => {
