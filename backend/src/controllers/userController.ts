@@ -19,9 +19,11 @@ export async function login(req: Request, res: Response) {
 
         const user = await loginUser(email, password);
 
-        req.session.userId = user.id;
-        req.session.username = user.username;
-        req.session.role = user.role;
+        req.session.user = {
+            userId: user.id,
+            username: user.username,
+            role: user.role
+        };
 
         res.json({
             message: 'Login successful'
