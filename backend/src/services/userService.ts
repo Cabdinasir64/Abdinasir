@@ -1,4 +1,4 @@
-import prisma from '../prisma/prismaClient';
+import prisma from '../../prisma/prismaClient';
 import { hashPassword, comparePassword } from '../utils/hash';
 
 interface CreateUserInput {
