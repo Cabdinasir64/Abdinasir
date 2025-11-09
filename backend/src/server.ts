@@ -29,8 +29,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.DATABASE_URL,
-      collectionName: "sessions"
+        mongoUrl: process.env.DATABASE_URL,
+        collectionName: "sessions"
     }),
     cookie: {
         secure: true,
@@ -39,6 +39,11 @@ app.use(session({
     }
 }));
 
+app.get("/ip", async (req, res) => {
+    const response = await fetch("https://api.ipify.org?format=json");
+    const data = await response.json();
+    res.send({ ip: data.ip });
+});
 
 app.use('/api/user', UserRoutes);
 
