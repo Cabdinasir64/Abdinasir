@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import dotenv from 'dotenv';
+import UserRoutes from './routes/userRoutes'
 
 dotenv.config();
 
@@ -27,6 +28,8 @@ app.use(session({
     }
 }));
 
+
+app.use('/api/user', UserRoutes);
 
 
 app.listen(PORT, () => {
