@@ -1,5 +1,5 @@
 import prisma from '../../prisma/prismaClient';
-import { hashPassword } from '../utils/hash';
+import { hashPassword, comparePassword } from '../utils/hash';
 
 interface CreateUserInput {
     username: string;
@@ -25,6 +25,24 @@ export async function createUser(data: CreateUserInput) {
             profileImage: data.profileImage,
         },
     });
+
+    return user;
+}
+
+export async function loginUser(email: string, password: string) {
+    if (!email || !password) {
+        throw new Error('Email and password are required');
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+        throw new Error('Invalid credentials');
+    }
+
+    const isMatch = await comparePassword(password, user.password);
+    if (!isMatch) {
+        throw new Error('Invalid credentials');
+    }
 
     return user;
 }
