@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import MongoStore from "connect-mongo";
 import dotenv from 'dotenv';
 import UserRoutes from './routes/userRoutes'
 
@@ -27,6 +28,10 @@ app.use(session({
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DATABASE_URL,
+      collectionName: "sessions"
+    }),
     cookie: {
         secure: true,
         httpOnly: true,
