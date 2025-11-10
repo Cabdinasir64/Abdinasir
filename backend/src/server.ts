@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import helmet from "helmet";
 import dotenv from 'dotenv';
 import UserRoutes from './routes/userRoutes'
 import ipRoutes from "./routes/ipRoutes";
@@ -11,9 +10,7 @@ dotenv.config();
 const PORT = process.env.PORT;
 const app = express();
 
-app.set('trust proxy', 1);
 
-app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 
