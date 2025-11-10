@@ -39,3 +39,18 @@ export async function login(req: Request, res: Response) {
         res.status(400).json({ message: error.message });
     }
 }
+
+export async function logout(req: Request, res: Response) {
+    try {
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({ message: 'Logout failed', });
+            }
+
+            res.clearCookie('portfolio.sid');
+            res.json({ message: 'Logout successful' });
+        });
+    } catch (error: any) {
+        res.status(500).json({ message: 'Logout failed', error: error.message });
+    }
+}
