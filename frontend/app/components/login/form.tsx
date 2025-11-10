@@ -41,6 +41,13 @@ export default function Login() {
                 },
             });
 
+            setTimeout(() => {
+                if (data.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                } else {
+                    window.location.href = "/";
+                }
+            }, 180000);
 
 
         } catch (err: unknown) {
