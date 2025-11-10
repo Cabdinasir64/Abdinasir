@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createUser, loginUser, getMeService } from '../services/userService';
+import { createUser, loginUser, getMeProfile } from '../services/userService';
 import { AuthRequest } from '../middleware/authMiddleware';
 
 export async function registerUser(req: Request, res: Response) {
@@ -62,7 +62,7 @@ export const getMe = async (req: AuthRequest, res: Response) => {
             return res.status(401).json({ message: "Not authenticated" });
         }
 
-        const user = await getMeService(req.user.userId);
+        const user = await getMeProfile(req.user.userId);
 
         res.json({ user });
 
