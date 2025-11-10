@@ -25,8 +25,14 @@ export async function login(req: Request, res: Response) {
             role: user.role
         };
 
+        let redirectUrl = '/';
+        if (user.role === 'admin') {
+            redirectUrl = '/admin/dashboard';
+        }
+
         res.json({
-            message: 'Login successful'
+            message: 'Login successful',
+            redirectUrl
         });
 
     } catch (error: any) {
