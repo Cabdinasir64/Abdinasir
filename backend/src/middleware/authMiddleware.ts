@@ -1,29 +1,24 @@
 import { Request, Response, NextFunction } from "express";
-
-export interface SessionUser {
-    userId: string;
-    username: string;
-    role: string;
-}
+import jwt from "jsonwebtoken";
 
 export interface AuthRequest extends Request {
-    user?: SessionUser;
+    user?: any;
 }
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-        if (!req.session || !req.session.user) {
+        const token = req.cookies.token;
+        if (!token) {
             return res.status(401).json({ message: "Not authenticated" });
         }
 
-        req.user = {
-            userId: req.session.user.userId,
-            username: req.session.user.username,
-            role: req.session.user.role
-        };
+        const decoded = jwt.verify(token, JWT_SECRET);
+        req.user = decoded;
 
         next();
     } catch (error) {
-        return res.status(401).json({ message: "Not authenticated" });
+        return res.status(401).json({ message: "Invalid or expired token" });
     }
 };
