@@ -36,7 +36,7 @@ app.use(session({
         collectionName: "sessions"
     }),
     cookie: {
-        secure: true,
+        secure: false,
         httpOnly: true,
         sameSite: "none",
         maxAge: 60 * 60 * 24 * 1000
