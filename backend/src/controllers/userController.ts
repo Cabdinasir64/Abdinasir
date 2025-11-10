@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { createUser, loginUser, getMeProfile } from '../services/userService';
 import { AuthRequest } from '../middleware/authMiddleware';
+
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export async function registerUser(req: Request, res: Response) {
     try {
@@ -20,20 +23,24 @@ export async function login(req: Request, res: Response) {
 
         const user = await loginUser(email, password);
 
-        req.session.user = {
-            userId: user.id,
-            username: user.username,
-            role: user.role
-        };
+        const token = jwt.sign(
+            { userId: user.id, username: user.username, role: user.role },
+            JWT_SECRET,
+            { expiresIn: "1d" }
+        );
 
-        let redirectUrl = '/';
-        if (user.role === 'admin') {
-            redirectUrl = '/admin/dashboard';
-        }
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "none",
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+
 
         res.json({
             message: 'Login successful',
-            redirectUrl
+            redirectUrl: user.role === "admin" ? "/admin/dashboard" : "/"
         });
 
     } catch (error: any) {
@@ -43,18 +50,17 @@ export async function login(req: Request, res: Response) {
 
 export async function logout(req: Request, res: Response) {
     try {
-        req.session.destroy((err) => {
-            if (err) {
-                return res.status(500).json({ message: 'Logout failed', });
-            }
-
-            res.clearCookie('portfolio.sid');
-            res.json({ message: 'Logout successful' });
+        res.clearCookie('token', {
+            httpOnly: true,
+            sameSite: "none",
+            secure: false
         });
+        res.json({ message: "Logout successful" });
     } catch (error: any) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Logout failed" });
     }
 }
+
 
 export const getMe = async (req: AuthRequest, res: Response) => {
     try {
