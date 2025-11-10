@@ -52,7 +52,7 @@ export default function Login() {
                 } else {
                     router.push("/");
                 }
-            }, 1500);
+            }, 5000);
 
 
         } catch (err: unknown) {
