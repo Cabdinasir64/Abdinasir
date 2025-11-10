@@ -38,9 +38,11 @@ app.use(session({
     cookie: {
         secure: true,
         httpOnly: true,
-        sameSite: "none"
+        sameSite: "none",
+        maxAge: 60 * 60 * 24 * 1000
     }
 }));
+
 
 
 app.use('/api/user', UserRoutes);
