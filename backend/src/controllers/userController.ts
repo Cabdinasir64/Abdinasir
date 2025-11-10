@@ -10,7 +10,7 @@ export async function registerUser(req: Request, res: Response) {
         res.status(201).json({ message: 'User registered successfully', user });
 
     } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message || 'Registration failed' });
     }
 }
 
@@ -37,7 +37,7 @@ export async function login(req: Request, res: Response) {
         });
 
     } catch (error: any) {
-        res.status(400).json({ message: error.message });
+        res.status(400).json({ message: error.message || 'Login failed' });
     }
 }
 
@@ -67,6 +67,6 @@ export const getMe = async (req: AuthRequest, res: Response) => {
         res.json({ user });
 
     } catch (error: any) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message || 'Failed to retrieve user profile' });
     }
 };
