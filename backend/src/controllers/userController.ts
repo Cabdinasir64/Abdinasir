@@ -32,7 +32,7 @@ export async function login(req: Request, res: Response) {
         res.cookie('token', token, {
             httpOnly: true,
             secure: false,
-            sameSite: "none",
+            sameSite: "lax",
             maxAge: 24 * 60 * 60 * 1000
         });
 
@@ -52,7 +52,7 @@ export async function logout(req: Request, res: Response) {
     try {
         res.clearCookie('token', {
             httpOnly: true,
-            sameSite: "none",
+            sameSite: "lax",
             secure: false
         });
         res.json({ message: "Logout successful" });
