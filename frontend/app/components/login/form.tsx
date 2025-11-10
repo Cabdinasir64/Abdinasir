@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 
@@ -8,6 +9,9 @@ export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+
+
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,11 +47,11 @@ export default function Login() {
 
             setTimeout(() => {
                 if (data.redirectUrl) {
-                    window.location.href = data.redirectUrl;
+                    router.push(data.redirectUrl);
                 } else {
-                    window.location.href = "/";
+                    router.push("/");
                 }
-            }, 180000);
+            }, 1500);
 
 
         } catch (err: unknown) {
