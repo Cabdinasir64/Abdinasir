@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { createUser, loginUser } from '../services/userService';
+import { createUser, loginUser, getMeService } from '../services/userService';
+import { AuthRequest } from '../middleware/authMiddleware';
 
 export async function registerUser(req: Request, res: Response) {
     try {
@@ -51,6 +52,21 @@ export async function logout(req: Request, res: Response) {
             res.json({ message: 'Logout successful' });
         });
     } catch (error: any) {
-        res.status(500).json({ message: 'Logout failed', error: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
+
+export const getMe = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Not authenticated" });
+        }
+
+        const user = await getMeService(req.user.userId);
+
+        res.json({ user });
+
+    } catch (error: any) {
+        res.status(500).json({ message: error.message });
+    }
+};
