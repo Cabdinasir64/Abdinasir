@@ -4,23 +4,191 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUIStore } from "../../../stores/uiStore";
-import { LayoutDashboard, User } from "lucide-react";
+import {
+    LayoutDashboard,
+    Users,
+    Settings,
+    FileText,
+    BarChart3,
+    ShoppingCart,
+    ChevronDown,
+    ChevronRight,
+    User,
+} from "lucide-react";
+import { useState } from "react";
+
 
 export default function Sidebar() {
     const pathname = usePathname();
     const { isSidebarOpen, closeSidebar } = useUIStore();
+    const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
-    const links = [
+
+    const toggleDropdown = (name: string) => {
+        setOpenDropdown(openDropdown === name ? null : name);
+    };
+
+    const mainLinks = [
         { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+        { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+    ];
+
+    const dropdownLinks = [
+        {
+            name: "Users",
+            icon: Users,
+            items: [
+                { name: "All Users", href: "/admin/users" },
+                { name: "Add User", href: "/admin/users/add" },
+                { name: "User Roles", href: "/admin/users/roles" },
+            ]
+        },
+        {
+            name: "Products",
+            icon: ShoppingCart,
+            items: [
+                { name: "All Products", href: "/admin/products" },
+                { name: "Add Product", href: "/admin/products/add" },
+                { name: "Categories", href: "/admin/products/categories" },
+            ]
+        },
+        {
+            name: "Content",
+            icon: FileText,
+            items: [
+                { name: "Posts", href: "/admin/content/posts" },
+                { name: "Pages", href: "/admin/content/pages" },
+                { name: "Media", href: "/admin/content/media" },
+            ]
+        }
+    ];
+
+    const bottomLinks = [
+        { name: "Settings", href: "/admin/settings", icon: Settings },
         { name: "Profile", href: "/admin/profile", icon: User },
     ];
+
+    const renderLink = ({ name, href, icon: Icon }: any, active: boolean, onClick?: () => void) => (
+        <motion.div whileHover={{ x: 4 }} key={name}>
+            <Link
+                href={href}
+                onClick={onClick}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${active
+                    ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md"
+                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                    }`}
+            >
+                <Icon className="w-5 h-5" />
+                <span className="font-medium">{name}</span>
+            </Link>
+        </motion.div>
+    );
+
+    const renderDropdown = (section: any) => {
+        const isOpen = openDropdown === section.name;
+        const hasActiveChild = section.items.some((item: any) => pathname === item.href);
+
+        return (
+            <div key={section.name} className="space-y-1">
+                <motion.button
+                    className={`flex items-center justify-between w-full px-3 py-2 rounded-lg transition-all ${hasActiveChild
+                        ? "bg-blue-50 text-blue-600 border border-blue-200"
+                        : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                        }`}
+                    onClick={() => toggleDropdown(section.name)}
+                    whileHover={{ x: 4 }}
+                >
+                    <div className="flex items-center gap-3">
+                        <section.icon className="w-5 h-5" />
+                        <span className="font-medium">{section.name}</span>
+                    </div>
+                    <motion.div
+                        animate={{ rotate: isOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <ChevronDown className="w-4 h-4" />
+                    </motion.div>
+                </motion.button>
+
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="overflow-hidden"
+                        >
+                            <div className="ml-6 space-y-1 border-l-2 border-slate-200 pl-3 py-1">
+                                {section.items.map((item: any) => {
+                                    const active = pathname === item.href;
+                                    return (
+                                        <motion.div
+                                            key={item.name}
+                                            whileHover={{ x: 4 }}
+                                        >
+                                            <Link
+                                                href={item.href}
+                                                onClick={closeSidebar}
+                                                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-all ${active
+                                                    ? "bg-blue-100 text-blue-600 font-medium"
+                                                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                                                    }`}
+                                            >
+                                                <ChevronRight className="w-3 h-3" />
+                                                {item.name}
+                                            </Link>
+                                        </motion.div>
+                                    );
+                                })}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        );
+    };
+
+    const sidebarContent = (
+        <div className="flex flex-col h-full">
+            <div className="p-4 border-b border-slate-200">
+                <motion.h2
+                    className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                >
+                    Admin Panel
+                </motion.h2>
+            </div>
+            <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                <div className="space-y-1 mb-4">
+                    {mainLinks.map((link) =>
+                        renderLink(link, pathname === link.href, closeSidebar)
+                    )}
+                </div>
+                <div className="space-y-1 mb-6">
+                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-2">
+                        Management
+                    </p>
+                    {dropdownLinks.map(renderDropdown)}
+                </div>
+
+                <div className="space-y-1 mt-auto pt-4 border-t border-slate-200">
+                    {bottomLinks.map((link) =>
+                        renderLink(link, pathname === link.href, closeSidebar)
+                    )}
+                </div>
+            </nav>
+        </div>
+    );
 
     return (
         <>
             <AnimatePresence>
                 {isSidebarOpen && (
                     <motion.div
-                        className="fixed inset-0 bg-black/30 z-20 md:hidden"
+                        className="fixed inset-0 bg-black/30 z-40 md:hidden"
                         onClick={closeSidebar}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -28,62 +196,24 @@ export default function Sidebar() {
                     />
                 )}
             </AnimatePresence>
-
-            <div className="hidden md:flex md:flex-col md:w-64 md:h-screen md:fixed z-30 bg-white shadow-md">
-                <div className="p-4 border-b">
-                    <h2 className="text-xl font-bold text-slate-800">Admin Panel</h2>
-                </div>
-                <nav className="flex-1 p-4 space-y-2">
-                    {links.map(({ name, href, icon: Icon }) => {
-                        const active = pathname === href;
-                        return (
-                            <Link
-                                key={name}
-                                href={href}
-                                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${active
-                                    ? "bg-blue-600 text-white"
-                                    : "text-slate-700 hover:bg-slate-100"
-                                    }`}
-                            >
-                                <Icon className="w-5 h-5" />
-                                {name}
-                            </Link>
-                        );
-                    })}
-                </nav>
-            </div>
-
+            <motion.div
+                className="hidden md:flex md:flex-col md:w-64 md:h-screen md:fixed z-50 bg-white shadow-lg border-r border-slate-200"
+                initial={{ x: -100, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
+                {sidebarContent}
+            </motion.div>
             <AnimatePresence>
                 {isSidebarOpen && (
                     <motion.aside
-                        className="fixed z-30 top-0 left-0 h-full w-64 bg-white shadow-md flex flex-col md:hidden"
+                        className="fixed z-50 top-0 left-0 h-full w-64 bg-white shadow-xl flex flex-col md:hidden"
                         initial={{ x: "-100%" }}
                         animate={{ x: 0 }}
                         exit={{ x: "-100%" }}
-                        transition={{ type: "spring", stiffness: 240, damping: 20 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     >
-                        <div className="p-4 border-b">
-                            <h2 className="text-xl font-bold text-slate-800">Admin Panel</h2>
-                        </div>
-                        <nav className="flex-1 p-4 space-y-2">
-                            {links.map(({ name, href, icon: Icon }) => {
-                                const active = pathname === href;
-                                return (
-                                    <Link
-                                        key={name}
-                                        href={href}
-                                        onClick={closeSidebar}
-                                        className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${active
-                                            ? "bg-blue-600 text-white"
-                                            : "text-slate-700 hover:bg-slate-100"
-                                            }`}
-                                    >
-                                        <Icon className="w-5 h-5" />
-                                        {name}
-                                    </Link>
-                                );
-                            })}
-                        </nav>
+                        {sidebarContent}
                     </motion.aside>
                 )}
             </AnimatePresence>
