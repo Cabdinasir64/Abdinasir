@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { createUser, loginUser, getMeProfile } from '../services/userService';
+import { createUser, loginUser, getMeProfile, updateProfileImage } from '../services/userService';
 import { AuthRequest } from '../middleware/authMiddleware';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
@@ -72,5 +72,23 @@ export const getMe = async (req: AuthRequest, res: Response) => {
 
     } catch (error: any) {
         res.status(500).json({ message: error.message || 'Failed to retrieve user profile' });
+    }
+};
+
+export const uploadProfileImage = async (req: AuthRequest, res: Response) => {
+    try {
+        if (!req.user) return res.status(401).json({ message: "Not authenticated" });
+
+        if (!req.file || !req.file.path) return res.status(400).json({ message: "No file uploaded" });
+
+        const updatedUser = await updateProfileImage(req.user.userId, req.file.path);
+
+        res.json({
+            message: "Profile image uploaded successfully",
+            profileImage: updatedUser.profileImage
+        });
+
+    } catch (error: any) {
+        res.status(500).json({ message: error.message || "Upload failed" });
     }
 };
