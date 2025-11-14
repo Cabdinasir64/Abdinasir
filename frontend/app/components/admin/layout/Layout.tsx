@@ -11,7 +11,7 @@ import { Toaster } from "react-hot-toast";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
-    const { fetchUser, loading } = useUserStore();
+    const { fetchUser } = useUserStore();
     const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
@@ -49,20 +49,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         verify();
     }, [router, fetchUser]);
 
-    if (loading || isChecking) {
+    if (isChecking) {
         return (
             <div className="w-full h-screen flex flex-col items-center justify-center bg-slate-50">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
-
-                <p className="text-gray-700 text-lg font-medium mb-2">Loading dashboard...</p>
-
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-6"></div>
+                <p className="text-gray-700 text-lg font-medium mb-4">
+                    Preparing your admin panel ⚡
+                </p>
                 <div className="w-64 h-2 bg-gray-300 rounded-full overflow-hidden relative">
                     <div className="absolute top-0 left-0 w-32 h-2 bg-blue-400 animate-pulse"></div>
                 </div>
             </div>
         );
     }
-
 
 
     return (
