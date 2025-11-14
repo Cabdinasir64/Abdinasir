@@ -6,7 +6,6 @@ export const metadata: Metadata = {
     description: "Manage your portfolio content, view analytics, and update projects securely.",
     keywords: ["admin", "dashboard", "portfolio", "projects", "analytics"],
     authors: [{ name: "Abdinasir", url: "https://abdinasir.dev" }],
-    viewport: "width=device-width, initial-scale=1.0",
     robots: "index, follow",
 };
 
