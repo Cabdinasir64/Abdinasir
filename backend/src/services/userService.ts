@@ -64,3 +64,12 @@ export const getMeProfile = async (userId: string) => {
 
     return user;
 };
+
+export const updateProfileImage = async (userId: string, imageUrl: string) => {
+    const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: { profileImage: imageUrl },
+    });
+
+    return updatedUser;
+};
