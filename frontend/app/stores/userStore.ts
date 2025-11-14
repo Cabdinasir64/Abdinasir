@@ -30,9 +30,9 @@ export const useUserStore = create<UserState>((set) => ({
 
             if (!res.ok) throw new Error('Failed to fetch user');
 
-            const data: User = await res.json();
+            const data: { user: User } = await res.json();
 
-            set({ user: data, loading: false });
+            set({ user: data.user, loading: false });
 
         } catch (err: unknown) {
             const message = err instanceof Error ? err.message : 'Unknown error';
