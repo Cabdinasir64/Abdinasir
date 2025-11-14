@@ -2,6 +2,7 @@
 import { Menu, } from "lucide-react";
 import { useUIStore } from "../../../stores/uiStore";
 import { motion } from "framer-motion";
+import UserDropdown from "./UserDropdown";
 
 export default function Header() {
     const toggleSidebar = useUIStore((s) => s.toggleSidebar);
@@ -34,24 +35,7 @@ export default function Header() {
             </h1>
 
             <div className="flex items-center gap-4">
-                <motion.div
-                    className="hidden md:flex items-center gap-2 cursor-pointer"
-                    whileHover={{ scale: 1.02 }}
-                >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm">
-                        A
-                    </div>
-                    <span className="text-sm font-medium text-slate-700">Admin</span>
-                </motion.div>
-
-                <motion.div
-                    className="md:hidden flex items-center cursor-pointer"
-                    whileHover={{ scale: 1.02 }}
-                >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center font-bold text-white text-sm">
-                        A
-                    </div>
-                </motion.div>
+                <UserDropdown />
             </div>
         </motion.header>
     );
