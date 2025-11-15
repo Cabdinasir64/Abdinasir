@@ -4,9 +4,20 @@ import * as skillService from "../services/skillService";
 
 export const createSkill = async (req: AuthRequest, res: Response) => {
     try {
+        
         if (!req.user) return res.status(401).json({ message: "Not authenticated" });
 
-        const { name, level } = req.body;
+        const name = {
+            en: req.body.name_en,
+            so: req.body.name_so,
+            ar: req.body.name_ar
+        };
+
+        const level = {
+            en: req.body.level_en,
+            so: req.body.level_so,
+            ar: req.body.level_ar
+        };
         const skillImage = req.file?.path;
 
         const skill = await skillService.createSkill({
@@ -19,6 +30,7 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
         res.status(201).json({ message: "Skill created", skill });
     } catch (error: any) {
         res.status(400).json({ message: error?.message || "An unexpected error occurred" });
+        console.error(error);
     }
 };
 
@@ -60,7 +72,35 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
     try {
         if (!req.user) return res.status(401).json({ message: "Not authenticated" });
 
-        const data: Partial<typeof req.body> = { ...req.body };
+        const data: Partial<{
+            name: {
+                en: string;
+                so: string;
+                ar: string;
+            };
+            level: {
+                en: string;
+                so: string;
+                ar: string;
+            };
+            skillImage: string;
+        }> = {};
+
+        if (req.body.name_en || req.body.name_so || req.body.name_ar) {
+            data.name = {
+                en: req.body.name_en,
+                so: req.body.name_so,
+                ar: req.body.name_ar,
+            };
+        }
+
+        if (req.body.level_en || req.body.level_so || req.body.level_ar) {
+            data.level = {
+                en: req.body.level_en,
+                so: req.body.level_so,
+                ar: req.body.level_ar,
+            };
+        }
 
         if (req.file?.path) {
             data.skillImage = req.file.path;
@@ -71,8 +111,10 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
         res.json({ message: "Skill updated", skill });
     } catch (error: any) {
         res.status(400).json({ message: error?.message || "Failed to update skill" });
+        console.error(error);
     }
 };
+
 
 export const deleteSkill = async (req: AuthRequest, res: Response) => {
     try {
