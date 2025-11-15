@@ -17,3 +17,14 @@ model user {
 
   @@map("user")
 }
+
+model Skill {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String
+  name       Json
+  level      Json
+  skillImage String?
+
+  @@index([level])
+  @@map("skills")
+}
