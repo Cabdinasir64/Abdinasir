@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import UserRoutes from './routes/userRoutes'
 import ipRoutes from "./routes/ipRoutes";
+import SkillRoutes from "./routes/skillRoutes";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use(cors({
 }));
 
 app.use('/api/user', UserRoutes);
+app.use('/api/skills', SkillRoutes);
 app.use("/ip", ipRoutes);
 
 
