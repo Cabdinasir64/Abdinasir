@@ -13,6 +13,8 @@ interface Skill {
     name: string;
     level: string;
     skillImage?: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 interface Props {
