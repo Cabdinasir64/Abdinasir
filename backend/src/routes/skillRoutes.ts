@@ -2,17 +2,28 @@ import { Router } from "express";
 import * as skillController from "../controllers/skillController";
 import { authMiddleware } from "../middleware/authMiddleware";
 import { roleCheck } from "../middleware/roleCheck";
+import { upload } from "../middleware/skillImageUpload";
 
 const router = Router();
 
-router.post("/", authMiddleware, roleCheck("admin"), skillController.createSkill);
+router.post(
+    "/",
+    authMiddleware,
+    roleCheck("admin"),
+    upload.single("skillImage"),
+    skillController.createSkill
+);
 
-router.get("/", authMiddleware, skillController.getSkills);
+router.put(
+    "/:id",
+    authMiddleware,
+    roleCheck("admin"),
+    upload.single("skillImage"),
+    skillController.updateSkill
+);
 
+router.get("/", skillController.getSkills);
 router.get("/:id", authMiddleware, skillController.getSkill);
-
-router.put("/:id", authMiddleware, roleCheck("admin"), skillController.updateSkill);
-
 router.delete("/:id", authMiddleware, roleCheck("admin"), skillController.deleteSkill);
 
 export default router;
