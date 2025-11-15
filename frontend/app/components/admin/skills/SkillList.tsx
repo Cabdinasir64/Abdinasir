@@ -63,7 +63,7 @@ export default function SkillListClient({ initialSkills }: Props) {
 
     const getLevelColor = (level: string) => {
         switch (level.toLowerCase()) {
-            case "basic":
+            case "beginner":
                 return "bg-green-100 text-green-800 border-green-200";
             case "intermediate":
                 return "bg-yellow-100 text-yellow-800 border-yellow-200";
@@ -78,7 +78,7 @@ export default function SkillListClient({ initialSkills }: Props) {
 
     const getLevelStars = (level: string) => {
         switch (level.toLowerCase()) {
-            case "basic":
+            case "beginner":
                 return 1;
             case "intermediate":
                 return 2;
@@ -136,9 +136,9 @@ export default function SkillListClient({ initialSkills }: Props) {
                 >
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-600">Basic Level</p>
+                            <p className="text-sm font-medium text-gray-600">beginner Level</p>
                             <p className="text-2xl font-bold text-gray-900">
-                                {localSkills.filter(s => s.level.toLowerCase() === 'basic').length}
+                                {localSkills.filter(s => s.level.toLowerCase() === 'beginner').length}
                             </p>
                         </div>
                         <div className="bg-red-100 p-3 rounded-lg">
