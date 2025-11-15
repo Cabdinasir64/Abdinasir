@@ -28,7 +28,9 @@ app.use(cors({
 }));
 
 app.use('/api/user', UserRoutes);
+
 app.use('/api/skills', SkillRoutes);
+
 app.use("/ip", ipRoutes);
 
 
