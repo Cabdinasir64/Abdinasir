@@ -10,9 +10,9 @@ export default function Header() {
     return (
         <motion.header
             className="flex items-center justify-between bg-white px-4 py-3 shadow-sm sticky top-0 z-40 border-b border-slate-200"
-            initial={{ y: -50, opacity: 0 }}
+            initial={{ y: 0, opacity: 1 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0 }}
         >
             <div className="flex items-center gap-4">
                 <motion.button
