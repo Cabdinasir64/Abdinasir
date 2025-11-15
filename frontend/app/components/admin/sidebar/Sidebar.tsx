@@ -158,9 +158,6 @@ export default function Sidebar() {
             <div className="p-4 border-b border-slate-200">
                 <motion.h2
                     className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
                 >
                     Admin Panel
                 </motion.h2>
@@ -199,9 +196,9 @@ export default function Sidebar() {
             </AnimatePresence>
             <motion.div
                 className="hidden md:flex md:flex-col md:w-64 md:h-screen md:fixed z-50 bg-white shadow-lg border-r border-slate-200"
-                initial={{ x: -100, opacity: 0 }}
+                initial={{ x: 0, opacity: 1 }}
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0 }}
             >
                 {sidebarContent}
             </motion.div>
