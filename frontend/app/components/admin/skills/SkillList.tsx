@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Trash2, Edit, Star, ExternalLink } from "lucide-react";
+import { Trash2, Edit, Star } from "lucide-react";
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 interface Skill {
     id: string;
@@ -37,7 +38,7 @@ export default function SkillListClient({ initialSkills }: Props) {
     }, [data]);
 
     const handleDelete = async (id: string) => {
-        if (!confirm("Ma hubtaa inaad rabto inaad tirtirto skill-kan?")) {
+        if (!confirm("Are you sure you want to delete this skill? This action cannot be undone.")) {
             return;
         }
 
@@ -50,17 +51,17 @@ export default function SkillListClient({ initialSkills }: Props) {
 
             if (!res.ok) throw new Error("Failed to delete skill");
 
-            toast.success("Skill si guul leh ayaa loo tirtiray!");
+            toast.success("Skill deleted successfully");
             mutate();
         } catch (err: any) {
-            toast.error(err.message || "Khalad ayaa dhacay markii la tirtirayo skill-ka");
+            toast.error(err.message || "An error occurred while deleting the skill");
             mutate();
         }
     };
 
     const getLevelColor = (level: string) => {
         switch (level.toLowerCase()) {
-            case "beginner":
+            case "basic":
                 return "bg-green-100 text-green-800 border-green-200";
             case "intermediate":
                 return "bg-yellow-100 text-yellow-800 border-yellow-200";
@@ -75,7 +76,7 @@ export default function SkillListClient({ initialSkills }: Props) {
 
     const getLevelStars = (level: string) => {
         switch (level.toLowerCase()) {
-            case "beginner":
+            case "basic":
                 return 1;
             case "intermediate":
                 return 2;
@@ -90,12 +91,12 @@ export default function SkillListClient({ initialSkills }: Props) {
 
     if (error) return (
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-            <p className="text-red-600 font-medium">Khalad ayaa dhacay markii la soo dejineynayo skills-ka</p>
+            <p className="text-red-600 font-medium">An error occurred while fetching skills</p>
             <button
                 onClick={() => mutate()}
                 className="mt-3 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
             >
-                Isku day mar kale
+                Try again
             </button>
         </div>
     );
@@ -108,7 +109,6 @@ export default function SkillListClient({ initialSkills }: Props) {
 
     return (
         <div className="space-y-6">
-            {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -134,9 +134,9 @@ export default function SkillListClient({ initialSkills }: Props) {
                 >
                     <div className="flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-medium text-gray-600">Expert Level</p>
+                            <p className="text-sm font-medium text-gray-600">Basic Level</p>
                             <p className="text-2xl font-bold text-gray-900">
-                                {localSkills.filter(s => s.level.toLowerCase() === 'expert').length}
+                                {localSkills.filter(s => s.level.toLowerCase() === 'basic').length}
                             </p>
                         </div>
                         <div className="bg-red-100 p-3 rounded-lg">
@@ -184,14 +184,12 @@ export default function SkillListClient({ initialSkills }: Props) {
                 </motion.div>
             </div>
 
-            {/* Skills Table */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
             >
-                {/* Table Header */}
                 <div className="px-6 py-4 border-b border-gray-200">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                         <h2 className="text-lg font-semibold text-gray-900 mb-2 sm:mb-0">
@@ -207,7 +205,6 @@ export default function SkillListClient({ initialSkills }: Props) {
                     </div>
                 </div>
 
-                {/* Table */}
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-gray-50">
@@ -238,10 +235,12 @@ export default function SkillListClient({ initialSkills }: Props) {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 {skill.skillImage ? (
-                                                    <img
+                                                    <Image
                                                         src={skill.skillImage}
                                                         alt={skill.name}
                                                         className="w-8 h-8 rounded-full object-cover mr-3"
+                                                        width={32}
+                                                        height={32}
                                                     />
                                                 ) : (
                                                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">
@@ -268,8 +267,8 @@ export default function SkillListClient({ initialSkills }: Props) {
                                                         <Star
                                                             key={i}
                                                             className={`w-3 h-3 ${i < getLevelStars(skill.level)
-                                                                    ? "text-yellow-400 fill-current"
-                                                                    : "text-gray-300"
+                                                                ? "text-yellow-400 fill-current"
+                                                                : "text-gray-300"
                                                                 }`}
                                                         />
                                                     ))}
@@ -301,7 +300,6 @@ export default function SkillListClient({ initialSkills }: Props) {
                     </table>
                 </div>
 
-                {/* Empty State */}
                 {localSkills.length === 0 && (
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -327,7 +325,6 @@ export default function SkillListClient({ initialSkills }: Props) {
                     </motion.div>
                 )}
 
-                {/* Footer */}
                 {localSkills.length > 0 && (
                     <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
                         <p className="text-sm text-gray-600">
