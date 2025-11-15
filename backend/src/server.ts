@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import UserRoutes from './routes/userRoutes'
 import ipRoutes from "./routes/ipRoutes";
 import SkillRoutes from "./routes/skillRoutes";
+import GalleryRoutes from "./routes/galleryRoutes";
 
 dotenv.config();
 
@@ -30,6 +31,8 @@ app.use(cors({
 app.use('/api/user', UserRoutes);
 
 app.use('/api/skills', SkillRoutes);
+
+app.use('/api/galleries', GalleryRoutes);
 
 app.use("/ip", ipRoutes);
 
