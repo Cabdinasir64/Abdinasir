@@ -6,13 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useUIStore } from "../../../stores/uiStore";
 import {
     LayoutDashboard,
-    Users,
     FileText,
-    BarChart3,
-    ShoppingCart,
     ChevronDown,
     ChevronRight,
     User,
+    Image,
+    MessageCircle,
+    Zap,
+    MessageSquare
 } from "lucide-react";
 import { useState } from "react";
 
@@ -29,40 +30,45 @@ export default function Sidebar() {
 
     const mainLinks = [
         { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
-        { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
     ];
 
     const dropdownLinks = [
         {
-            name: "Users",
-            icon: Users,
-            items: [
-                { name: "All Users", href: "/admin/users" },
-                { name: "Add User", href: "/admin/users/add" },
-                { name: "User Roles", href: "/admin/users/roles" },
-            ]
-        },
-        {
-            name: "Products",
-            icon: ShoppingCart,
-            items: [
-                { name: "All Products", href: "/admin/products" },
-                { name: "Add Product", href: "/admin/products/add" },
-                { name: "Categories", href: "/admin/products/categories" },
-            ]
-        },
-        {
-            name: "Content",
+            name: "Projects",
             icon: FileText,
             items: [
-                { name: "Posts", href: "/admin/content/posts" },
-                { name: "Pages", href: "/admin/content/pages" },
-                { name: "Media", href: "/admin/content/media" },
+                { name: "All Projects", href: "/admin/projects" },
+                { name: "Add Project", href: "/admin/projects/add" },
+            ]
+        },
+        {
+            name: "Galleries",
+            icon: Image,
+            items: [
+                { name: "All Galleries", href: "/admin/galleries" },
+                { name: "Add Gallery", href: "/admin/galleries/add" },
+            ]
+        },
+        {
+            name: "tesminials",
+            icon: MessageCircle,
+            items: [
+                { name: "All tesminials", href: "/admin/tesminials" },
+                { name: "Add tesminial", href: "/admin/tesminials/add" },
+            ]
+        },
+        {
+            name: "skills",
+            icon: Zap,
+            items: [
+                { name: "All skills", href: "/admin/skills" },
+                { name: "Add skill", href: "/admin/skills/add" },
             ]
         }
     ];
 
     const bottomLinks = [
+        { name: "Messages", href: "/admin/messages", icon: MessageSquare },
         { name: "Profile", href: "/admin/profile", icon: User },
     ];
 
