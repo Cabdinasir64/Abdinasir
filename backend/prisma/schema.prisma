@@ -15,6 +15,9 @@ model user {
   role         String  @default("admin")
   profileImage String?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@map("user")
 }
 
@@ -24,6 +27,9 @@ model Skill {
   name       Json
   level      Json
   skillImage String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([level])
   @@map("skills")
