@@ -24,30 +24,19 @@ export default async function AddEditGalleryPage({ searchParams }: Props) {
                     cache: "no-store",
                 }
             );
-
             const data = await res.json();
             if (res.ok) {
-
                 galleryData = data.gallery;
             } else {
                 fetchError = data.message;
             }
-        } catch (err) {
-            fetchError = "An error occurred while fetching gallery data.";
+        } catch (err: unknown) {
+            const error = err as Error;
+            fetchError = error.message;
         }
     }
 
     return (
-        <div className="p-4 sm:p-6">
-            <div className="mb-6">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    {galleryId ? "Edit Gallery" : "Add New Gallery"}
-                </h1>
-                <p className="text-gray-600 mt-2">
-                    {galleryId ? "Update your gallery information" : "Create a new gallery for your portfolio"}
-                </p>
-            </div>
-            <GalleryFormClient gallery={galleryData} fetchError={fetchError} />
-        </div>
+        <GalleryFormClient gallery={galleryData} fetchError={fetchError} />
     );
 }
