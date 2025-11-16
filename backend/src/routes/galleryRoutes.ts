@@ -9,7 +9,7 @@ const upload = uploadDynamic("galleries_images");
 
 router.post("/", authMiddleware, roleCheck("admin"), upload.single('image'), galleryController.createGallery);
 router.get("/", galleryController.getGalleries);
-router.get("/:id", authMiddleware, galleryController.getGallery);
+router.get("/:id", galleryController.getGallery);
 router.put("/:id", authMiddleware, roleCheck("admin"), upload.single('image'), galleryController.updateGallery);
 router.delete("/:id", authMiddleware, roleCheck("admin"), galleryController.deleteGallery);
 
