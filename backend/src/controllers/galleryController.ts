@@ -2,7 +2,7 @@ import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
 import * as galleryService from "../services/galleryService";
 
-const allowedCategories = ["PROJECT", "PORTFOLIO", "EVENT", "OTHER"] as const;
+const allowedCategories = ["PROJECT", "PORTFOLIO", "EVENT", "OTHER", "WEB_DESIGN", "MOBILE_APP", "UI_UX", "BRANDING", "PHOTOGRAPHY"] as const;
 type CategoryType = typeof allowedCategories[number];
 
 export const createGallery = async (req: AuthRequest, res: Response) => {
