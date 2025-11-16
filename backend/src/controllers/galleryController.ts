@@ -42,6 +42,7 @@ export const createGallery = async (req: AuthRequest, res: Response) => {
         res.status(201).json({ message: "Gallery created", gallery });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to create gallery" });
+        console.error(error);
     }
 };
 
@@ -65,6 +66,7 @@ export const getGalleries = async (req: AuthRequest, res: Response) => {
         res.json({ gallery: localized });
     } catch (error: any) {
         res.status(500).json({ message: error.message || "Failed to fetch galleries" });
+        console.error(error);
     }
 };
 
@@ -77,6 +79,7 @@ export const getGallery = async (req: AuthRequest, res: Response) => {
         res.json({ gallery });
     } catch (error: any) {
         res.status(500).json({ message: error.message || "Failed to fetch gallery" });
+        console.error(error);
     }
 };
 
@@ -124,6 +127,7 @@ export const updateGallery = async (req: AuthRequest, res: Response) => {
         res.json({ message: "Gallery updated", gallery });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to update gallery" });
+        console.error(error);
     }
 };
 
@@ -133,5 +137,6 @@ export const deleteGallery = async (req: AuthRequest, res: Response) => {
         res.json({ message: "Gallery deleted" });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to delete gallery" });
+        console.error(error);
     }
 };
