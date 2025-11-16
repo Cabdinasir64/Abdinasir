@@ -5,7 +5,7 @@ export interface GalleryInput {
     image: string;
     title: { en: string; ar: string; so: string };
     description?: { en: string; ar: string; so: string };
-    categories: ("PROJECT" | "PORTFOLIO" | "EVENT" | "OTHER")[];
+    categories: ("PROJECT" | "PORTFOLIO" | "EVENT" | "OTHER");
     link?: string;
 }
 
