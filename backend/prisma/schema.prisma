@@ -11,6 +11,11 @@ enum GalleryCategory {
   PROJECT
   PORTFOLIO
   EVENT
+  WEB_DESIGN
+  MOBILE_APP
+  UI_UX
+  BRANDING
+  PHOTOGRAPHY
   OTHER
 }
 
@@ -42,15 +47,15 @@ model Skill {
 }
 
 model Gallery {
-  id          String            @id @default(auto()) @map("_id") @db.ObjectId
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
   userId      String
   image       String
   title       Json
   description Json?
   categories  GalleryCategory
   link        String?
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 
   @@index([categories])
   @@map("galleries")
