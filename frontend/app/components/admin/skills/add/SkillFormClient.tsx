@@ -23,7 +23,7 @@ export default function SkillFormClient() {
         level_en: "",
         level_so: "",
         level_ar: "",
-        category: ""
+        category: [] as string[]
     });
 
     useEffect(() => {
@@ -67,12 +67,13 @@ export default function SkillFormClient() {
         loadSkill();
     }, [id]);
 
-    const handleInputChange = (field: string, value: string) => {
+    const handleInputChange = (field: string, value: string | string[]) => {
         setFormData(prev => ({
             ...prev,
             [field]: value
         }));
     };
+
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -104,8 +105,13 @@ export default function SkillFormClient() {
         const submitData = new FormData();
 
         Object.entries(formData).forEach(([key, value]) => {
-            submitData.append(key, value);
+            if (Array.isArray(value)) {
+                submitData.append(key, JSON.stringify(value));
+            } else {
+                submitData.append(key, value);
+            }
         });
+
 
         const imageInput = document.getElementById('skillImage') as HTMLInputElement;
         if (imageInput?.files?.[0]) {
@@ -297,27 +303,26 @@ export default function SkillFormClient() {
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="block text-sm font-medium text-gray-700">
-                                Category <span className="text-red-500">*</span>
-                            </label>
-                            <select
-                                value={formData.category}
-                                onChange={(e) => handleInputChange("category", e.target.value)}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                                required
-                            >
-                                <option value="">Select Category</option>
-                                <option value="PROGRAMMING">Programming</option>
-                                <option value="FRONTEND">Frontend</option>
-                                <option value="BACKEND">Backend</option>
-                                <option value="FRAMEWORK">Framework</option>
-                                <option value="DATABASE">Database</option>
-                                <option value="TOOL">Tool</option>
-                                <option value="CLOUD">Cloud</option>
-                                <option value="OTHER">Other</option>
-                            </select>
-                        </div>
+                        <select
+                            multiple
+                            value={formData.category}
+                            onChange={(e) => {
+                                const selectedOptions = Array.from(e.target.selectedOptions).map(opt => opt.value);
+                                handleInputChange("category", selectedOptions);
+                            }}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                            required
+                        >
+                            <option value="PROGRAMMING">Programming</option>
+                            <option value="FRONTEND">Frontend</option>
+                            <option value="BACKEND">Backend</option>
+                            <option value="FRAMEWORK">Framework</option>
+                            <option value="DATABASE">Database</option>
+                            <option value="TOOL">Tool</option>
+                            <option value="CLOUD">Cloud</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+
 
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t">
