@@ -1,9 +1,11 @@
 import prisma from "../prisma/prismaClient";
+import { SkillCategory } from "@prisma/client";
 
 interface SkillInput {
     userId: string;
     name: { en: string; ar: string; so: string };
     level: { en: string; ar: string; so: string };
+    category: SkillCategory;
     skillImage?: string;
 }
 
