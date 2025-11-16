@@ -6,6 +6,7 @@ import UserRoutes from './routes/userRoutes'
 import ipRoutes from "./routes/ipRoutes";
 import SkillRoutes from "./routes/skillRoutes";
 import GalleryRoutes from "./routes/galleryRoutes";
+import TestimonialRoutes from "./routes/testimonialRoutes"
 
 dotenv.config();
 
@@ -33,6 +34,8 @@ app.use('/api/user', UserRoutes);
 app.use('/api/skills', SkillRoutes);
 
 app.use('/api/galleries', GalleryRoutes);
+
+app.use('/api/testimonials', TestimonialRoutes)
 
 app.use("/ip", ipRoutes);
 
