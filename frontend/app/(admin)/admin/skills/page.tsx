@@ -10,13 +10,14 @@ interface Skill {
   name: string;
   level: string;
   skillImage?: string;
+  category: string
   createdAt: string;
   updatedAt: string;
 }
 
 async function fetchSkills(): Promise<Skill[]> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`, {
-    cache: "no-store", 
+    cache: "no-store",
   })
 
   if (!res.ok) throw new Error("Failed to fetch skills");
