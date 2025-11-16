@@ -19,9 +19,19 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
             so: req.body.level_so,
             ar: req.body.level_ar
         };
-        const category = req.body.category as SkillCategory;
-        if (!category) {
-            return res.status(400).json({ message: "Category is required" });
+
+        let category = req.body.category;
+
+        if (typeof category === "string") {
+            try {
+                category = JSON.parse(category);
+            } catch (err) {
+                return res.status(400).json({ message: "Invalid category format" });
+            }
+        }
+
+        if (!Array.isArray(category)) {
+            category = [category];
         }
 
         const skillImage = req.file?.path;
@@ -37,7 +47,6 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
         res.status(201).json({ message: "Skill created", skill });
     } catch (error: any) {
         res.status(400).json({ message: error?.message || "An unexpected error occurred" });
-        console.error(error);
     }
 };
 
@@ -90,7 +99,7 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
                 so: string;
                 ar: string;
             };
-            category: SkillCategory;
+            category: SkillCategory[];
             skillImage: string;
         }> = {};
 
@@ -112,8 +121,20 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
 
 
         if (req.body.category) {
-            data.category = req.body.category as SkillCategory;
+            let category = req.body.category;
+
+            if (typeof category === "string") {
+                try {
+                    category = JSON.parse(category);
+                } catch (err) {
+                    return res.status(400).json({ message: "Invalid category format" });
+                }
+            }
+
+            if (!Array.isArray(category)) category = [category];
+            data.category = category;
         }
+
 
         if (req.file?.path) {
             data.skillImage = req.file.path;
@@ -124,7 +145,6 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
         res.json({ message: "Skill updated", skill });
     } catch (error: any) {
         res.status(400).json({ message: error?.message || "Failed to update skill" });
-        console.error(error);
     }
 };
 
