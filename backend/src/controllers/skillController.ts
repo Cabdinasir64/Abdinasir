@@ -19,14 +19,10 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
             so: req.body.level_so,
             ar: req.body.level_ar
         };
-
-        let categories: SkillCategory[] = [];
-        if (req.body.categories) {
-            categories = Array.isArray(req.body.categories)
-                ? req.body.categories
-                : [req.body.categories];
+        const category = req.body.category as SkillCategory;
+        if (!category) {
+            return res.status(400).json({ message: "Category is required" });
         }
-
 
         const skillImage = req.file?.path;
 
@@ -34,7 +30,7 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
             userId: req.user.userId,
             name,
             level,
-            categories,
+            category,
             skillImage,
         });
 
@@ -94,7 +90,7 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
                 so: string;
                 ar: string;
             };
-            categories: SkillCategory[];
+            category: SkillCategory;
             skillImage: string;
         }> = {};
 
@@ -115,10 +111,8 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
         }
 
 
-        if (req.body.categories) {
-            data.categories = Array.isArray(req.body.categories)
-                ? req.body.categories
-                : [req.body.categories];
+        if (req.body.category) {
+            data.category = req.body.category as SkillCategory;
         }
 
         if (req.file?.path) {
