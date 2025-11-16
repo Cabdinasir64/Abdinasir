@@ -10,7 +10,7 @@ interface Skill {
   name: string;
   level: string;
   skillImage?: string;
-  category: string
+  category: string[];
   createdAt: string;
   updatedAt: string;
 }
@@ -32,7 +32,7 @@ export default async function SkillsPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">All Skills</h1>
-      <SkillListClient initialSkills={skills} />
+      <SkillListClient initialSkills={skills ?? undefined} />
     </div>
   );
 }
