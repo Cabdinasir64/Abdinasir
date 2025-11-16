@@ -5,7 +5,7 @@ interface SkillInput {
     userId: string;
     name: { en: string; ar: string; so: string };
     level: { en: string; ar: string; so: string };
-    category: SkillCategory;
+    category: SkillCategory[];
     skillImage?: string;
 }
 
