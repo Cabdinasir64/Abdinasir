@@ -12,7 +12,7 @@ interface Skill {
     id: string;
     name: string;
     level: string;
-    category: string
+    category: string[];
     skillImage?: string;
     createdAt: string;
     updatedAt: string;
@@ -295,11 +295,17 @@ export default function SkillListClient({ initialSkills }: Props) {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(skill.category)}`}>
-                                                {skill.category}
-                                            </span>
+                                        <td className="px-6 py-4 whitespace-nowrap flex gap-1 flex-wrap">
+                                            {skill.category.map(cat => (
+                                                <span
+                                                    key={cat}
+                                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(cat)}`}
+                                                >
+                                                    {cat}
+                                                </span>
+                                            ))}
                                         </td>
+
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2">
                                                 <Link
