@@ -50,11 +50,11 @@ export default function Sidebar() {
             ]
         },
         {
-            name: "tesminials",
+            name: "Testimonials",
             icon: MessageCircle,
             items: [
-                { name: "All tesminials", href: "/admin/tesminials" },
-                { name: "Add tesminial", href: "/admin/tesminials/add" },
+                { name: "All testimonials", href: "/admin/testimonials" },
+                { name: "Add testimonial", href: "/admin/testimonials/add" },
             ]
         },
         {
