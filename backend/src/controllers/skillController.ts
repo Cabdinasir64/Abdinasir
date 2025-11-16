@@ -1,10 +1,11 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
 import * as skillService from "../services/skillService";
+import { SkillCategory } from "@prisma/client";
 
 export const createSkill = async (req: AuthRequest, res: Response) => {
     try {
-        
+
         if (!req.user) return res.status(401).json({ message: "Not authenticated" });
 
         const name = {
@@ -18,12 +19,18 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
             so: req.body.level_so,
             ar: req.body.level_ar
         };
+        const category = req.body.category as SkillCategory;
+        if (!category) {
+            return res.status(400).json({ message: "Category is required" });
+        }
+
         const skillImage = req.file?.path;
 
         const skill = await skillService.createSkill({
             userId: req.user.userId,
             name,
             level,
+            category,
             skillImage,
         });
 
@@ -83,6 +90,7 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
                 so: string;
                 ar: string;
             };
+            category: SkillCategory;
             skillImage: string;
         }> = {};
 
@@ -100,6 +108,11 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
                 so: req.body.level_so,
                 ar: req.body.level_ar,
             };
+        }
+
+
+        if (req.body.category) {
+            data.category = req.body.category as SkillCategory;
         }
 
         if (req.file?.path) {
