@@ -12,6 +12,7 @@ interface Skill {
     id: string;
     name: string;
     level: string;
+    category: string
     skillImage?: string;
     createdAt: string;
     updatedAt: string;
@@ -90,6 +91,20 @@ export default function SkillListClient({ initialSkills }: Props) {
                 return 1;
         }
     };
+
+    const getCategoryColor = (category: string) => {
+        switch (category) {
+            case 'PROGRAMMING': return 'bg-blue-100 text-blue-800';
+            case 'FRONTEND': return 'bg-green-100 text-green-800';
+            case 'BACKEND': return 'bg-purple-100 text-purple-800';
+            case 'FRAMEWORK': return 'bg-yellow-100 text-yellow-800';
+            case 'DATABASE': return 'bg-red-100 text-red-800';
+            case 'TOOL': return 'bg-gray-100 text-gray-800';
+            case 'CLOUD': return 'bg-indigo-100 text-indigo-800';
+            default: return 'bg-gray-100 text-gray-800';
+        }
+    };
+
 
     if (error) return (
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
@@ -218,6 +233,9 @@ export default function SkillListClient({ initialSkills }: Props) {
                                     Level
                                 </th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Category
+                                </th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
                             </tr>
@@ -276,6 +294,11 @@ export default function SkillListClient({ initialSkills }: Props) {
                                                     ))}
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getCategoryColor(skill.category)}`}>
+                                                {skill.category}
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2">
