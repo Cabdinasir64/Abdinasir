@@ -23,6 +23,7 @@ export default function SkillFormClient() {
         level_en: "",
         level_so: "",
         level_ar: "",
+        category: ""
     });
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export default function SkillFormClient() {
                     level_en: s.level?.en || "",
                     level_so: s.level?.so || "",
                     level_ar: s.level?.ar || "",
+                    category: s.category || "",
                 });
 
                 if (s.skillImage) {
@@ -294,6 +296,29 @@ export default function SkillFormClient() {
                                 </select>
                             </div>
                         </div>
+
+                        <div className="space-y-2">
+                            <label className="block text-sm font-medium text-gray-700">
+                                Category <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                value={formData.category}
+                                onChange={(e) => handleInputChange("category", e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                required
+                            >
+                                <option value="">Select Category</option>
+                                <option value="PROGRAMMING">Programming</option>
+                                <option value="FRONTEND">Frontend</option>
+                                <option value="BACKEND">Backend</option>
+                                <option value="FRAMEWORK">Framework</option>
+                                <option value="DATABASE">Database</option>
+                                <option value="TOOL">Tool</option>
+                                <option value="CLOUD">Cloud</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t">
                         <button
