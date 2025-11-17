@@ -9,7 +9,6 @@ export const getIp = async (req: Request, res: Response) => {
         const data = await response.json();
         res.json({ ip: data.ip });
     } catch (err) {
-        console.error("Error fetching IP:", err);
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
