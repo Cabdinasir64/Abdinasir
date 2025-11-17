@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import toast from "react-hot-toast";
 import { useUserStore } from "../stores/userStore";
 
 export const useAuthInit = () => {
   const router = useRouter();
-  const { user, loading, error, fetchUser } = useUserStore();
+  const pathname = usePathname();
+  const { user, loading, error, fetchUser, isRehydrated, checkAuth } = useUserStore();
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
@@ -13,22 +14,34 @@ export const useAuthInit = () => {
 
     const initializeAuth = async () => {
       try {
-        await useUserStore.persist?.rehydrate();
-        
-        if (!mounted) return;
+        const publicRoutes = ['/login', '/register', '/forgot-password'];
+        const isPublicRoute = publicRoutes.includes(pathname);
 
-        const currentUser = useUserStore.getState().user;
-        
-        if (currentUser) {
+        if (isPublicRoute) {
           setIsInitialized(true);
           return;
         }
 
-        await fetchUser();
+        if (!isRehydrated) {
+          const timeout = setTimeout(() => {
+            if (mounted) setIsInitialized(true);
+          }, 2000);
+          return () => clearTimeout(timeout);
+        }
+
+        const isAuthenticated = await checkAuth();
+        
+        if (!mounted) return;
+
+        if (!isAuthenticated && !isPublicRoute) {
+          router.push('/login');
+        }
+
         setIsInitialized(true);
+        
       } catch (err) {
         if (mounted) {
-          setIsInitialized(true); 
+          setIsInitialized(true);
         }
       }
     };
@@ -38,14 +51,23 @@ export const useAuthInit = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [isRehydrated, pathname, checkAuth, router]);
 
   useEffect(() => {
-    if (isInitialized && !user && !loading && error) {
-      toast.error("Please log in to access the admin panel");
-      router.push("/login");
+    if (!isInitialized) return;
+
+    const publicRoutes = ['/login', '/register', '/forgot-password'];
+    const isPublicRoute = publicRoutes.includes(pathname);
+
+    if (!user && !isPublicRoute && !loading) {
+      toast.error("Session expired. Please log in again.");
+      router.push('/login');
     }
-  }, [isInitialized, user, loading, error, router]);
+
+    if (user && pathname === '/login') {
+      router.push('/admin');
+    }
+  }, [isInitialized, user, loading, pathname, router]);
 
   return { 
     isInitialized, 
