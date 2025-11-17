@@ -40,6 +40,12 @@ export default function SkillListClient({ initialSkills }: Props) {
         if (data?.skills) setLocalSkills(data.skills);
     }, [data]);
 
+    useEffect(() => {
+        if (error) {
+            toast.error(error.message)
+        }
+    }, [error])
+
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this skill? This action cannot be undone.")) {
             return;
