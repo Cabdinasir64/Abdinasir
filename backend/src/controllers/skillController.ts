@@ -36,6 +36,13 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
 
         const skillImage = req.file?.path;
 
+
+        if (!skillImage) {
+            return res.status(400).json({
+                message: "Skill image is required"
+            });
+        }
+
         const skill = await skillService.createSkill({
             userId: req.user.userId,
             name,
@@ -52,9 +59,23 @@ export const createSkill = async (req: AuthRequest, res: Response) => {
 
 export const getSkills = async (req: AuthRequest, res: Response) => {
     try {
-        const lang = (req.query.lang as string) || 'en';
+        const supportedLangs = ["en", "so", "ar"];
+        const lang = ((req.query.lang as string) || "en").trim().toLowerCase();
+
+        if (!supportedLangs.includes(lang)) {
+            return res.status(400).json({
+                message: "Language not supported",
+                supported: supportedLangs
+            });
+        }
 
         const skills = await skillService.getAllSkills();
+
+        if (!skills || skills.length === 0) {
+            return res.status(404).json({
+                message: "No skills found"
+            });
+        }
 
         const localizedSkills = skills.map(skill => {
             const nameObj = skill.name as Record<string, string> | undefined;
@@ -151,7 +172,12 @@ export const updateSkill = async (req: AuthRequest, res: Response) => {
 
 export const deleteSkill = async (req: AuthRequest, res: Response) => {
     try {
-        await skillService.deleteSkill(req.params.id);
+        const deleted = await skillService.deleteSkill(req.params.id);
+
+        if (!deleted) {
+            return res.status(404).json({ message: "Skill not found" });
+        }
+
         res.json({ message: "Skill deleted" });
     } catch (error: any) {
         res.status(400).json({ message: error?.message || "Failed to delete skill" });
