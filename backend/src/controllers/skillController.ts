@@ -71,12 +71,6 @@ export const getSkills = async (req: AuthRequest, res: Response) => {
 
         const skills = await skillService.getAllSkills();
 
-        if (!skills || skills.length === 0) {
-            return res.status(404).json({
-                message: "No skills found"
-            });
-        }
-
         const localizedSkills = skills.map(skill => {
             const nameObj = skill.name as Record<string, string> | undefined;
             const levelObj = skill.level as Record<string, string> | undefined;
