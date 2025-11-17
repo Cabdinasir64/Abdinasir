@@ -32,7 +32,7 @@ export default async function SkillsPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">All Skills</h1>
-      <SkillListClient initialSkills={skills ?? undefined} />
+      <SkillListClient initialSkills={skills} />
     </div>
   );
 }
