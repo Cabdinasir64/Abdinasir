@@ -11,6 +11,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.90.9",
     "@tanstack/react-query-devtools": "^5.90.2",
+    "crypto-js": "^4.2.0",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.24",
     "gsap": "^3.13.0",
@@ -23,6 +24,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
