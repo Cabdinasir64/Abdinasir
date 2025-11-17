@@ -1,5 +1,5 @@
 "use client";
-import { useAuthInit } from "../../../app/hooks/useAuthInit";
+import { useAuthInit } from "../../../hooks/useAuthInit";
 import Sidebar from "../sidebar/Sidebar";
 import Header from "../header/Header";
 import { Toaster } from "react-hot-toast";
