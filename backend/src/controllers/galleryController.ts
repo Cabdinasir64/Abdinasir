@@ -49,8 +49,7 @@ export const createGallery = async (req: AuthRequest, res: Response) => {
 export const getGalleries = async (req: AuthRequest, res: Response) => {
     try {
         const allowedLangs = ["en", "so", "ar"];
-
-        const lang = typeof req.query.lang === "string" ? req.query.lang.trim().toLowerCase() : "en";
+        let lang = ((req.query.lang as string) || "en").trim().toLowerCase();
 
         if (!allowedLangs.includes(lang)) {
             return res.status(400).json({
