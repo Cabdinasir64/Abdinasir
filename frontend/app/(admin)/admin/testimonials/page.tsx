@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
-import TestimonialListClient from '../../../components/admin/testimonials/TestimonialListClient'
+import TestimonialListClient from '../../../../components/admin/testimonials/TestimonialListClient'
 
 
 export const metadata: Metadata = {

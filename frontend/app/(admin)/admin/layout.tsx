@@ -1,4 +1,4 @@
-import ClientLayout from "../../components/admin/layout/Layout";
+import ClientLayout from "../../../components/admin/layout/Layout";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

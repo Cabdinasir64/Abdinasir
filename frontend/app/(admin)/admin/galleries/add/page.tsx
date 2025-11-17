@@ -1,4 +1,4 @@
-import GalleryFormClient from "../../../../components/admin/galleries/add/GalleryFormClient";
+import GalleryFormClient from "../../../../../components/admin/galleries/add/GalleryFormClient";
 
 export const metadata = {
     title: "Admin | Add/Edit Gallery",

@@ -1,4 +1,4 @@
-import SkillListClient from "../../../components/admin/skills/SkillList";
+import SkillListClient from "../../../../components/admin/skills/SkillList";
 
 export const metadata = {
   title: "Admin | Skills",

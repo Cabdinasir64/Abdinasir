@@ -1,4 +1,4 @@
-import GalleryListClient from "../../../components/admin/galleries/GalleryListClient";
+import GalleryListClient from "../../../../components/admin/galleries/GalleryListClient";
 import { Suspense } from "react";
 
 export const metadata = {

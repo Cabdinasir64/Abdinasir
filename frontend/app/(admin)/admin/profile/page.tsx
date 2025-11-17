@@ -1,4 +1,4 @@
-import ProfileForm from '../../../components/admin/profile/ProfileForm';
+import ProfileForm from '../../../../components/admin/profile/ProfileForm';
 
 export const metadata = {
     title: " Admin Profile - Abdinasir's Portfolio",

@@ -1,4 +1,4 @@
-import SkillFormClient from "../../../../components/admin/skills/add/SkillFormClient";
+import SkillFormClient from "../../../../../components/admin/skills/add/SkillFormClient";
 import { Suspense } from "react";
 import { Loader } from "lucide-react";
 

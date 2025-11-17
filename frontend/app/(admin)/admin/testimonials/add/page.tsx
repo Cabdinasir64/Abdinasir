@@ -1,4 +1,4 @@
-import TestimonialFormClient from "../../../../components/admin/testimonials/add/TestimonialFormClient";
+import TestimonialFormClient from "../../../../../components/admin/testimonials/add/TestimonialFormClient";
 import { Suspense } from "react";
 
 export const metadata = {
