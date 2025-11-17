@@ -28,7 +28,6 @@ export const useAuthInit = () => {
         setIsInitialized(true);
       } catch (err) {
         if (mounted) {
-          console.error("Auth initialization failed:", err);
           setIsInitialized(true); 
         }
       }
