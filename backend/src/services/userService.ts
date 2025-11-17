@@ -54,6 +54,7 @@ export const getMeProfile = async (userId: string) => {
             id: true,
             username: true,
             email: true,
+            role: true,
             profileImage: true,
         },
     });
