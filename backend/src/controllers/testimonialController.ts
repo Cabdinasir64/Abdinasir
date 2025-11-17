@@ -5,6 +5,7 @@ import * as testimonialService from "../services/testimonialService";
 export const createTestimonial = async (req: AuthRequest, res: Response) => {
     try {
         const { name, position } = req.body;
+
         const text = {
             en: req.body.text_en,
             so: req.body.text_so,
@@ -42,13 +43,22 @@ export const createTestimonial = async (req: AuthRequest, res: Response) => {
 export const getTestimonials = async (req: AuthRequest, res: Response) => {
     try {
 
-        const allowedLangs = ["en", "ar", "so"];
-        let lang = (req.query.lang as string) || "en";
-        if (!allowedLangs.includes(lang)) {
-            lang = "en";
-        }
+        const supportedLangs = ["en", "so", "ar"];
+        const lang = ((req.query.lang as string) || "en").trim().toLowerCase();
 
+        if (!supportedLangs.includes(lang)) {
+            return res.status(400).json({
+                message: "Language not supported",
+                supported: supportedLangs
+            });
+        }
         const testimonials = await testimonialService.getAllTestimonials();
+
+        if (!testimonials || testimonials.length === 0) {
+            return res.status(404).json({
+                message: "No testimonials found"
+            });
+        }
 
         const localizedTestimonials = testimonials.map(testimonial => {
             const textObj = testimonial.text as Record<string, string> | undefined;
@@ -124,8 +134,10 @@ export const updateTestimonial = async (req: AuthRequest, res: Response) => {
 
 export const deleteTestimonial = async (req: AuthRequest, res: Response) => {
     try {
-        await testimonialService.deleteTestimonial(req.params.id);
-
+        const result = await testimonialService.deleteTestimonial(req.params.id);
+        if (!result) {
+            return res.status(404).json({ message: "Testimonial not found" });
+        }
         res.json({ message: "Testimonial deleted" });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to delete testimonial" });
