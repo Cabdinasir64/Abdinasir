@@ -18,7 +18,11 @@ export const getAllGalleries = async () => {
 };
 
 export const getGalleryById = async (id: string) => {
-    return prisma.gallery.findUnique({ where: { id } });
+    const existing = await prisma.gallery.findUnique({ where: { id } });
+
+    if (!existing) return null;
+
+    return prisma.gallery.delete({ where: { id } });
 };
 
 export const updateGallery = async (id: string, data: Partial<GalleryInput>) => {
