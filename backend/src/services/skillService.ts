@@ -18,8 +18,13 @@ export const getAllSkills = async () => {
 };
 
 export const getSkillById = async (id: string) => {
-    return prisma.skill.findUnique({ where: { id } });
+    const existing = await prisma.skill.findUnique({ where: { id } });
+
+    if (!existing) return null; 
+
+    return existing;
 };
+
 
 export const updateSkill = async (id: string, data: Partial<SkillInput>) => {
     return prisma.skill.update({
