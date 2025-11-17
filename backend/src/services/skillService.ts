@@ -31,7 +31,7 @@ export const updateSkill = async (id: string, data: Partial<SkillInput>) => {
 export const deleteSkill = async (id: string) => {
     const existing = await prisma.skill.findUnique({ where: { id } });
 
-    if (!existing) return null; 
+    if (!existing) return null;
 
     return prisma.skill.delete({ where: { id } });
 };
