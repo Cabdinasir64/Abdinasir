@@ -42,6 +42,7 @@ export const createGallery = async (req: AuthRequest, res: Response) => {
         res.status(201).json({ message: "Gallery created", gallery });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to create gallery" });
+
     }
 };
 
@@ -49,7 +50,7 @@ export const getGalleries = async (req: AuthRequest, res: Response) => {
     try {
         const allowedLangs = ["en", "so", "ar"];
 
-        const lang = ((req.query.lang as string) || "en").trim().toLowerCase();
+        const lang = typeof req.query.lang === "string" ? req.query.lang.trim().toLowerCase() : "en";
 
         if (!allowedLangs.includes(lang)) {
             return res.status(400).json({
@@ -58,13 +59,7 @@ export const getGalleries = async (req: AuthRequest, res: Response) => {
             });
         }
 
-        const gallery = await galleryService.getAllGalleries();
-
-        if (!gallery || gallery.length === 0) {
-            return res.status(404).json({
-                message: "No galleries found"
-            });
-        }
+        const gallery = await galleryService.getAllGalleries(); 
 
         const localized = gallery.map(gallery => {
             const titleObj = gallery.title as Record<string, string> | undefined;
@@ -145,6 +140,7 @@ export const updateGallery = async (req: AuthRequest, res: Response) => {
 export const deleteGallery = async (req: AuthRequest, res: Response) => {
     try {
         const deleted = await galleryService.deleteGallery(req.params.id);
+
         if (!deleted) {
             return res.status(404).json({ message: "Gallery not found" });
         }
