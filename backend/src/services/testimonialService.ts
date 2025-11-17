@@ -17,13 +17,24 @@ export const getAllTestimonials = async () => {
 };
 
 export const getTestimonialById = async (id: string) => {
-    return prisma.testimonial.findUnique({ where: { id } });
+    const testimonial = await prisma.testimonial.findUnique({ where: { id } });
+
+    if (!testimonial) return null;
+    return testimonial;
 };
 
+
 export const updateTestimonial = async (id: string, data: Partial<TestimonialInput>) => {
+    const existing = await prisma.testimonial.findUnique({ where: { id } });
+    if (!existing) return null;
+
     return prisma.testimonial.update({ where: { id }, data });
 };
 
+
 export const deleteTestimonial = async (id: string) => {
+    const existing = await prisma.testimonial.findUnique({ where: { id } });
+    if (!existing) return null;
+
     return prisma.testimonial.delete({ where: { id } });
 };
