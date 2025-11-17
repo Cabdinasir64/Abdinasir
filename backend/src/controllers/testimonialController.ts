@@ -54,12 +54,6 @@ export const getTestimonials = async (req: AuthRequest, res: Response) => {
         }
         const testimonials = await testimonialService.getAllTestimonials();
 
-        if (!testimonials || testimonials.length === 0) {
-            return res.status(404).json({
-                message: "No testimonials found"
-            });
-        }
-
         const localizedTestimonials = testimonials.map(testimonial => {
             const textObj = testimonial.text as Record<string, string> | undefined;
 
