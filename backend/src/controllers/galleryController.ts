@@ -42,15 +42,28 @@ export const createGallery = async (req: AuthRequest, res: Response) => {
         res.status(201).json({ message: "Gallery created", gallery });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to create gallery" });
-        console.error(error);
     }
 };
 
 export const getGalleries = async (req: AuthRequest, res: Response) => {
     try {
-        const lang = (req.query.lang as string) || "en";
+        const allowedLangs = ["en", "so", "ar"];
+        let lang = ((req.query.lang as string) || "en").trim().toLowerCase();
+
+        if (!allowedLangs.includes(lang)) {
+            return res.status(400).json({
+                message: "Language not supported",
+                supported: allowedLangs
+            });
+        }
 
         const gallery = await galleryService.getAllGalleries();
+
+        if (!gallery || gallery.length === 0) {
+            return res.status(404).json({
+                message: "No galleries found"
+            });
+        }
 
         const localized = gallery.map(gallery => {
             const titleObj = gallery.title as Record<string, string> | undefined;
@@ -66,7 +79,6 @@ export const getGalleries = async (req: AuthRequest, res: Response) => {
         res.json({ gallery: localized });
     } catch (error: any) {
         res.status(500).json({ message: error.message || "Failed to fetch galleries" });
-        console.error(error);
     }
 };
 
@@ -79,7 +91,6 @@ export const getGallery = async (req: AuthRequest, res: Response) => {
         res.json({ gallery });
     } catch (error: any) {
         res.status(500).json({ message: error.message || "Failed to fetch gallery" });
-        console.error(error);
     }
 };
 
@@ -127,16 +138,17 @@ export const updateGallery = async (req: AuthRequest, res: Response) => {
         res.json({ message: "Gallery updated", gallery });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to update gallery" });
-        console.error(error);
     }
 };
 
 export const deleteGallery = async (req: AuthRequest, res: Response) => {
     try {
-        await galleryService.deleteGallery(req.params.id);
+        const deleted = await galleryService.deleteGallery(req.params.id);
+        if (!deleted) {
+            return res.status(404).json({ message: "Gallery not found" });
+        }
         res.json({ message: "Gallery deleted" });
     } catch (error: any) {
         res.status(400).json({ message: error.message || "Failed to delete gallery" });
-        console.error(error);
     }
 };
