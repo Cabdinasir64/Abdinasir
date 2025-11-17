@@ -1,5 +1,7 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, PersistStorage, StorageValue } from 'zustand/middleware';
+import toast from 'react-hot-toast'
+import { encrypt, decrypt } from '../utils/encryption';
 
 interface User {
   id: string;
@@ -14,12 +16,33 @@ interface UserState {
   loading: boolean;
   error: string | null;
   isRehydrated: boolean;
-  setRehydrated: (value: boolean) => void; 
+  sessionExpired: boolean;
+  manualLogout: boolean;
+  setRehydrated: (value: boolean) => void;
+  setSessionExpired: (value: boolean) => void;
+  setManualLogout: (value: boolean) => void;
   fetchUser: () => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
   checkAuth: () => Promise<boolean>;
 }
+
+const encryptedStorage: PersistStorage<UserState> = {
+  getItem: (name: string): StorageValue<UserState> | null => {
+    const cipher = localStorage.getItem(name);
+    if (!cipher) return null;
+    try {
+      const decryptedString = decrypt(cipher);
+      return JSON.parse(decryptedString) as StorageValue<UserState>;
+    } catch {
+      return null;
+    }
+  },
+  setItem: (name: string, value: StorageValue<UserState>) => {
+    localStorage.setItem(name, encrypt(JSON.stringify(value)));
+  },
+  removeItem: (name: string) => localStorage.removeItem(name),
+};
 
 export const useUserStore = create<UserState>()(
   persist(
@@ -28,8 +51,13 @@ export const useUserStore = create<UserState>()(
       loading: false,
       error: null,
       isRehydrated: false,
+      sessionExpired: false,
+      manualLogout: false,
+
 
       setRehydrated: (value: boolean) => set({ isRehydrated: value }),
+      setSessionExpired: (value: boolean) => set({ sessionExpired: value }),
+      setManualLogout: (value: boolean) => set({ manualLogout: value }),
 
       checkAuth: async (): Promise<boolean> => {
         const { user } = get();
@@ -45,10 +73,11 @@ export const useUserStore = create<UserState>()(
           }
           if (!res.ok) throw new Error(`Auth check failed: ${res.status}`);
           const data: { user: User } = await res.json();
-          if (!user || user.id !== data.user.id) set({ user: data.user, loading: false });
+          if (!user || user.id !== data.user.id) set({ user: data.user, loading: false, });
           return true;
         } catch (err) {
-          console.error('Auth check error:', err);
+          const message = err instanceof Error ? err.message : 'Unknown error';
+          toast.error(message);
           set({ user: null, loading: false });
           localStorage.removeItem('user-storage');
           return false;
@@ -72,13 +101,13 @@ export const useUserStore = create<UserState>()(
           set({ user: data.user, loading: false });
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Unknown error';
-          console.error('Fetch user error:', message);
+          toast.error(message)
           set({ user: null, loading: false, error: message });
           localStorage.removeItem('user-storage');
         }
       },
 
-      logout: async () => {
+      logout: async (isSessionExpired = false) => {
         set({ loading: true });
         try {
           await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/logout`, {
@@ -86,9 +115,10 @@ export const useUserStore = create<UserState>()(
             credentials: 'include',
           });
         } catch (err) {
-          console.error('Logout API error:', err);
+          const message = err instanceof Error ? err.message : 'Unknown error';
+          toast.error(message)
         } finally {
-          set({ user: null, loading: false, error: null });
+          set({ user: null, loading: false, error: null, sessionExpired: isSessionExpired, manualLogout: !isSessionExpired });
           localStorage.removeItem('user-storage');
           sessionStorage.clear();
         }
@@ -98,6 +128,7 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'user-storage',
+      storage: encryptedStorage,
       onRehydrateStorage: () => (state) => {
         state?.setRehydrated?.(true);
       },
