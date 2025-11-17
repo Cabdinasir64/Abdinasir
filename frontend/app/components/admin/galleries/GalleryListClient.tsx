@@ -43,6 +43,12 @@ export default function GalleryListClient({ initialGalleries }: Props) {
     }
   }, [data]);
 
+  useEffect(() => {
+    if(error){
+      toast.error("dd")
+    }
+  }, [error])
+
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this gallery? This action cannot be undone.")) return;
 
