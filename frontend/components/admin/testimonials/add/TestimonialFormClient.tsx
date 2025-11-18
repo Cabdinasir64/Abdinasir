@@ -104,7 +104,7 @@ export default function TestimonialFormClient({ testimonial, FetchErrors }: Prop
         }
 
         if (!formData.text_en.trim() && !formData.text_so.trim() && !formData.text_ar.trim()) {
-            toast.error("At least one testimonial text is required");
+            toast.error("testimonial text is required");
             setLoading(false);
             return;
         }
@@ -149,7 +149,6 @@ export default function TestimonialFormClient({ testimonial, FetchErrors }: Prop
             }, 1500);
 
         } catch (err: any) {
-            console.error("Error saving testimonial:", err);
             toast.error(err.message || "Error saving testimonial. Please try again.");
         } finally {
             setLoading(false);
@@ -241,9 +240,6 @@ export default function TestimonialFormClient({ testimonial, FetchErrors }: Prop
                         </h2>
                         <div className="space-y-4">
                             <div className="space-y-2">
-                                <label className="block text-sm font-medium text-gray-700">
-                                    English Text <span className="text-gray-400">(At least one required)</span>
-                                </label>
                                 <div className="relative">
                                     <MessageCircle className="absolute left-3 top-3 text-gray-400 w-4 h-4" />
                                     <textarea
