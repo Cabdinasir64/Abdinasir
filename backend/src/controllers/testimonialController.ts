@@ -1,29 +1,48 @@
 import { Response } from "express";
 import { AuthRequest } from "../middleware/authMiddleware";
 import * as testimonialService from "../services/testimonialService";
+import { sanitizeInput, isInputEmptyAfterSanitization, isWhitespaceOnly } from '../utils/sanitizer';
 
 export const createTestimonial = async (req: AuthRequest, res: Response) => {
     try {
-        const { name, position } = req.body;
+        if (!req.user || !req.user.userId) {
+            return res.status(401).json({ message: "User not authenticated." });
+        }
 
+        const { name: rawName, position: rawPosition, text_en, text_so, text_ar } = req.body;
+
+        if (!rawName || isWhitespaceOnly(rawName)) {
+            return res.status(400).json({ message: "Name is required and cannot be empty." });
+        }
+        const name = sanitizeInput(rawName);
+        if (isInputEmptyAfterSanitization(rawName)) {
+            return res.status(400).json({ message: "Invalid characters detected in name. HTML/script tags are not allowed." });
+        }
+
+        let position: string | undefined;
+        if (rawPosition !== undefined) {
+            if (isWhitespaceOnly(rawPosition)) {
+                return res.status(400).json({ message: "Position cannot be empty if provided." });
+            }
+            position = sanitizeInput(rawPosition);
+            if (isInputEmptyAfterSanitization(rawPosition)) {
+                return res.status(400).json({ message: "Invalid characters detected in position. HTML/script tags are not allowed." });
+            }
+        }
+        
+        if (isWhitespaceOnly(text_en || '') || isWhitespaceOnly(text_so || '') || isWhitespaceOnly(text_ar || '')) {
+            return res.status(400).json({ message: "Testimonial text is required and cannot be empty." });
+        }
         const text = {
-            en: req.body.text_en,
-            so: req.body.text_so,
-            ar: req.body.text_ar
+            en: sanitizeInput(text_en || ''),
+            so: sanitizeInput(text_so || ''),
+            ar: sanitizeInput(text_ar || '')
         };
+        if (isInputEmptyAfterSanitization(text_en || '') || isInputEmptyAfterSanitization(text_so || '') || isInputEmptyAfterSanitization(text_ar || '')) {
+            return res.status(400).json({ message: "Invalid characters detected in text. HTML/script tags are not allowed." });
+        }
+
         const image = req.file?.path;
-
-        if (!name || typeof name !== "string" || !name.trim()) {
-            return res.status(400).json({ message: "Name is required and must be a non-empty string" });
-        }
-
-        if (!position || typeof position !== "string" || !position.trim()) {
-            return res.status(400).json({ message: "Position is required and must be a non-empty string" });
-        }
-
-        if (!text.en || !text.so || !text.ar) {
-            return res.status(400).json({ message: "Text for all languages (en, so, ar) is required" });
-        }
 
         const testimonial = await testimonialService.createTestimonial({
             userId: req.user.userId,
@@ -33,23 +52,21 @@ export const createTestimonial = async (req: AuthRequest, res: Response) => {
             image,
         });
 
-        res.status(201).json({ message: "Testimonial created", testimonial });
+        res.status(201).json({ message: "Testimonial created successfully", testimonial });
     } catch (error: any) {
-        res.status(400).json({ message: error.message || "Failed to create testimonial" });
+        res.status(400).json({ message: error.message || "An unexpected error occurred while creating testimonial." });
     }
 };
 
 
 export const getTestimonials = async (req: AuthRequest, res: Response) => {
     try {
-
         const supportedLangs = ["en", "so", "ar"];
         const lang = ((req.query.lang as string) || "en").trim().toLowerCase();
 
         if (!supportedLangs.includes(lang)) {
             return res.status(400).json({
-                message: "Language not supported",
-                supported: supportedLangs
+                message: "Language not supported. Supported languages are: " + supportedLangs.join(", ")
             });
         }
         const testimonials = await testimonialService.getAllTestimonials();
@@ -65,7 +82,7 @@ export const getTestimonials = async (req: AuthRequest, res: Response) => {
 
         res.json({ testimonials: localizedTestimonials });
     } catch (error: any) {
-        res.status(500).json({ message: error.message || "Failed to fetch testimonials" });
+        res.status(500).json({ message: error.message || "Failed to fetch testimonials." });
     }
 };
 
@@ -73,17 +90,24 @@ export const getTestimonial = async (req: AuthRequest, res: Response) => {
     try {
         const testimonial = await testimonialService.getTestimonialById(req.params.id);
 
-        if (!testimonial) return res.status(404).json({ message: "Testimonial not found" });
-
+        if (!testimonial) {
+            return res.status(404).json({ message: "Testimonial not found." });
+        }
         res.json({ testimonial });
     } catch (error: any) {
-        res.status(500).json({ message: error.message || "Failed to fetch testimonial" });
+        const statusCode = error.message.includes("Invalid Testimonial ID format") ? 400 : 500;
+        res.status(statusCode).json({ message: error.message || "Failed to fetch testimonial." });
     }
 };
 
 
 export const updateTestimonial = async (req: AuthRequest, res: Response) => {
     try {
+        if (!req.user || !req.user.userId) {
+            return res.status(401).json({ message: "User not authenticated." });
+        }
+
+        const { name: rawName, position: rawPosition, text_en, text_so, text_ar } = req.body;
         const data: Partial<{
             name: string;
             text: { en: string; ar: string; so: string };
@@ -91,49 +115,76 @@ export const updateTestimonial = async (req: AuthRequest, res: Response) => {
             image: string;
         }> = {};
 
-        if (req.body.name && typeof req.body.name === "string" && req.body.name.trim()) {
-            data.name = req.body.name.trim();
-        }
+        let hasUpdates = false; 
 
-        if (req.body.text_en || req.body.text_ar || req.body.text_so) {
-            const text: { en: string; ar: string; so: string } = {
-                en: req.body.text_en || "",
-                ar: req.body.text_ar || "",
-                so: req.body.text_so || "",
-            };
-
-            if (!text.en || !text.ar || !text.so) {
-                return res.status(400).json({ message: "Text must include all three languages: en, ar, so" });
+        if (rawName !== undefined) {
+            if (isWhitespaceOnly(rawName)) {
+                return res.status(400).json({ message: "Name cannot be empty if provided for update." });
             }
-
-            data.text = text;
+            const name = sanitizeInput(rawName);
+            if (isInputEmptyAfterSanitization(rawName)) {
+                return res.status(400).json({ message: "Invalid characters detected in name for update. HTML/script tags are not allowed." });
+            }
+            data.name = name;
+            hasUpdates = true;
         }
 
-        if (req.body.position && typeof req.body.position === "string" && req.body.position.trim()) {
-            data.position = req.body.position.trim();
+        if (rawPosition !== undefined) {
+            if (isWhitespaceOnly(rawPosition)) {
+                return res.status(400).json({ message: "Position cannot be empty if provided for update." });
+            }
+            const position = sanitizeInput(rawPosition);
+            if (isInputEmptyAfterSanitization(rawPosition)) {
+                return res.status(400).json({ message: "Invalid characters detected in position for update. HTML/script tags are not allowed." });
+            }
+            data.position = position;
+            hasUpdates = true;
+        }
+
+        if (text_en !== undefined || text_so !== undefined || text_ar !== undefined) {
+            if (isWhitespaceOnly(text_en || '') || isWhitespaceOnly(text_so || '') || isWhitespaceOnly(text_ar || '')) {
+                return res.status(400).json({ message: "Testimonial text is required if text field is provided for update." });
+            }
+            const text = {
+                en: sanitizeInput(text_en || ''),
+                so: sanitizeInput(text_so || ''),
+                ar: sanitizeInput(text_ar || '')
+            };
+            if (isInputEmptyAfterSanitization(text_en || '') || isInputEmptyAfterSanitization(text_so || '') || isInputEmptyAfterSanitization(text_ar || '')) {
+                return res.status(400).json({ message: "Invalid characters detected in text for update. HTML/script tags are not allowed." });
+            }
+            data.text = text;
+            hasUpdates = true;
         }
 
         if (req.file?.path) {
             data.image = req.file.path;
+            hasUpdates = true;
+        } else if (req.body.image === null || req.body.image === '') {
+            data.image = null as any; 
+            hasUpdates = true;
         }
 
+        if (!hasUpdates) {
+            return res.status(400).json({ message: "No valid fields provided for update." });
+        }
+        
         const testimonial = await testimonialService.updateTestimonial(req.params.id, data);
 
-        res.json({ message: "Testimonial updated", testimonial });
+        res.json({ message: "Testimonial updated successfully", testimonial });
     } catch (error: any) {
-        res.status(400).json({ message: error.message || "Failed to update testimonial" });
+        const statusCode = (error.message.includes("Testimonial not found") || error.message.includes("Invalid Testimonial ID format")) ? 404 : 400;
+        res.status(statusCode).json({ message: error.message || "Failed to update testimonial. Please check your input." });
     }
 };
 
 
 export const deleteTestimonial = async (req: AuthRequest, res: Response) => {
     try {
-        const result = await testimonialService.deleteTestimonial(req.params.id);
-        if (!result) {
-            return res.status(404).json({ message: "Testimonial not found" });
-        }
-        res.json({ message: "Testimonial deleted" });
+        await testimonialService.deleteTestimonial(req.params.id);
+        res.json({ message: "Testimonial deleted successfully." });
     } catch (error: any) {
-        res.status(400).json({ message: error.message || "Failed to delete testimonial" });
+        const statusCode = (error.message.includes("Testimonial not found") || error.message.includes("Invalid Testimonial ID format")) ? 404 : 400;
+        res.status(statusCode).json({ message: error.message || "Failed to delete testimonial." });
     }
 };
