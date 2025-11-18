@@ -5,7 +5,9 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Save, ArrowLeft, Loader, Image as ImageIcon } from "lucide-react";
 import toast from "react-hot-toast";
+import useSWR from "swr";
 
+const fetcher = (url: string) => fetch(url, { credentials: "include" }).then(res => res.json());
 
 export default function SkillFormClient() {
     const searchParams = useSearchParams();
@@ -13,7 +15,7 @@ export default function SkillFormClient() {
     const id = searchParams.get("edit");
 
     const [loading, setLoading] = useState(false);
-    const [initializing, setInitializing] = useState(true);
+    const [initializing, setInitializing] = useState(!!id);
     const [imagePreview, setImagePreview] = useState<string>("");
 
     const [formData, setFormData] = useState({
@@ -26,46 +28,47 @@ export default function SkillFormClient() {
         category: [] as string[]
     });
 
+    const { data: skillData, error: fetchError, mutate } = useSWR(
+        id ? `${process.env.NEXT_PUBLIC_API_URL}/api/skills/${id}` : null,
+        fetcher,
+        {
+            revalidateOnFocus: false,
+            onError: (error) => {
+                toast.error(error.message)
+                setInitializing(false);
+            }
+        }
+    );
+
     useEffect(() => {
-        const loadSkill = async () => {
-            if (!id) {
-                setInitializing(false);
-                return;
+        if (skillData?.skill) {
+            const s = skillData.skill;
+
+            setFormData({
+                name_en: s.name?.en || "",
+                name_so: s.name?.so || "",
+                name_ar: s.name?.ar || "",
+                level_en: s.level?.en || "",
+                level_so: s.level?.so || "",
+                level_ar: s.level?.ar || "",
+                category: Array.isArray(s.category) ? s.category : [s.category].filter(Boolean),
+            });
+
+            if (s.skillImage) {
+                setImagePreview(s.skillImage);
             }
+            setInitializing(false);
+        } else if (!id) {
+            setInitializing(false);
+        }
+    }, [skillData, id]);
 
-            try {
-                const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URL}/api/skills/${id}`,
-                    { credentials: "include" }
-                );
-
-                if (!res.ok) throw new Error("Failed to load skill");
-
-                const data = await res.json();
-                const s = data.skill;
-
-                setFormData({
-                    name_en: s.name?.en || "",
-                    name_so: s.name?.so || "",
-                    name_ar: s.name?.ar || "",
-                    level_en: s.level?.en || "",
-                    level_so: s.level?.so || "",
-                    level_ar: s.level?.ar || "",
-                    category: s.category || "",
-                });
-
-                if (s.skillImage) {
-                    setImagePreview(s.skillImage);
-                }
-            } catch (err) {
-                toast.error("Failed to load skill");
-            } finally {
-                setInitializing(false);
-            }
-        };
-
-        loadSkill();
-    }, [id]);
+    useEffect(() => {
+        if (fetchError) {
+            toast.error(fetchError)
+            setInitializing(false);
+        }
+    }, [fetchError]);
 
     const handleInputChange = (field: string, value: string | string[]) => {
         setFormData(prev => ({
@@ -73,7 +76,6 @@ export default function SkillFormClient() {
             [field]: value
         }));
     };
-
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -102,16 +104,36 @@ export default function SkillFormClient() {
         e.preventDefault();
         setLoading(true);
 
-        const submitData = new FormData();
+        if (!formData.name_en.trim() || !formData.name_so.trim() || !formData.name_ar.trim()) {
+            toast.error("All name fields are required");
+            setLoading(false);
+            return;
+        }
 
+        if (!formData.level_en.trim() || !formData.level_so.trim() || !formData.level_ar.trim()) {
+            toast.error("All level fields are required");
+            setLoading(false);
+            return;
+        }
+
+        if (formData.category.length === 0) {
+            toast.error("At least one category must be selected");
+            setLoading(false);
+            return;
+        }
+
+        const submitData = new FormData();
         Object.entries(formData).forEach(([key, value]) => {
             if (Array.isArray(value)) {
-                submitData.append(key, JSON.stringify(value));
+                if (key === "category") {
+                    submitData.append(key, JSON.stringify(value));
+                } else {
+                    value.forEach(v => submitData.append(key, v));
+                }
             } else {
                 submitData.append(key, value);
             }
         });
-
 
         const imageInput = document.getElementById('skillImage') as HTMLInputElement;
         if (imageInput?.files?.[0]) {
@@ -131,22 +153,36 @@ export default function SkillFormClient() {
                 credentials: "include",
             });
 
-            if (!res.ok) throw new Error("Failed to save skill");
+            const responseData = await res.json();
+
+            if (!res.ok) {
+                const errorMessage = responseData.error || responseData.message || "Failed to save skill";
+                throw new Error(errorMessage);
+            }
 
             toast.success(id ? "Skill updated successfully!" : "Skill created successfully!");
 
+            if (id) {
+                mutate();
+            }
+
             setTimeout(() => {
                 router.push("/admin/skills");
-            }, 1000);
+                router.refresh();
+            }, 1500);
 
-        } catch (error: any) {
-            toast.error(error.message || "Failed to save skill");
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                toast.error(error.message || "Failed to save skill");
+            } else {
+                toast.error("Failed to save skill");
+            }
         } finally {
             setLoading(false);
         }
     };
 
-    if (initializing) {
+    if (initializing && id) {
         return (
             <div className="flex justify-center items-center min-h-[400px]">
                 <div className="text-center">
@@ -183,7 +219,6 @@ export default function SkillFormClient() {
                     </div>
                 </div>
             </motion.div>
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <motion.form
                     initial={{ opacity: 0, x: -20 }}
@@ -302,29 +337,46 @@ export default function SkillFormClient() {
                                 </select>
                             </div>
                         </div>
-
-                        <select
-                            multiple
-                            value={formData.category}
-                            onChange={(e) => {
-                                const selectedOptions = Array.from(e.target.selectedOptions).map(opt => opt.value);
-                                handleInputChange("category", selectedOptions);
-                            }}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                            required
-                        >
-                            <option value="PROGRAMMING">Programming</option>
-                            <option value="FRONTEND">Frontend</option>
-                            <option value="BACKEND">Backend</option>
-                            <option value="FRAMEWORK">Framework</option>
-                            <option value="DATABASE">Database</option>
-                            <option value="TOOL">Tool</option>
-                            <option value="CLOUD">Cloud</option>
-                            <option value="OTHER">Other</option>
-                        </select>
-
-
                     </div>
+
+                    <div className="space-y-4">
+                        <h2 className="text-lg font-semibold text-gray-900 border-b pb-2">
+                            Categories
+                        </h2>
+                        <div className="space-y-2">
+                            <label className="block text-sm font-medium text-gray-700">
+                                Select Categories <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                multiple
+                                value={formData.category}
+                                onChange={(e) => {
+                                    const selectedOptions = Array.from(e.target.selectedOptions).map(opt => opt.value);
+                                    handleInputChange("category", selectedOptions);
+                                }}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors min-h-[120px]"
+                                required
+                            >
+                                <option value="PROGRAMMING">Programming</option>
+                                <option value="FRONTEND">Frontend</option>
+                                <option value="BACKEND">Backend</option>
+                                <option value="FRAMEWORK">Framework</option>
+                                <option value="DATABASE">Database</option>
+                                <option value="TOOL">Tool</option>
+                                <option value="CLOUD">Cloud</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                            <p className="text-xs text-gray-500">
+                                Hold Ctrl/Cmd to select multiple categories
+                            </p>
+                            {formData.category.length > 0 && (
+                                <div className="mt-2">
+                                    <p className="text-sm text-gray-600">Selected: {formData.category.join(', ')}</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t">
                         <button
                             type="button"
@@ -352,6 +404,7 @@ export default function SkillFormClient() {
                         </button>
                     </div>
                 </motion.form>
+
                 <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
