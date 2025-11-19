@@ -98,15 +98,13 @@ model Testimonial {
 
 model Project {
   id          String            @id @default(auto()) @map("_id") @db.ObjectId
-  userID      String
+  userID      String            @db.ObjectId
   name        String
   description String
   mainImage   String
   images      String[]
   categories  ProjectCategory[]
   tech        String[]
-  startDate   DateTime?
-  endDate     DateTime?
   link        String?
   status      String?
   likes       Int               @default(0)
