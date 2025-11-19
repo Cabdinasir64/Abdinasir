@@ -110,6 +110,7 @@ model Project {
   likes       Int               @default(0)
   rating      Float             @default(0)
   comments    Int               @default(0)
+  viewCount   Int               @default(0)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
   views       ProjectView[]
@@ -126,10 +127,12 @@ model ProjectView {
   visitorId String
   rating    Int?
   comment   String?
+  liked     Boolean? @default(false)
+  viewed    Boolean? @default(false)
   createdAt DateTime @default(now())
   project   Project  @relation(fields: [projectId], references: [id])
 
-  @@index([projectId])
+  @@index([projectId, visitorId])
   @@index([rating])
   @@map("project_views")
 }
