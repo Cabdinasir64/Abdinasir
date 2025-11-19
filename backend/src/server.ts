@@ -8,6 +8,7 @@ import ipRoutes from "./routes/ipRoutes";
 import SkillRoutes from "./routes/skillRoutes";
 import GalleryRoutes from "./routes/galleryRoutes";
 import TestimonialRoutes from "./routes/testimonialRoutes";
+import ProjectRoutes from "./routes/projectRoutes";
 import { requestLogger } from "./middleware/logger";
 
 dotenv.config();
@@ -45,6 +46,7 @@ app.use('/api/user', UserRoutes);
 app.use('/api/skills', SkillRoutes);
 app.use('/api/galleries', GalleryRoutes);
 app.use('/api/testimonials', TestimonialRoutes);
+app.use('/api/projects', ProjectRoutes);
 app.use('/ip', ipRoutes);
 
 
