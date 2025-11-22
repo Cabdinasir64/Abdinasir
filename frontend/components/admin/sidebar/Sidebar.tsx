@@ -29,7 +29,7 @@ export default function Sidebar() {
     };
 
     const mainLinks = [
-        { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+        { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     ];
 
     const dropdownLinks = [
