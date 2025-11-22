@@ -7,7 +7,6 @@ generator client {
 }
 
 enum ProjectCategory {
-  PROJECT
   PORTFOLIO
   WEB_DESIGN
   MOBILE_APP
