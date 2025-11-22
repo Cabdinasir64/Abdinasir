@@ -127,10 +127,6 @@ export const ProjectService = {
         const existingProject = await prisma.project.findUnique({ where: { id } });
         if (!existingProject) throw new Error("Project not found");
 
-        if (existingProject.userID !== userID) {
-            throw new Error("Unauthorized: You do not own this project");
-        }
-
         const updateData: any = { ...data };
 
         if (data.name !== undefined) {
