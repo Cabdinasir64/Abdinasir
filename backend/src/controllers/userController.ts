@@ -38,7 +38,7 @@ export async function login(req: Request, res: Response) {
 
         res.json({
             message: 'Login successful',
-            redirectUrl: user.role === "admin" ? "/admin/dashboard" : "/"
+            redirectUrl: user.role === "admin" ? "/admin" : "/"
         });
 
     } catch (error: any) {
