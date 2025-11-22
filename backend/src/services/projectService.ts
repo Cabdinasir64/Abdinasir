@@ -95,11 +95,6 @@ export const ProjectService = {
                 skip,
                 take: limit,
                 orderBy: { createdAt: 'desc' },
-                include: {
-                    _count: {
-                        select: { views: true }
-                    }
-                }
             }),
             prisma.project.count({ where: whereClause })
         ]);
@@ -119,10 +114,7 @@ export const ProjectService = {
         if (!validateObjectId(id)) throw new Error("Invalid Project ID");
 
         const project = await prisma.project.findUnique({
-            where: { id },
-            include: {
-                views: true
-            }
+            where: { id }
         });
 
         if (!project) throw new Error("Project not found");
@@ -171,15 +163,13 @@ export const ProjectService = {
         });
     },
 
-    async delete(id: string, userID: string) {
+    async delete(id: string) {
         if (!validateObjectId(id)) throw new Error("Invalid Project ID");
 
         const existingProject = await prisma.project.findUnique({ where: { id } });
         if (!existingProject) throw new Error("Project not found");
 
-        if (existingProject.userID !== userID) {
-            throw new Error("Unauthorized: You do not own this project");
-        }
+        
 
         return await prisma.project.delete({
             where: { id }
