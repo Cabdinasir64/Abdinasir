@@ -2,12 +2,23 @@
   "nav": {
     "home": "Home",
     "about": "About",
+    "skills": "Skills",
     "projects": "Projects",
+    "galleries": "Galleries",
     "contact": "Contact"
   },
   "hero": {
-    "title": "Welcome to My Portfolio",
-    "subtitle": "I create amazing digital experiences",
-    "cta": "View My Work"
+    "greeting": "Hello, I'm",
+    "name": "Abdinasir",
+    "title": "Full Stack Developer",
+    "description": "I create amazing digital experiences and bring ideas to life through code. Passionate about building responsive, user-friendly applications.",
+    "cta_primary": "View My Work",
+    "cta_secondary": "Download CV"
+  },
+  "social": {
+    "linkedin": "Connect on LinkedIn",
+    "github": "Follow on GitHub", 
+    "facebook": "Follow on Facebook",
+    "twitter": "Follow on Twitter"
   }
 }
