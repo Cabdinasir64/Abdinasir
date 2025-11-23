@@ -1,13 +1,24 @@
 {
   "nav": {
     "home": "Hoyga",
-    "about": "Ku saabsan",
+    "about": "Ku Saabsan",
+    "skills": "Xirfadaha",
     "projects": "Mashruucyada",
+    "galleries": "Sawirada",
     "contact": "Xiriir"
   },
-  "hero": {
-    "title": "Ku soo dhawoow Portfolio-ga",
-    "subtitle": "Waxaan abuuraa khibradda dijitaal ee cajiibka ah",
-    "cta": "Eeg Shaqadeyda"
+   "hero": {
+    "greeting": "Salaan, waxaan ahay",
+    "name": "Abdinasir",
+    "title": "Full Stack Developer",
+    "description": "Waxaan abuuraa khibrado dijitaal oo cajiib ah oo aan u soo bandhigo fikradaha nolosha koodhka. Waxaan xiiseynayaa inaan dhiso barnaamijyada is-beddelka iyo isticmaalka fudud.",
+    "cta_primary": "Eeg Shaqadeyda",
+    "cta_secondary": "Soo Deji CV"
+  },
+  "social": {
+    "linkedin": "Ku Xidhii LinkedIn",
+    "github": "Ku Xidhii GitHub",
+    "facebook": "Ku Xidhii Facebook", 
+    "twitter": "Ku Xidhii Twitter"
   }
 }
