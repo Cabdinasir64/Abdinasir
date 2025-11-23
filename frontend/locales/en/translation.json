@@ -9,16 +9,11 @@
   },
   "hero": {
     "greeting": "Hello, I'm",
-    "name": "Abdinasir",
-    "title": "Full Stack Developer",
-    "description": "I create amazing digital experiences and bring ideas to life through code. Passionate about building responsive, user-friendly applications.",
+    "role": "Full Stack Engineer",
+    "description": "I craft scalable, high-performance digital solutions. Specializing in modern web technologies, I transform complex requirements into seamless, user-centric experiences.",
     "cta_primary": "View My Work",
-    "cta_secondary": "Download CV"
-  },
-  "social": {
-    "linkedin": "Connect on LinkedIn",
-    "github": "Follow on GitHub", 
-    "facebook": "Follow on Facebook",
-    "twitter": "Follow on Twitter"
+    "cta_secondary": "Contact Me",
+    "experience_badge": "Years Experience",
+    "projects_badge": "Projects Completed"
   }
 }
