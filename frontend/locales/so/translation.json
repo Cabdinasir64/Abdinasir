@@ -7,18 +7,13 @@
     "galleries": "Sawirada",
     "contact": "Xiriir"
   },
-   "hero": {
-    "greeting": "Salaan, waxaan ahay",
-    "name": "Abdinasir",
-    "title": "Full Stack Developer",
-    "description": "Waxaan abuuraa khibrado dijitaal oo cajiib ah oo aan u soo bandhigo fikradaha nolosha koodhka. Waxaan xiiseynayaa inaan dhiso barnaamijyada is-beddelka iyo isticmaalka fudud.",
-    "cta_primary": "Eeg Shaqadeyda",
-    "cta_secondary": "Soo Deji CV"
-  },
-  "social": {
-    "linkedin": "Ku Xidhii LinkedIn",
-    "github": "Ku Xidhii GitHub",
-    "facebook": "Ku Xidhii Facebook", 
-    "twitter": "Ku Xidhii Twitter"
+  "hero": {
+    "greeting": "Haye, waxaan ahay",
+    "role": "Full Stack Engineer",
+    "description": "Waxaan qaabeeyaa xalal casri ah oo tayo sare leh. Waxaan ku takhasusay tiknoolajiyadda web-ka, anigoo fikradaha adag u beddelaya barnaamijyo fudud oo dadku jecel yihiin.",
+    "cta_primary": "Eeg Mashaariicda",
+    "cta_secondary": "Ila Soo Xiriir",
+    "experience_badge": "Sano oo Khibrad ah",
+    "projects_badge": "Mashruuc La Dhameeyay"
   }
 }
