@@ -27,8 +27,19 @@ interface ProjectFormProps {
   isEditing: boolean;
 }
 
+interface Skill {
+  id: string;
+  userId: string;
+  name: string;
+  level: string;
+  category: string[];
+  skillImage: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface SkillsResponse {
-  data: Array<{ id: string; name: string; category: string }>;
+  skills: Skill[];
 }
 
 const fetcher = (url: string) => fetch(url).then(res => {
@@ -44,6 +55,7 @@ const PROJECT_CATEGORIES: { value: ProjectCategory; label: string }[] = [
   { value: ProjectCategory.MACHINE_LEARNING, label: "Machine Learning" },
   { value: ProjectCategory.OTHER, label: "Other" },
 ];
+
 export default function ProjectForm({ initialData, isEditing }: ProjectFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -84,7 +96,7 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
     }
   );
 
-  const skillsSuggestions = skillsData?.data?.map(skill => skill.name) || [];
+  const skillsSuggestions = skillsData?.skills?.map(skill => skill.name) || [];
 
   const filteredTechSuggestions = skillsSuggestions.filter(skill =>
     skill.toLowerCase().includes(techInput.toLowerCase()) &&
@@ -201,13 +213,6 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
       galleryFiles.forEach(file => {
         formData.append("images", file);
       });
-
-      if (isEditing && initialData?.images) {
-        initialData.images.forEach(image => {
-          if (!galleryPreviews.includes(image)) {
-          }
-        });
-      }
 
       const url = isEditing
         ? `${process.env.NEXT_PUBLIC_API_URL}/api/projects/${initialData?.id}`
@@ -484,7 +489,7 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
                 }}
                 onKeyPress={handleTechKeyPress}
                 onFocus={() => setShowTechSuggestions(true)}
-                placeholder="Type technology and press Enter..."
+                placeholder="Type technology (e.g. React, Node.js)..."
                 className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
               />
               <button
