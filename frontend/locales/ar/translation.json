@@ -1,10 +1,24 @@
 {
-  "welcome": "مرحبًا بك في ملفي الشخصي",
-  "about": "عني",
-  "projects": "مشاريعي",
-  "contact": "اتصل بي",
-  "skills": "المهارات",
-  "education": "التعليم",
-  "experience": "الخبرة",
-  "language": "اللغة"
+  "nav": {
+    "home": "الرئيسية",
+    "about": "عني",
+    "skills": "المهارات",
+    "projects": "المشاريع",
+    "galleries": "المعرض",
+    "contact": "اتصل"
+  },
+  "hero": {
+    "greeting": "مرحباً، أنا",
+    "name": "عبد الناصر",
+    "title": "مطور Full Stack",
+    "description": "أقوم بإنشاء تجارب رقمية مذهلة وأحول الأفكار إلى واقع من خلال البرمجة. شغوف ببناء تطبيقات متجاوبة وسهلة الاستخدام.",
+    "cta_primary": "شاهد أعمالي",
+    "cta_secondary": "تحميل السيرة الذاتية"
+  },
+  "social": {
+    "linkedin": "تواصل على LinkedIn",
+    "github": "تابع على GitHub",
+    "facebook": "تابع على Facebook",
+    "twitter": "تابع على Twitter"
+  }
 }
