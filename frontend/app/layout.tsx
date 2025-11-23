@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import Toaster from "@/components/ui/Toaster"
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -78,17 +79,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={`${poppins.variable} ${playfair.variable}`}
       >
-        {children}
+        <Toaster />
+        <main>{children}</main>
       </body>
     </html >
   );
