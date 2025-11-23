@@ -10,7 +10,14 @@ export const useLanguageStore = create<LanguageState>()(
   persist(
     (set) => ({
       currentLang: 'en',
-      setLanguage: (lang: string) => set({ currentLang: lang }),
+      setLanguage: (lang: string) => {
+        set({ currentLang: lang });
+        if (lang === 'ar') {
+          document.documentElement.dir = 'rtl';
+        } else {
+          document.documentElement.dir = 'ltr';
+        }
+      },
     }),
     {
       name: 'lang',
