@@ -15,5 +15,12 @@
     "cta_secondary": "Contact Me",
     "experience_badge": "Years Experience",
     "projects_badge": "Projects Completed"
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "subtitle": "Technologies and tools I use to bring ideas to life."
+  },
+  "common": {
+    "loading": "Loading..."
   }
 }
