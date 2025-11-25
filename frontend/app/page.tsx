@@ -1,5 +1,15 @@
-import Header from '@/components/header/Header'
-import Hero from '@/components/hero/Hero';
+
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+
+const Header = dynamic(() => import('@/components/header/Header'));
+const Hero = dynamic(() => import('@/components/home/hero/Hero'));
+const Skills = dynamic(() => import('@/components/home/skills/Skills'));
+const Projects = dynamic(() => import('@/components/home/projects/Projects'));
+const Services = dynamic(() => import('@/components/home/services/Services'));
+const Cta = dynamic(() => import('@/components/home/cta/CallToAction'));
+const Testimonials = dynamic(() => import('@/components/home/testimonials/Testimonials'));
+const Footer = dynamic(() => import('@/components/footer/Footer'));
 
 export const metadata = {
   title: "Abdinasir | Full Stack Developer & Web Engineer from Somalia",
@@ -45,8 +55,16 @@ export const metadata = {
 export default function HomePage() {
   return (
     <>
-      <Header />
-      <Hero />
+      <Suspense fallback={null}>
+        <Header />
+        <Hero />
+        <Skills />
+        <Projects />
+        <Services />
+        <Cta />
+        <Testimonials />
+        <Footer />
+      </Suspense>
     </>
   )
 }
