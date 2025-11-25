@@ -80,5 +80,10 @@
     "contact_title": "Xiriirka",
     "rights": "Xuquuqda oo dhan waa la dhawray.",
     "built_with": "Waxaa lagu dhisay Next.js, Tailwind, Node.js, Express.js, Prisma & MongoDB"
+  },
+  "not_found": {
+    "title": "Bogga Lama Helin",
+    "subtitle": "Haye! Waxaad gashay meel maran oo aan jirin.",
+    "button": "Ku Noqo Hoyga"
   }
 }
