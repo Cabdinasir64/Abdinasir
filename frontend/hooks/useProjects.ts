@@ -11,8 +11,7 @@ export const useProjects = () => {
     const fetchProjects = async () => {
       setLoading(true);
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL
-
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(`${baseUrl}/api/projects`);
 
         if (!response.ok) {
@@ -26,7 +25,6 @@ export const useProjects = () => {
           .slice(0, 5);
 
         setProjects(sortedAndLimitedProjects);
-
       } catch (err: any) {
         setError(err.message || "Something went wrong");
       } finally {
@@ -35,6 +33,10 @@ export const useProjects = () => {
     };
 
     fetchProjects();
+
+    const intervalId = setInterval(fetchProjects, 3600000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   return { projects, loading, error };
