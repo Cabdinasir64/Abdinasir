@@ -22,5 +22,16 @@
   },
   "common": {
     "loading": "Loading..."
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "Discover my latest work and case studies.",
+    "view_live": "View Live",
+    "see_all": "View All Projects",
+    "tech_stack": "Technologies",
+    "stats": {
+      "views": "Views",
+      "likes": "Likes"
+    }
   }
 }
