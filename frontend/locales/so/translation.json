@@ -63,5 +63,10 @@
         "desc": "Diyaarinta Server-ada, Cloud hosting (AWS/Vercel), iyo hagaajinta xawaaraha website-ka."
       }
     }
+  },
+  "cta": {
+    "title": "Diyaar Ma U Tahay Mashruucaaga Xiga?",
+    "subtitle": "Aan fikirkaaga run ka dhigno. Hadda waan firaaqo ahay inaan ka wada shaqeyno mashaariicdaada.",
+    "button": "Ila Soo Xiriir"
   }
 }
