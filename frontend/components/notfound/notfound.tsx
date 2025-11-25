@@ -72,7 +72,7 @@ export default function NotFound() {
                 >
                     <h1
                         ref={textRef}
-                        className="text-[10rem] md:text-[15rem] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-surface-200 to-surface-100 dark:from-surface-800 dark:to-surface-900 select-none"
+                        className="text-[10rem] md:text-[15rem] font-black leading-none tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-surface-500 to-surface-100 dark:from-surface-800 dark:to-surface-900 select-none"
                     >
                         404
                     </h1>
