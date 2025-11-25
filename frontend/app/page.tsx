@@ -2,7 +2,6 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 
-const Header = dynamic(() => import('@/components/header/Header'));
 const Hero = dynamic(() => import('@/components/home/hero/Hero'));
 const Skills = dynamic(() => import('@/components/home/skills/Skills'));
 const Projects = dynamic(() => import('@/components/home/projects/Projects'));
@@ -56,7 +55,6 @@ export default function HomePage() {
   return (
     <>
       <Suspense fallback={null}>
-        <Header />
         <Hero />
         <Skills />
         <Projects />
