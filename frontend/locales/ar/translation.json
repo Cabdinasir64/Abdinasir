@@ -72,5 +72,13 @@
   "testimonials": {
     "title": "آراء العملاء",
     "subtitle": "اطلع على ما يقوله الأشخاص الذين تعاونت معهم وقدمت لهم حلولاً تقنية."
+  },
+  "footer": {
+    "description": "بناء تجارب رقمية بشغف ودقة عالية.",
+    "links_title": "روابط سريعة",
+    "socials_title": "تواصل معي",
+    "contact_title": "معلومات الاتصال",
+    "rights": "جميع الحقوق محفوظة.",
+    "built_with": "تم تطويره بواسطة Next.js, Tailwind, Node.js, Express.js, Prisma & MongoDB"
   }
 }
