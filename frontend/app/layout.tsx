@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Toaster from "@/components/ui/Toaster"
+import LanguageProvider from '@/components/providers/LanguageProvider'
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -86,11 +87,12 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='en'>
+    <html lang='en' suppressHydrationWarning>
       <body
         className={`${poppins.variable} ${playfair.variable}`}
       >
         <Toaster />
+        <LanguageProvider />
         <main>{children}</main>
       </body>
     </html >
