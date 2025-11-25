@@ -15,8 +15,6 @@ const Footer = () => {
         { name: t('nav.about'), href: 'about' },
         { name: t('nav.skills'), href: 'skills' },
         { name: t('nav.projects'), href: 'projects' },
-        { name: t('nav.galleries'), href: 'galleries' },
-        { name: t('nav.contact'), href: 'Contact' },
     ];
 
     const socials = [
@@ -91,7 +89,7 @@ const Footer = () => {
                                     </svg>
                                 </div>
                                 <a href="mailto:abdinasir@example.com" className="text-gray-400 hover:text-white transition-colors mt-1">
-                                    abdinasirahmedbashir@example.com
+                                    abdinasirahmedbashir@gmail.com
                                 </a>
                             </li>
                             <li className="flex items-start gap-3 group">
