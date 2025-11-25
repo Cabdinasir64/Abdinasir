@@ -33,5 +33,35 @@
       "views": "Views",
       "likes": "Likes"
     }
+  },
+  "services": {
+    "title": "Services I Offer",
+    "subtitle": "High-quality web solutions tailored to your business needs.",
+    "items": {
+      "web_dev": {
+        "title": "Full Stack Development",
+        "desc": "Building scalable, high-performance web applications using modern technologies like Next.js, React, and Node.js."
+      },
+      "ui_ux": {
+        "title": "UI/UX Design",
+        "desc": "Creating intuitive, user-centric designs that provide exceptional digital experiences and modern aesthetics."
+      },
+      "mobile": {
+        "title": "Responsive Design",
+        "desc": "Ensuring your website looks and works perfectly on all devices, from desktops to smartphones."
+      },
+      "security": {
+        "title": "Web Security",
+        "desc": "Implementing best security practices, protection against vulnerabilities, and secure authentication systems."
+      },
+      "api": {
+        "title": "API Integration",
+        "desc": "Developing and integrating robust RESTful and GraphQL APIs for seamless data communication."
+      },
+      "deployment": {
+        "title": "DevOps & Deployment",
+        "desc": "Setting up CI/CD pipelines, cloud hosting (AWS/Vercel), and optimizing server performance."
+      }
+    }
   }
 }
