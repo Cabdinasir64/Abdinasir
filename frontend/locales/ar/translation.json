@@ -80,5 +80,10 @@
     "contact_title": "معلومات الاتصال",
     "rights": "جميع الحقوق محفوظة.",
     "built_with": "تم تطويره بواسطة Next.js, Tailwind, Node.js, Express.js, Prisma & MongoDB"
+  },
+  "not_found": {
+    "title": "الصفحة غير موجودة",
+    "subtitle": "عفواً! يبدو أنك ضللت الطريق في الفضاء الرقمي.",
+    "button": "العودة للرئيسية"
   }
 }
