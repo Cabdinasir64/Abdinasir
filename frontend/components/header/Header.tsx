@@ -66,8 +66,10 @@ const Header = () => {
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
-                  <span className={`relative z-10 transition-colors duration-200 ${isActive ? 'text-white' : 'text-surface-600 hover:text-primary-600'
-                    }`}>
+                  <span
+                    suppressHydrationWarning={true}
+                    className={`relative z-10 transition-colors duration-200 ${isActive ? 'text-white' : 'text-surface-600 hover:text-primary-600'
+                      }`}>
                     {item.label}
                   </span>
                 </Link>
@@ -133,7 +135,10 @@ const Header = () => {
                       : 'text-surface-600 hover:bg-surface-100'
                       }`}
                   >
-                    {item.label}
+                    <span suppressHydrationWarning={true}>
+                      {item.label}
+                    </span>
+
                     {pathname === item.href && (
                       <motion.div layoutId="mobileActiveDot" className="w-2 h-2 rounded-full bg-primary-500" />
                     )}
