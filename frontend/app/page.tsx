@@ -8,7 +8,6 @@ const Projects = dynamic(() => import('@/components/home/projects/Projects'));
 const Services = dynamic(() => import('@/components/home/services/Services'));
 const Cta = dynamic(() => import('@/components/home/cta/CallToAction'));
 const Testimonials = dynamic(() => import('@/components/home/testimonials/Testimonials'));
-const Footer = dynamic(() => import('@/components/footer/Footer'));
 
 export const metadata = {
   title: "Abdinasir | Full Stack Developer & Web Engineer from Somalia",
@@ -61,7 +60,6 @@ export default function HomePage() {
         <Services />
         <Cta />
         <Testimonials />
-        <Footer />
       </Suspense>
     </>
   )
