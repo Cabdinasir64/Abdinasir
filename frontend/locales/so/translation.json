@@ -72,5 +72,13 @@
   "testimonials": {
     "title": "Mahadcelinta Macaamiisha",
     "subtitle": "Dhageyso waxa ay ka yiraahdeen dadkii aan la shaqeeyay xalalka aan u dhisay."
+  },
+  "footer": {
+    "description": "Dhisidda khibrado dhijitaal ah oo leh hufnaan iyo tayo.",
+    "links_title": "Bogagga Muhiimka ah",
+    "socials_title": "Baraha Bulshada",
+    "contact_title": "Xiriirka",
+    "rights": "Xuquuqda oo dhan waa la dhawray.",
+    "built_with": "Waxaa lagu dhisay Next.js, Tailwind, Node.js, Express.js, Prisma & MongoDB"
   }
 }
