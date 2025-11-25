@@ -72,5 +72,13 @@
   "testimonials": {
     "title": "Testimonials",
     "subtitle": "Hear from the people I've collaborated with and built solutions for."
+  },
+  "footer": {
+    "description": "Building digital experiences with passion and precision.",
+    "links_title": "Quick Links",
+    "socials_title": "Connect",
+    "contact_title": "Contact",
+    "rights": "All Rights Reserved.",
+    "built_with": "Built with Next.js, Tailwind, Node.js, Express.js, Prisma & MongoDB"
   }
 }
