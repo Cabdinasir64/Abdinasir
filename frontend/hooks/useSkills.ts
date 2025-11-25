@@ -14,21 +14,12 @@ export const useSkills = () => {
         const fetchSkills = async () => {
             setLoading(true);
             setError(null);
-
             try {
-
-                const baseUrl = process.env.NEXT_PUBLIC_API_URL
-
+                const baseUrl = process.env.NEXT_PUBLIC_API_URL;
                 const response = await fetch(`${baseUrl}/api/skills?lang=${currentLang}`);
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch skills data');
-                }
-
+                if (!response.ok) throw new Error('Failed to fetch skills data');
                 const data: SkillsResponse = await response.json();
-
                 setSkills(data.skills);
-
             } catch (err: any) {
                 setError(err.message || "Something went wrong loading skills");
             } finally {
@@ -37,6 +28,10 @@ export const useSkills = () => {
         };
 
         fetchSkills();
+
+        const intervalId = setInterval(fetchSkills, 3600000);
+
+        return () => clearInterval(intervalId);
     }, [currentLang]);
 
     return { skills, loading, error };
