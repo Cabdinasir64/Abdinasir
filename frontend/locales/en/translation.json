@@ -63,5 +63,10 @@
         "desc": "Setting up CI/CD pipelines, cloud hosting (AWS/Vercel), and optimizing server performance."
       }
     }
+  },
+  "cta": {
+    "title": "Ready to Start Your Next Project?",
+    "subtitle": "Let's turn your vision into reality. I'm currently available for freelance work and collaborations.",
+    "button": "Let's Talk"
   }
 }
