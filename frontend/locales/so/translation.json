@@ -85,5 +85,50 @@
     "title": "Bogga Lama Helin",
     "subtitle": "Haye! Waxaad gashay meel maran oo aan jirin.",
     "button": "Ku Noqo Hoyga"
+  },
+  "about_hero": {
+    "badge": "Igu Saabsan",
+    "title": "Safarkeyga & Hiigsigeyga",
+    "description": "Baro qofka ka dambeeya code-ka. Waa sheeko ku saabsan xiiso, wax-barasho, iyo dhisid."
+  },
+  "about_story": {
+    "badge": "Safarkeyga",
+    "title": "Ka Baxsan Fasalka: Isku Xirka Aqoonta iyo Xirfadda",
+    "p1": "Aas-aaskeyga aqooneed wuxuu ku qotomaa Cilmiga Kumbuyuutarka (CS), halkaas oo aan hadda marayo **Simistarka 5-aad**. In kastoo jaamacaddu ay i siiso awoodda fekerka iyo fahanka nidaamyada, haddana waxaan goor hore fahmay in khibradda dhabta ah laga helo dadaalka shaqsiga ah.",
+    "p2": "Waxaan ahay **injineer is-baray (Self-taught)** oo aan ku koobnayn buugaagta kaliya. Marka casharradu dhamaadaan, waxaa ii bilaabma cilmi-baaristayda gaarka ah. Waxaan si qoto dheer u bartaa tiknoolajiyadaha casriga ah sida Next.js iyo Cloud Computing, anigoo hiigsanaya inaan dhiso xalal dhijitaal ah oo tayo leh, islamarkaana isku xira aragtida jaamacadda iyo baahida suuqa shaqada.",
+    "stats": {
+      "semester": "Simistarka 5aad",
+      "status": "Arday CS",
+      "focus": "Is-Xilqaan"
+    }
+  },
+  "workflow": {
+    "title": "Habka Aan U Shaqeeyo",
+    "subtitle": "Nidaam qorsheysan oo lagu xaqiijinayo tayo iyo hufnaan.",
+    "steps": {
+      "1": {
+        "title": "Fahamka & Qorsheynta",
+        "desc": "Fahamka yoolalkaaga iyo baahidaada si loo dajiyo qorshe cad oo lagu guuleysto."
+      },
+      "2": {
+        "title": "Naqshadeynta (Design)",
+        "desc": "Abuurista muuqaalka guud (UI/UX) ka hor inta aan la qorin code-ka si loo hubiyo quruxda."
+      },
+      "3": {
+        "title": "Dhisidda (Development)",
+        "desc": "Qorista code nadiif ah oo tayo leh iyadoo la adeegsanayo tiknoolajiyada casriga ah."
+      },
+      "4": {
+        "title": "Tijaabinta & Hirgelinta",
+        "desc": "Tijaabinta xawaaraha iyo ciladaha, kadibna website-ka oo si toos ah hawada loo galiyo."
+      }
+    }
+  },
+  "about_cta": {
+    "title": "Aan Wada Dhisno Wax Cajiib Ah",
+    "subtitle": "Hadda diyaar ayaan u ahay shaqooyinka waqtiga-buuxa ah iyo mashaariicda gaarka ah. Hadii aad xiiseyneyso inaan wada shaqeyno, ila soo xiriir.",
+    "btn_resume": "Degso CV-ga",
+    "btn_contact": "Ila Soo Xiriir",
+    "coming_soon": "CV-ga mar dhow ayuu soo socdaa..."
   }
 }
