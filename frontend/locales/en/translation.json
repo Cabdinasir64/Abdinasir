@@ -80,5 +80,10 @@
     "contact_title": "Contact",
     "rights": "All Rights Reserved.",
     "built_with": "Built with Next.js, Tailwind, Node.js, Express.js, Prisma & MongoDB"
+  },
+  "not_found": {
+    "title": "Page Not Found",
+    "subtitle": "Oops! It seems you've ventured into a digital void.",
+    "button": "Return Home"
   }
 }
