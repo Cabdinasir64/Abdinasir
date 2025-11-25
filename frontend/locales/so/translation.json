@@ -33,5 +33,35 @@
       "views": "Aragti",
       "likes": "Ka helid"
     }
+  },
+  "services": {
+    "title": "Adeegyada Aan Bixiyo",
+    "subtitle": "Xalal dhanka web-ka ah oo tayo sare leh, kuna habboon baahidaada.",
+    "items": {
+      "web_dev": {
+        "title": "Horumarinta Webka",
+        "desc": "Dhisidda barnaamijyo casri ah oo awood badan iyadoo la isticmaalayo Next.js, React, iyo Node.js."
+      },
+      "ui_ux": {
+        "title": "Naqshadeynta UI/UX",
+        "desc": "Sameynta naqshado soo jiidasho leh oo fududeeynaya isticmaalka dadweynaha (User Experience)."
+      },
+      "mobile": {
+        "title": "Naqshad Responsive ah",
+        "desc": "Xaqiijinta in website-kaagu si fiican ugu shaqeeyo kombiyuutarka, tablet-ka iyo moobilka."
+      },
+      "security": {
+        "title": "Amniga Webka",
+        "desc": "Hirgelinta nidaamyo amni oo sugan, ilaalinta xogta, iyo ka hortagga weerarada internetka."
+      },
+      "api": {
+        "title": "Isku xirka API",
+        "desc": "Dhisidda iyo isku xirka RESTful iyo GraphQL APIs si xogta si fudud loogu kala gudbiyo."
+      },
+      "deployment": {
+        "title": "DevOps & Deployment",
+        "desc": "Diyaarinta Server-ada, Cloud hosting (AWS/Vercel), iyo hagaajinta xawaaraha website-ka."
+      }
+    }
   }
 }
