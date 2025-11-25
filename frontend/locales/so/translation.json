@@ -15,5 +15,12 @@
     "cta_secondary": "Ila Soo Xiriir",
     "experience_badge": "Sano oo Khibrad ah",
     "projects_badge": "Mashruuc La Dhameeyay"
+  },
+  "skills": {
+    "title": "Xirfadaha Farsamo",
+    "subtitle": "Qalabka iyo tiknoolajiyada aan u isticmaalo dhisidda barnaamijyada."
+  },
+  "common": {
+    "loading": "Waa la soo wadaa..."
   }
 }
