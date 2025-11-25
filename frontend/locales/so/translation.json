@@ -22,5 +22,16 @@
   },
   "common": {
     "loading": "Waa la soo wadaa..."
+  },
+  "projects": {
+    "title": "Mashaariicda Ugu Dambeeyay",
+    "subtitle": "Halkan ka eeg shaqooyinkii ugu dambeeyay ee aan qabtay.",
+    "view_live": "Booqo Site-ka",
+    "see_all": "Eeg Dhamaan",
+    "tech_stack": "Tiknoolajiyada",
+    "stats": {
+      "views": "Aragti",
+      "likes": "Ka helid"
+    }
   }
 }
