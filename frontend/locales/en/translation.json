@@ -85,5 +85,50 @@
     "title": "Page Not Found",
     "subtitle": "Oops! It seems you've ventured into a digital void.",
     "button": "Return Home"
+  },
+  "about_hero": {
+    "badge": "About Me",
+    "title": "My Journey & Passion",
+    "description": "Get to know the person behind the code. A story of curiosity, learning, and building."
+  },
+  "about_story": {
+    "badge": "My Journey",
+    "title": "Bridging Theory & Practice: The Self-Taught Engineer",
+    "p1": "My academic foundation is rooted in Computer Science, where I am currently advancing through my **5th Semester**. While the university provides the essential theoretical frameworks and algorithmic thinking, I realized early on that true mastery comes from going beyond the syllabus.",
+    "p2": "I define myself as a relentless **self-taught developer**. When classes end, my real work begins. I dive deep into modern ecosystems like Next.js, Cloud Architecture, and Full Stack patterns. My goal isn't just to pass exams, but to build scalable, real-world solutions that solve actual problems and bridge the gap between academic theory and industry standards.",
+    "stats": {
+      "semester": "Semester 5",
+      "status": "CS Student",
+      "focus": "Self-Driven"
+    }
+  },
+  "workflow": {
+    "title": "How I Work",
+    "subtitle": "A structured process to ensure quality and efficiency.",
+    "steps": {
+      "1": {
+        "title": "Discovery & Planning",
+        "desc": "Understanding your goals, target audience, and requirements to create a solid roadmap."
+      },
+      "2": {
+        "title": "Design & Prototyping",
+        "desc": "Creating wireframes and high-fidelity designs to visualize the user experience before coding."
+      },
+      "3": {
+        "title": "Development",
+        "desc": "Writing clean, scalable code using modern technologies like Next.js to build the solution."
+      },
+      "4": {
+        "title": "Testing & Deployment",
+        "desc": " rigorous testing for performance and bugs, followed by a secure launch to the cloud."
+      }
+    }
+  },
+  "about_cta": {
+    "title": "Let's Build Something Amazing Together",
+    "subtitle": "I am currently open for full-time opportunities and freelance projects. If you're interested in working together, let's connect.",
+    "btn_resume": "Download Resume",
+    "btn_contact": "Get in Touch",
+    "coming_soon": "Resume is coming soon..."
   }
 }
