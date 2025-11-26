@@ -40,7 +40,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
                     >
                         👋
                     </motion.span>
-                    <span className="text-surface-600 font-medium text-sm">
+                    <span suppressHydrationWarning className="text-surface-600 font-medium text-sm">
                         {t('hero.greeting')}
                     </span>
                 </div>
@@ -75,6 +75,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             >
                 <span className="text-surface-400">{isRTL ? 'مطور ' : 'A '}</span>
                 <motion.span
+                    suppressHydrationWarning
                     className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 bg-[length:200%_auto]"
                     animate={{ backgroundPosition: ["0%", "200%"] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -84,6 +85,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             </motion.div>
 
             <motion.p
+                suppressHydrationWarning
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: delay + 0.7 }}
@@ -100,6 +102,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             >
                 <Link
                     href="/projects"
+                    suppressHydrationWarning
                     className="px-8 py-4 bg-surface-900 text-white rounded-xl font-bold shadow-lg shadow-surface-900/20 
                hover:bg-primary-600 hover:scale-105 transition-all duration-300
                relative overflow-hidden group hover:shadow-xl hover:shadow-primary-500/30"
@@ -122,6 +125,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
                 </Link>
                 <Link
                     href="/contact"
+                    suppressHydrationWarning
                     className="px-8 py-4 bg-white text-surface-900 border border-surface-200 rounded-xl font-bold hover:border-primary-500 hover:text-primary-600 hover:-translate-y-1 transition-all duration-300"
                 >
                     {t('hero.cta_secondary')}
