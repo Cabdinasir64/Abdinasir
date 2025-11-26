@@ -1,11 +1,12 @@
 "use client";
+import React, { useMemo } from 'react';
 import { motion, spring } from "framer-motion";
 import Link from "next/link";
 
 const Logo = () => {
     const name = "Abdinasir";
 
-    const container = {
+    const container = useMemo(() => ({
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -14,9 +15,9 @@ const Logo = () => {
                 delayChildren: 0.5,
             },
         },
-    };
+    }), []);
 
-    const letterAnimation = {
+    const letterAnimation = useMemo(() => ({
         hidden: {
             opacity: 0,
             x: -30,
@@ -32,7 +33,9 @@ const Logo = () => {
                 stiffness: 200,
             },
         },
-    };
+    }), []);
+
+    const nameChars = useMemo(() => name.split(""), []);
 
     return (
         <Link href="/" className="flex items-center gap-2 group select-none" dir="ltr">
@@ -63,7 +66,7 @@ const Logo = () => {
                 initial="hidden"
                 animate="visible"
             >
-                {name.split("").map((letter, index) => (
+                {nameChars.map((letter, index) => (
                     <motion.span
                         key={index}
                         variants={letterAnimation}
@@ -77,4 +80,4 @@ const Logo = () => {
     );
 };
 
-export default Logo;
+export default React.memo(Logo);
