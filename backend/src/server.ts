@@ -6,7 +6,6 @@ import rateLimit from 'express-rate-limit';
 import UserRoutes from './routes/userRoutes';
 import ipRoutes from "./routes/ipRoutes";
 import SkillRoutes from "./routes/skillRoutes";
-import GalleryRoutes from "./routes/galleryRoutes";
 import TestimonialRoutes from "./routes/testimonialRoutes";
 import ProjectRoutes from "./routes/projectRoutes";
 import { requestLogger } from "./middleware/logger";
@@ -44,7 +43,6 @@ app.use(requestLogger);
 
 app.use('/api/user', UserRoutes);
 app.use('/api/skills', SkillRoutes);
-app.use('/api/galleries', GalleryRoutes);
 app.use('/api/testimonials', TestimonialRoutes);
 app.use('/api/projects', ProjectRoutes);
 app.use('/ip', ipRoutes);
