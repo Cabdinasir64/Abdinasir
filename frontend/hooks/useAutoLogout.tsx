@@ -17,7 +17,7 @@ export const useAutoLogout = () => {
 
                 if (res.status === 401) {
                     await logout();
-                    router.push('/login');
+                    router.push('/');
                 }
             } catch (err) {
             }
