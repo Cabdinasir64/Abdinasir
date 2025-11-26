@@ -1,15 +1,13 @@
 "use client";
+import React, { memo } from "react"; 
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "@/stores/languageStore";
 
 import MyCoverImage from "@/assets/A31.png";
 
 const AboutHero = () => {
     const { t } = useTranslation();
-    const { currentLang } = useLanguageStore();
-    const isRTL = currentLang === 'ar';
 
     return (
         <section className="relative h-[65vh] min-h-[550px] w-full flex items-end pb-20 md:items-center md:pb-0 justify-center overflow-hidden">
@@ -20,7 +18,8 @@ const AboutHero = () => {
                     alt="Abdinasir Profile"
                     fill
                     priority
-                    quality={100}
+                    quality={90}
+                    placeholder="blur" 
                     className="object-cover object-top md:object-[center_20%]"
                 />
                 <div className="absolute inset-0 bg-black/20" />
@@ -42,7 +41,7 @@ const AboutHero = () => {
                         transition={{ delay: 0.2 }}
                         className="inline-block py-1.5 px-5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-sm tracking-[0.2em] uppercase mb-6 shadow-xl"
                     >
-                        {t('about_hero.badge')}
+                        <span>{t('about_hero.badge')}</span>
                     </motion.span>
                     <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-2xl leading-tight">
                         {t('about_hero.title')}
@@ -58,4 +57,4 @@ const AboutHero = () => {
     );
 };
 
-export default AboutHero;
+export default memo(AboutHero);
