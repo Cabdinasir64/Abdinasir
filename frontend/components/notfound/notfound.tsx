@@ -16,32 +16,26 @@ export default function NotFound() {
     const shapeRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            if (!containerRef.current) return;
+        if (!textRef.current || !shapeRef.current) return;
 
+        const xToText = gsap.quickTo(textRef.current, "x", { duration: 1, ease: "power2.out" });
+        const yToText = gsap.quickTo(textRef.current, "y", { duration: 1, ease: "power2.out" });
+
+        const xToShape = gsap.quickTo(shapeRef.current, "x", { duration: 1.5, ease: "power2.out" });
+        const yToShape = gsap.quickTo(shapeRef.current, "y", { duration: 1.5, ease: "power2.out" });
+
+        const handleMouseMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
             const { innerWidth, innerHeight } = window;
 
             const xPos = (clientX / innerWidth - 0.5) * 50;
             const yPos = (clientY / innerHeight - 0.5) * 50;
 
-            if (textRef.current) {
-                gsap.to(textRef.current, {
-                    x: -xPos * 2,
-                    y: -yPos * 2,
-                    duration: 1,
-                    ease: "power2.out"
-                });
-            }
+            xToText(-xPos * 2);
+            yToText(-yPos * 2);
 
-            if (shapeRef.current) {
-                gsap.to(shapeRef.current, {
-                    x: xPos,
-                    y: yPos,
-                    duration: 1.5,
-                    ease: "power2.out"
-                });
-            }
+            xToShape(xPos);
+            yToShape(yPos);
         };
 
         window.addEventListener("mousemove", handleMouseMove);
