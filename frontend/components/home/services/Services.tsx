@@ -1,4 +1,5 @@
 "use client";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "@/stores/languageStore";
@@ -10,14 +11,14 @@ const Services = () => {
     const { currentLang } = useLanguageStore();
     const isRTL = currentLang === 'ar';
 
-    const servicesList = [
+    const servicesList = useMemo(() => [
         { key: "web_dev", icon: Icons.WebDev },
         { key: "ui_ux", icon: Icons.Design },
         { key: "mobile", icon: Icons.Mobile },
         { key: "security", icon: Icons.Security },
         { key: "api", icon: Icons.Api },
         { key: "deployment", icon: Icons.Deploy },
-    ];
+    ], []);
 
     return (
         <section className="py-24 bg-surface-50 dark:bg-surface-950 relative overflow-hidden" id="services">
@@ -31,27 +32,30 @@ const Services = () => {
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         className="inline-block py-1 px-3 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 font-bold text-xs uppercase tracking-wider mb-3 border border-primary-100 dark:border-primary-800"
                     >
-                        {t('services.title')}
+                        <span>{t('services.title')}</span>
                     </motion.span>
 
                     <motion.h2
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
+                        viewport={{ once: true }}
                         className="text-3xl md:text-5xl font-extrabold text-surface-900 dark:text-white mb-6"
                     >
-                        {t('services.title')}
+                        <span>{t('services.title')}</span>
                     </motion.h2>
 
                     <motion.p
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
+                        viewport={{ once: true }}
                         className="text-lg text-surface-600 dark:text-surface-400"
                     >
-                        {t('services.subtitle')}
+                        <span>{t('services.subtitle')}</span>
                     </motion.p>
                 </div>
 
