@@ -1,4 +1,5 @@
 "use client";
+import React, { useMemo, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -26,7 +27,13 @@ const SkillsList = () => {
         totalPages
     } = useSkillsFilter();
 
-    const categories = ["ALL", "PROGRAMMING", "FRONTEND", "BACKEND", "FRAMEWORK", "DATABASE", "TOOL", "CLOUD"];
+    const categories = useMemo(() => ["ALL", "PROGRAMMING", "FRONTEND", "BACKEND", "FRAMEWORK", "DATABASE", "TOOL", "CLOUD"], []);
+
+    const handleCategoryChange = useCallback((cat: string) => setActiveCategory(cat), [setActiveCategory]);
+    const handleSortChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value), [setSortBy]);
+    const handlePageChange = useCallback((page: number) => setCurrentPage(page), [setCurrentPage]);
+
+    const paginationItems = useMemo(() => [...Array(totalPages)], [totalPages]);
 
     if (error) return <div className="text-center py-20 text-red-500 font-medium">{error}</div>;
 
@@ -41,14 +48,16 @@ const SkillsList = () => {
                             {categories.map((cat) => (
                                 <button
                                     key={cat}
-                                    onClick={() => setActiveCategory(cat)}
+                                    onClick={() => handleCategoryChange(cat)}
                                     className={`px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 border
                       ${activeCategory === cat
                                             ? 'bg-primary-600 text-white border-primary-600 shadow-lg shadow-primary-500/30'
                                             : 'bg-white text-surface-600 border-surface-200 hover:bg-surface-100 hover:border-primary-200'}
                     `}
                                 >
-                                    {cat === 'ALL' ? t('skills_list.filter_all') : t(`skills_list.categories.${cat}`)}
+                                    <span >
+                                        {cat === 'ALL' ? t('skills_list.filter_all') : t(`skills_list.categories.${cat}`)}
+                                    </span>
                                 </button>
                             ))}
                         </div>
@@ -57,7 +66,7 @@ const SkillsList = () => {
                     <div className="relative w-full lg:w-auto min-w-[180px]">
                         <select
                             value={sortBy}
-                            onChange={(e) => setSortBy(e.target.value)}
+                            onChange={handleSortChange}
                             className="w-full appearance-none px-5 py-3 rounded-xl bg-white border border-surface-200 text-surface-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent cursor-pointer shadow-sm"
                         >
                             <option value="newest">{t('skills_list.sort_newest')}</option>
@@ -103,10 +112,10 @@ const SkillsList = () => {
                                     Try selecting a different category or clearing your filters.
                                 </p>
                                 <button
-                                    onClick={() => setActiveCategory("ALL")}
+                                    onClick={() => handleCategoryChange("ALL")}
                                     className="mt-6 px-6 py-2 text-sm font-medium text-primary-600 bg-primary-50 rounded-full hover:bg-primary-100 transition-colors"
                                 >
-                                    {t('skills_list.filter_all')}
+                                    <span >{t('skills_list.filter_all')}</span>
                                 </button>
                             </motion.div>
                         )}
@@ -117,17 +126,17 @@ const SkillsList = () => {
                     <div className="mt-16 flex justify-center items-center gap-3">
                         <button
                             disabled={currentPage === 1}
-                            onClick={() => setCurrentPage(prev => prev - 1)}
+                            onClick={() => handlePageChange(currentPage - 1)}
                             className="p-3 rounded-xl bg-white border border-surface-200 text-surface-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-50 hover:border-surface-300 transition-all shadow-sm"
                         >
                             <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                         </button>
 
                         <div className="flex gap-2">
-                            {[...Array(totalPages)].map((_, i) => (
+                            {paginationItems.map((_, i) => (
                                 <button
                                     key={i}
-                                    onClick={() => setCurrentPage(i + 1)}
+                                    onClick={() => handlePageChange(i + 1)}
                                     className={`w-11 h-11 rounded-xl font-bold text-sm transition-all duration-300
                        ${currentPage === i + 1
                                             ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30 scale-105'
@@ -141,7 +150,7 @@ const SkillsList = () => {
 
                         <button
                             disabled={currentPage === totalPages}
-                            onClick={() => setCurrentPage(prev => prev + 1)}
+                            onClick={() => handlePageChange(currentPage + 1)}
                             className="p-3 rounded-xl bg-white border border-surface-200 text-surface-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-surface-50 hover:border-surface-300 transition-all shadow-sm"
                         >
                             <svg className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
@@ -154,7 +163,7 @@ const SkillsList = () => {
     );
 };
 
-const SkillCard = ({ skill, isRTL }: { skill: any, isRTL: boolean }) => {
+const SkillCard = memo(({ skill, isRTL }: { skill: any, isRTL: boolean }) => {
     const percentage = getSkillPercentage(skill.level);
 
     return (
@@ -171,7 +180,14 @@ const SkillCard = ({ skill, isRTL }: { skill: any, isRTL: boolean }) => {
             <div className={`flex flex-col h-full ${isRTL ? 'text-right' : 'text-left'}`}>
                 <div className={`flex justify-between items-start mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <div className="w-14 h-14 p-2.5 bg-surface-50 rounded-2xl border border-surface-100 group-hover:scale-110 transition-transform duration-300 shadow-sm">
-                        <Image src={skill.skillImage} alt={skill.name} width={50} height={50} className="object-contain w-full h-full" />
+                        <Image
+                            src={skill.skillImage}
+                            alt={skill.name}
+                            width={100}
+                            height={100}
+                            className="object-contain w-full h-full"
+                            sizes="100px"
+                        />
                     </div>
                     <span className="px-2.5 py-1 rounded-md bg-primary-50 text-primary-700 text-[10px] font-extrabold uppercase tracking-wider border border-primary-100">
                         {skill.level}
@@ -208,6 +224,8 @@ const SkillCard = ({ skill, isRTL }: { skill: any, isRTL: boolean }) => {
             </div>
         </motion.div>
     )
-}
+});
+
+SkillCard.displayName = "SkillCard";
 
 export default SkillsList;
