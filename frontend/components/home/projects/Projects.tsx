@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useProjects } from "@/hooks/useProjects";
 import { useLanguageStore } from "@/stores/languageStore";
 import ProjectCard from "./ProjectCard";
+import React from "react"; 
 
 const Projects = () => {
     const { t } = useTranslation();
@@ -69,7 +70,7 @@ const Projects = () => {
                     className="text-center"
                 >
                     <Link
-                        href="/prjects"
+                        href="/projects"
                         className="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-surface-900 dark:bg-surface-800 rounded-full hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/30 focus:outline-none hover:-translate-y-1"
                     >
                         <span className="mr-2">{t('projects.see_all')}</span>
