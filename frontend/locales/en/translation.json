@@ -130,5 +130,27 @@
     "btn_resume": "Download Resume",
     "btn_contact": "Get in Touch",
     "coming_soon": "Resume is coming soon..."
+  },
+  "skills_hero": {
+    "badge": "My Expertise",
+    "title": "Technical Skills",
+    "description": "A comprehensive overview of the languages, frameworks, and tools I use to turn complex problems into elegant solutions."
+  },
+  "skills_list": {
+    "filter_all": "All",
+    "sort_newest": "Newest",
+    "sort_oldest": "Oldest",
+    "sort_name": "Name (A-Z)",
+    "categories": {
+      "PROGRAMMING": "Programming",
+      "FRONTEND": "Frontend",
+      "BACKEND": "Backend",
+      "FRAMEWORK": "Frameworks",
+      "DATABASE": "Databases",
+      "TOOL": "Tools",
+      "CLOUD": "Cloud"
+    },
+    "no_results": "No skills found in this category.",
+    "...": "..."
   }
 }
