@@ -130,5 +130,14 @@
     "btn_resume": "Degso CV-ga",
     "btn_contact": "Ila Soo Xiriir",
     "coming_soon": "CV-ga mar dhow ayuu soo socdaa..."
+  },
+  "skills_hero": {
+    "badge": "Xirfadaha",
+    "title": "Aaladaha aan Adeegsado",
+    "description": "Dulmar guud oo ku saabsan luuqadaha, nidaamyada, iyo qalabka aan u isticmaalo inaan ku xaliyo caqabadaha adag."
+  },
+  "skills_list": {
+    "no_results": "Lama helin xirfado ku jira qeybtaan.",
+    "...": "..."
   }
 }
