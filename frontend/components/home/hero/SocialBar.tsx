@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import React from "react"; 
 
 const socials = [
     {
@@ -47,4 +48,4 @@ const SocialBar = ({ delay }: { delay: number }) => {
     );
 };
 
-export default SocialBar;
+export default React.memo(SocialBar);
