@@ -1,3 +1,5 @@
+import React, { memo } from "react"; 
+
 const SkillsSkeleton = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-pulse">
@@ -13,4 +15,4 @@ const SkillsSkeleton = () => {
   );
 };
 
-export default SkillsSkeleton;
+export default memo(SkillsSkeleton);
