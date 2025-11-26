@@ -1,4 +1,5 @@
 "use client";
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 
@@ -38,4 +39,4 @@ const ServiceCard = ({ title, description, icon, index }: ServiceCardProps) => {
     );
 };
 
-export default ServiceCard;
+export default memo(ServiceCard);
