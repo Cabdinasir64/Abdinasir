@@ -11,8 +11,7 @@ export const useProjects = () => {
     const fetchProjects = async () => {
       setLoading(true);
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-        const response = await fetch(`${baseUrl}/api/projects`);
+        const response = await fetch(`/api/projects-cache`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch projects");
@@ -33,10 +32,6 @@ export const useProjects = () => {
     };
 
     fetchProjects();
-
-    const intervalId = setInterval(fetchProjects, 3600000);
-
-    return () => clearInterval(intervalId);
   }, []);
 
   return { projects, loading, error };
