@@ -1,4 +1,5 @@
 "use client";
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { getSkillPercentage } from "@/utils/skillHelpers";
@@ -7,7 +8,7 @@ import { Skill } from "@/types/skill";
 interface SkillProps {
   skill: Skill;
   isActive: boolean;
-  onClick: () => void;
+  onClick: (id: string) => void;
   isRTL: boolean;
 }
 
@@ -17,7 +18,8 @@ const SkillItem = ({ skill, isActive, onClick, isRTL }: SkillProps) => {
   return (
     <motion.div
       layout
-      onClick={onClick}
+      onClick={() => onClick(skill.id)}
+      id={`skill-btn-${skill.id}`}
       className={`relative flex-shrink-0 cursor-pointer overflow-hidden rounded-2xl border transition-all duration-500 mr-4 last:mr-0
         ${isActive
           ? 'w-[300px] bg-gradient-to-br from-white to-surface-50 dark:from-surface-900 dark:to-surface-800 border-primary-500 shadow-2xl shadow-primary-500/20 z-10 opacity-100 ring-2 ring-primary-500/20'
@@ -95,4 +97,4 @@ const SkillItem = ({ skill, isActive, onClick, isRTL }: SkillProps) => {
   );
 };
 
-export default SkillItem;
+export default memo(SkillItem);
