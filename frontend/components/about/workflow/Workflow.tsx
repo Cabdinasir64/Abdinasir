@@ -1,4 +1,5 @@
 "use client";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "@/stores/languageStore";
@@ -9,12 +10,12 @@ const Workflow = () => {
     const { currentLang } = useLanguageStore();
     const isRTL = currentLang === 'ar';
 
-    const steps = [
+    const steps = useMemo(() => [
         { id: "1", icon: "🔍" },
         { id: "2", icon: "🎨" },
         { id: "3", icon: "💻" },
         { id: "4", icon: "🚀" },
-    ];
+    ], []);
 
     return (
         <section className="py-24 bg-surface-100 relative overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -28,7 +29,7 @@ const Workflow = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false }}
+                        viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         className="max-w-3xl flex flex-col items-center ml-[70px] sm:ml-18"
                     >
@@ -61,7 +62,7 @@ const Workflow = () => {
                                     key={step.id}
                                     initial={{ opacity: 0, y: 50, x: isEven ? (isRTL ? 50 : -50) : (isRTL ? -50 : 50) }}
                                     whileInView={{ opacity: 1, y: 0, x: 0 }}
-                                    viewport={{ once: false, amount: 0.3 }}
+                                    viewport={{ once: true, amount: 0.3 }}
                                     transition={{ duration: 0.7, ease: "easeOut" }}
                                     className={`relative flex items-center md:justify-between flex-col md:flex-row`}
                                 >
