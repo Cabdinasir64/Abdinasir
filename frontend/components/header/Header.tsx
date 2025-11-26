@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react'; // Added hooks
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
@@ -15,19 +15,31 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      const scrolled = window.scrollY > 20;
+      setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { href: '/', label: t('nav.home') },
     { href: '/about', label: t('nav.about') },
     { href: '/skills', label: t('nav.skills') },
     { href: '/projects', label: t('nav.projects') },
     { href: '/Galleries', label: t('nav.galleries') },
     { href: '/contact', label: t('nav.contact') }
-  ];
+  ], [t]);
+
+  const toggleMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => !prev);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
 
   return (
     <motion.header
@@ -67,7 +79,6 @@ const Header = () => {
                     />
                   )}
                   <span
-                    suppressHydrationWarning={true}
                     className={`relative z-10 transition-colors duration-200 ${isActive ? 'text-white' : 'text-surface-600 hover:text-primary-600'
                       }`}>
                     {item.label}
@@ -87,7 +98,7 @@ const Header = () => {
 
             <motion.button
               className="md:hidden p-2 rounded-lg bg-surface-100 text-surface-800 hover:bg-primary-50 hover:text-primary-600 transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              onClick={toggleMenu}
               whileTap={{ scale: 0.9 }}
             >
               <div className="w-6 h-5 flex flex-col justify-between">
@@ -124,7 +135,7 @@ const Header = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={closeMenu}
                 >
                   <motion.div
                     initial={{ x: -20, opacity: 0 }}
@@ -135,7 +146,7 @@ const Header = () => {
                       : 'text-surface-600 hover:bg-surface-100'
                       }`}
                   >
-                    <span suppressHydrationWarning={true}>
+                    <span>
                       {item.label}
                     </span>
 
@@ -153,4 +164,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
