@@ -42,14 +42,6 @@ export default function Sidebar() {
             ]
         },
         {
-            name: "Galleries",
-            icon: Image,
-            items: [
-                { name: "All Galleries", href: "/admin/galleries" },
-                { name: "Add Gallery", href: "/admin/galleries/add" },
-            ]
-        },
-        {
             name: "Testimonials",
             icon: MessageCircle,
             items: [
