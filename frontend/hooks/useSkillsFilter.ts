@@ -23,8 +23,7 @@ export const useSkillsFilter = () => {
         const fetchSkills = async () => {
             setLoading(true);
             try {
-                const baseUrl = process.env.NEXT_PUBLIC_API_URL
-                const res = await fetch(`${baseUrl}/api/skills?lang=${currentLang}`);
+                const res = await fetch(`/api/skills-cache?lang=${currentLang}`);
                 if (!res.ok) throw new Error("Failed to load skills");
 
                 const json: SkillsResponse = await res.json();
