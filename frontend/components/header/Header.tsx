@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo, useCallback } from 'react'; // Added hooks
+import React, { useState, useEffect, useMemo, useCallback } from 'react'; 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
@@ -29,7 +29,6 @@ const Header = () => {
     { href: '/about', label: t('nav.about') },
     { href: '/skills', label: t('nav.skills') },
     { href: '/projects', label: t('nav.projects') },
-    { href: '/Galleries', label: t('nav.galleries') },
     { href: '/contact', label: t('nav.contact') }
   ], [t]);
 
