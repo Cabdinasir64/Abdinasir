@@ -2,12 +2,13 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import React, { useMemo } from "react";
 import SocialBar from "./SocialBar";
 
 const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
     const { t } = useTranslation();
 
-    const nameVariant = {
+    const nameVariant = useMemo(() => ({
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -16,12 +17,14 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
                 delayChildren: delay + 0.2
             }
         }
-    };
+    }), [delay]);
 
-    const letterVariant = {
+    const letterVariant = useMemo(() => ({
         hidden: { opacity: 0, y: 30, x: -25 },
         visible: { opacity: 1, y: 0, x: 0 }
-    };
+    }), []);
+
+    const nameChars = useMemo(() => "Abdinasir".split(""), []);
 
     return (
         <div className={`flex-1 text-center lg:text-left ${isRTL ? 'lg:text-right' : ''} z-20`}>
@@ -40,7 +43,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
                     >
                         👋
                     </motion.span>
-                    <span suppressHydrationWarning className="text-surface-600 font-medium text-sm">
+                    <span className="text-surface-600 font-medium text-sm">
                         {t('hero.greeting')}
                     </span>
                 </div>
@@ -52,7 +55,7 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
                 animate="visible"
                 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-surface-900 tracking-tight mb-4"
             >
-                {"Abdinasir".split("").map((char, index) => (
+                {nameChars.map((char, index) => (
                     <motion.span key={index} variants={letterVariant} className="inline-block">
                         {char}
                     </motion.span>
@@ -75,7 +78,6 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             >
                 <span className="text-surface-400">{isRTL ? 'مطور ' : 'A '}</span>
                 <motion.span
-                    suppressHydrationWarning
                     className="bg-clip-text text-transparent bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 bg-[length:200%_auto]"
                     animate={{ backgroundPosition: ["0%", "200%"] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -85,7 +87,6 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             </motion.div>
 
             <motion.p
-                suppressHydrationWarning
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: delay + 0.7 }}
@@ -102,7 +103,6 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             >
                 <Link
                     href="/projects"
-                    suppressHydrationWarning
                     className="px-8 py-4 bg-surface-900 text-white rounded-xl font-bold shadow-lg shadow-surface-900/20 
                hover:bg-primary-600 hover:scale-105 transition-all duration-300
                relative overflow-hidden group hover:shadow-xl hover:shadow-primary-500/30"
@@ -125,7 +125,6 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
                 </Link>
                 <Link
                     href="/contact"
-                    suppressHydrationWarning
                     className="px-8 py-4 bg-white text-surface-900 border border-surface-200 rounded-xl font-bold hover:border-primary-500 hover:text-primary-600 hover:-translate-y-1 transition-all duration-300"
                 >
                     {t('hero.cta_secondary')}
@@ -140,4 +139,4 @@ const HeroText = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
     );
 };
 
-export default HeroText;
+export default React.memo(HeroText);
