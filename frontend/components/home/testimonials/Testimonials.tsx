@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -16,25 +16,25 @@ const Testimonials = () => {
 
     const isRTL = currentLang === 'ar';
 
+    const nextSlide = useCallback(() => {
+        setDirection(1);
+        setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    }, [testimonials.length]);
+
+    const prevSlide = useCallback(() => {
+        setDirection(-1);
+        setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    }, [testimonials.length]);
+
     useEffect(() => {
         if (testimonials.length <= 1) return;
         const timer = setInterval(() => {
             nextSlide();
         }, 5000);
         return () => clearInterval(timer);
-    }, [currentIndex, testimonials.length]);
+    }, [nextSlide, testimonials.length]);
 
-    const nextSlide = () => {
-        setDirection(1);
-        setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
-    };
-
-    const prevSlide = () => {
-        setDirection(-1);
-        setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
-    };
-
-    const variants = {
+    const variants = useMemo(() => ({
         enter: (direction: number) => ({
             x: direction > 0 ? (isRTL ? -100 : 100) : (isRTL ? 100 : -100),
             opacity: 0,
@@ -52,10 +52,12 @@ const Testimonials = () => {
             opacity: 0,
             scale: 0.9
         })
-    };
+    }), [isRTL]);
 
     if (loading) return null;
     if (error || testimonials.length === 0) return null;
+
+    const currentTestimonial = testimonials[currentIndex];
 
     return (
         <section className="py-24 bg-white dark:bg-surface-900 relative overflow-hidden" id="testimonials">
@@ -71,17 +73,19 @@ const Testimonials = () => {
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         className="text-primary-600 font-bold tracking-widest uppercase text-xs mb-2 block"
                     >
-                        {t('testimonials.title')}
+                        <span>{t('testimonials.title')}</span>
                     </motion.span>
                     <motion.h2
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
                         transition={{ delay: 0.1 }}
                         className="text-3xl md:text-5xl font-extrabold text-surface-900 dark:text-white"
                     >
-                        {t('testimonials.subtitle')}
+                        <span>{t('testimonials.subtitle')}</span>
                     </motion.h2>
                 </div>
 
@@ -129,23 +133,23 @@ const Testimonials = () => {
 
                                 <div className="relative w-20 h-20 mx-auto mb-6">
                                     <Image
-                                        src={testimonials[currentIndex].image}
-                                        alt={testimonials[currentIndex].name}
+                                        src={currentTestimonial.image}
+                                        alt={currentTestimonial.name}
                                         fill
                                         className="object-cover rounded-full border-4 border-white dark:border-surface-700 shadow-md"
                                     />
                                 </div>
 
                                 <p className="text-lg md:text-2xl font-medium text-surface-700 dark:text-surface-300 italic mb-8 leading-relaxed relative z-10">
-                                    "{testimonials[currentIndex].text}"
+                                    "{currentTestimonial.text}"
                                 </p>
 
                                 <div>
                                     <h4 className="text-xl font-bold text-surface-900 dark:text-white">
-                                        {testimonials[currentIndex].name}
+                                        {currentTestimonial.name}
                                     </h4>
                                     <p className="text-sm text-primary-600 font-semibold mt-1">
-                                        {testimonials[currentIndex].position}
+                                        {currentTestimonial.position}
                                     </p>
                                 </div>
 
@@ -163,8 +167,8 @@ const Testimonials = () => {
                                 setCurrentIndex(idx);
                             }}
                             className={`h-2 rounded-full transition-all duration-300 ${idx === currentIndex
-                                    ? 'w-8 bg-primary-600'
-                                    : 'w-2 bg-surface-300 hover:bg-primary-300'
+                                ? 'w-8 bg-primary-600'
+                                : 'w-2 bg-surface-300 hover:bg-primary-300'
                                 }`}
                         />
                     ))}
