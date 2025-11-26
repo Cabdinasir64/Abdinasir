@@ -13,12 +13,12 @@ export const useTestimonials = () => {
     const fetchTestimonials = async () => {
       setLoading(true);
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-        const response = await fetch(`${baseUrl}/api/testimonials?lang=${currentLang}`);
+        const response = await fetch(`/api/testimonials-cache?lang=${currentLang}`);
+
 
         if (!response.ok) throw new Error("Failed to fetch testimonials");
-        
+
         const json: TestimonialsResponse = await response.json();
         setTestimonials(json.testimonials);
       } catch (err: any) {
@@ -30,9 +30,7 @@ export const useTestimonials = () => {
 
     fetchTestimonials();
 
-    const intervalId = setInterval(fetchTestimonials, 3600000);
 
-    return () => clearInterval(intervalId);
   }, [currentLang]);
 
   return { testimonials, loading, error };
