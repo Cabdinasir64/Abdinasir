@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '@/stores/languageStore';
 import Image from 'next/image';
@@ -9,23 +9,25 @@ import USFlag from '@/assets/USAFlag.png';
 import SomaliaFlag from '@/assets/SomaliaFlag.jpg';
 import SaudiArabiaFlag from '@/assets/SaudiArabiaFlag.png';
 
+
+const FlagImage = React.memo(({ src, alt }: { src: any, alt: string }) => (
+    <div className="relative w-5 h-5 min-w-[20px] rounded-full overflow-hidden border border-surface-300 shadow-sm">
+        <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes="20px"
+            className="object-cover"
+        />
+    </div>
+));
+FlagImage.displayName = 'FlagImage';
+
 const LanguageSelector = () => {
     const { currentLang, setLanguage } = useLanguageStore();
     const [isOpen, setIsOpen] = useState(false);
 
-    const FlagImage = ({ src, alt }: { src: any, alt: string }) => (
-        <div className="relative w-5 h-5 min-w-[20px] rounded-full overflow-hidden border border-surface-300 shadow-sm">
-            <Image
-                src={src}
-                alt={alt}
-                fill
-                sizes="20px"
-                className="object-cover"
-            />
-        </div>
-    );
-
-    const languages = [
+    const languages = useMemo(() => [
         {
             code: 'en',
             name: 'English',
@@ -41,9 +43,9 @@ const LanguageSelector = () => {
             name: 'العربية',
             flag: <FlagImage src={SaudiArabiaFlag} alt="Saudi Flag" />
         }
-    ];
+    ], []);
 
-    const handleLanguageChange = async (langCode: string) => {
+    const handleLanguageChange = useCallback(async (langCode: string) => {
         try {
             await i18n.changeLanguage(langCode);
             setLanguage(langCode);
@@ -59,15 +61,17 @@ const LanguageSelector = () => {
         } catch (error) {
             console.error("Error changing language:", error);
         }
-    };
+    }, [setLanguage]);
 
-    const currentFlag = languages.find(l => l.code === currentLang)?.flag;
+    const toggleOpen = useCallback(() => setIsOpen(prev => !prev), []);
+
+    const currentFlag = useMemo(() => languages.find(l => l.code === currentLang)?.flag, [languages, currentLang]);
 
     return (
         <div className="relative z-50">
             <motion.button
                 className="flex items-center gap-2 bg-surface-100 hover:bg-surface-200 text-surface-700 border border-surface-200 rounded-full pl-2 pr-3 py-1.5 transition-all shadow-sm"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={toggleOpen}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
             >
@@ -98,8 +102,8 @@ const LanguageSelector = () => {
                                 key={lang.code}
                                 onClick={() => handleLanguageChange(lang.code)}
                                 className={`w-full flex items-center gap-3 px-4 py-3 text-sm transition-colors duration-200 border-b border-surface-100 last:border-0 ${currentLang === lang.code
-                                        ? 'bg-primary-50 text-primary-700 font-semibold'
-                                        : 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'
+                                    ? 'bg-primary-50 text-primary-700 font-semibold'
+                                    : 'text-surface-600 hover:bg-surface-50 hover:text-surface-900'
                                     }`}
                             >
                                 {lang.flag}
@@ -121,4 +125,4 @@ const LanguageSelector = () => {
     );
 };
 
-export default LanguageSelector;
+export default React.memo(LanguageSelector);
