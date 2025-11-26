@@ -35,8 +35,6 @@ const SkillsList = () => {
 
     const paginationItems = useMemo(() => [...Array(totalPages)], [totalPages]);
 
-    if (error) return <div className="text-center py-20 text-red-500 font-medium">{error}</div>;
-
     return (
         <section className="py-16 bg-surface-50 min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
