@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, ReactNode } from "react";
+import { useRef, useEffect, ReactNode, memo } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 
@@ -18,6 +18,12 @@ const MagneticButton = ({ children, href }: MagneticButtonProps) => {
 
         if (!button || !text) return;
 
+        const xToBtn = gsap.quickTo(button, "x", { duration: 1, ease: "power3.out" });
+        const yToBtn = gsap.quickTo(button, "y", { duration: 1, ease: "power3.out" });
+
+        const xToText = gsap.quickTo(text, "x", { duration: 1, ease: "power3.out" });
+        const yToText = gsap.quickTo(text, "y", { duration: 1, ease: "power3.out" });
+
         const handleMouseMove = (e: MouseEvent) => {
             const { clientX, clientY } = e;
             const { left, top, width, height } = button.getBoundingClientRect();
@@ -25,19 +31,10 @@ const MagneticButton = ({ children, href }: MagneticButtonProps) => {
             const x = clientX - (left + width / 2);
             const y = clientY - (top + height / 2);
 
-            gsap.to(button, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 1,
-                ease: "power3.out",
-            });
-
-            gsap.to(text, {
-                x: x * 0.1,
-                y: y * 0.1,
-                duration: 1,
-                ease: "power3.out",
-            });
+            xToBtn(x * 0.3);
+            yToBtn(y * 0.3);
+            xToText(x * 0.1);
+            yToText(y * 0.1);
         };
 
         const handleMouseLeave = () => {
@@ -72,4 +69,4 @@ const MagneticButton = ({ children, href }: MagneticButtonProps) => {
     );
 };
 
-export default MagneticButton;
+export default memo(MagneticButton);
