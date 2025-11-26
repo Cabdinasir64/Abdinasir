@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useSkills } from "@/hooks/useSkills";
@@ -19,7 +19,17 @@ const Skills = () => {
         if (skills.length > 0 && !activeSkillId) {
             setActiveSkillId(skills[0].id);
         }
-    }, [skills]);
+    }, [skills, activeSkillId]);
+
+    
+    const handleSkillClick = useCallback((skillId: string) => {
+        setActiveSkillId(skillId);
+        document.getElementById(`skill-btn-${skillId}`)?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+        });
+    }, []);
 
     if (loading) return (
         <div className="h-[200px] flex items-center justify-center bg-gradient-to-br from-surface-50 to-surface-100 dark:from-surface-900 dark:to-surface-800">
@@ -81,14 +91,7 @@ const Skills = () => {
                                     key={skill.id}
                                     skill={skill}
                                     isActive={activeSkillId === skill.id}
-                                    onClick={() => {
-                                        setActiveSkillId(skill.id);
-                                        document.getElementById(`skill-btn-${skill.id}`)?.scrollIntoView({
-                                            behavior: 'smooth',
-                                            block: 'nearest',
-                                            inline: 'center'
-                                        });
-                                    }}
+                                    onClick={() => handleSkillClick(skill.id)} 
                                     isRTL={isRTL}
                                 />
                             ))}
