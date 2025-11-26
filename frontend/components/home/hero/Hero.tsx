@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { useLanguageStore } from "@/stores/languageStore";
 import Background from "./Background";
 import HeroText from "./HeroText";
@@ -38,4 +39,4 @@ const Hero = () => {
     );
 };
 
-export default Hero;
+export default React.memo(Hero);
