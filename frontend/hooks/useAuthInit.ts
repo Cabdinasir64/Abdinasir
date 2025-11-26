@@ -34,7 +34,7 @@ export const useAuthInit = () => {
         if (!mounted) return;
 
         if (!isAuthenticated && !isPublicRoute) {
-          router.push('/login');
+          router.push('/');
         }
 
         setIsInitialized(true);
@@ -69,11 +69,11 @@ export const useAuthInit = () => {
       } else {
         toast.error("You must be logged in to access this page.");
       }
-      router.push('/login');
+      router.push('/');
     }
 
     if (user && pathname === '/login') {
-      router.push('/admin/dashboard');
+      router.push('/admin');
     }
 
   }, [isInitialized, user, loading, pathname, router]);
