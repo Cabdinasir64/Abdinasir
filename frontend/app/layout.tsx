@@ -4,9 +4,6 @@ import "./globals.css";
 import Toaster from "@/components/ui/Toaster"
 import LanguageProvider from '@/components/providers/LanguageProvider'
 
-import Header from '@/components/header/Header'
-import Footer from '@/components/footer/Footer'
-
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -91,15 +88,11 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang='en'>
-      <body
-        className={`${poppins.variable} ${playfair.variable}`}
-      >
+      <body className={`${poppins.variable} ${playfair.variable}`}>
         <Toaster />
         <LanguageProvider />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
-    </html >
+    </html>
   );
 }
