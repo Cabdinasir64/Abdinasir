@@ -15,18 +15,6 @@ enum ProjectCategory {
   OTHER
 }
 
-enum GalleryCategory {
-  PROJECT
-  PORTFOLIO
-  EVENT
-  WEB_DESIGN
-  MOBILE_APP
-  UI_UX
-  BRANDING
-  PHOTOGRAPHY
-  OTHER
-}
-
 enum SkillCategory {
   PROGRAMMING
   FRONTEND
@@ -64,21 +52,6 @@ model Skill {
   @@index([level])
   @@index([category])
   @@map("skills")
-}
-
-model Gallery {
-  id          String          @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String
-  image       String
-  title       Json
-  description Json?
-  categories  GalleryCategory
-  link        String?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-
-  @@index([categories])
-  @@map("galleries")
 }
 
 model Testimonial {
