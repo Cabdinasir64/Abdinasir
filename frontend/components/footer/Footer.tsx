@@ -61,7 +61,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 suppressHydrationWarning className="text-white font-bold text-lg mb-6 tracking-wide">{t('footer.links_title')}</h3>
+                        <h3 className="text-white font-bold text-lg mb-6 tracking-wide">{t('footer.links_title')}</h3>
                         <ul className="space-y-3">
                             {links.map((link) => (
                                 <li key={link.href}>
@@ -70,7 +70,7 @@ const Footer = () => {
                                         className="group flex items-center gap-2 text-gray-400 hover:text-white transition-all duration-300 w-fit"
                                     >
                                         <span className={`w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary-500 transition-colors ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                                        <span suppressHydrationWarning className="group-hover:translate-x-1 transition-transform duration-200">
+                                        <span className="group-hover:translate-x-1 transition-transform duration-200">
                                             {link.name}
                                         </span>
                                     </Link>
@@ -80,7 +80,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 suppressHydrationWarning className="text-white font-bold text-lg mb-6 tracking-wide">{t('footer.contact_title')}</h3>
+                        <h3 className="text-white font-bold text-lg mb-6 tracking-wide">{t('footer.contact_title')}</h3>
                         <ul className="space-y-4">
                             <li className="flex items-start gap-3 group">
                                 <div className="p-2 bg-white/5 rounded-lg text-primary-500 group-hover:bg-primary-500 group-hover:text-white transition-colors">
@@ -105,7 +105,7 @@ const Footer = () => {
                     </div>
 
                     <div>
-                        <h3 suppressHydrationWarning className="text-white font-bold text-lg mb-6 tracking-wide">{t('footer.socials_title')}</h3>
+                        <h3 className="text-white font-bold text-lg mb-6 tracking-wide">{t('footer.socials_title')}</h3>
                         <div className="flex gap-3">
                             {socials.map((social) => (
                                 <motion.a
@@ -129,11 +129,11 @@ const Footer = () => {
 
                 <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
 
-                    <p suppressHydrationWarning className={`${isRTL ? 'text-right' : 'text-left'}`}>
+                    <p className={`${isRTL ? 'text-right' : 'text-left'}`}>
                         &copy; {currentYear} <span className="text-gray-200 font-medium">Abdinasir</span>. {t('footer.rights')}
                     </p>
 
-                    <p suppressHydrationWarning className="flex items-center gap-1.5">
+                    <p className="flex items-center gap-1.5">
                         {t('footer.built_with')}
                         <span className="text-red-500 animate-pulse">❤</span>
                     </p>
