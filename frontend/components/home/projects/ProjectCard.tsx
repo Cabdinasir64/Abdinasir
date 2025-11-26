@@ -1,4 +1,5 @@
 "use client";
+import React, { useMemo, memo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +14,9 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
     const { t } = useTranslation();
+
+    const displayedTech = useMemo(() => project.tech.slice(0, 3), [project.tech]);
+    const extraTechCount = useMemo(() => Math.max(0, project.tech.length - 3), [project.tech.length]);
 
     return (
         <motion.div
@@ -53,7 +57,7 @@ const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
                     {project.name}
                 </h3>
                 <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.slice(0, 3).map((tech, i) => (
+                    {displayedTech.map((tech, i) => (
                         <span
                             key={i}
                             className="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-surface-300 border border-surface-200 dark:border-surface-700"
@@ -61,9 +65,9 @@ const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
                             {tech}
                         </span>
                     ))}
-                    {project.tech.length > 3 && (
+                    {extraTechCount > 0 && (
                         <span className="px-2 py-1 text-[11px] font-semibold text-surface-400">
-                            +{project.tech.length - 3}
+                            +{extraTechCount}
                         </span>
                     )}
                 </div>
@@ -80,13 +84,13 @@ const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
-                            {project.viewCount}
+                            <span>{project.viewCount}</span>
                         </div>
                         <div className="flex items-center gap-1.5" title="Likes">
                             <svg className="w-4 h-4 text-accent-500" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                             </svg>
-                            {project.likes}
+                            <span>{project.likes}</span>
                         </div>
                     </div>
                     <Link
@@ -94,7 +98,7 @@ const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
                         target="_blank"
                         className="flex items-center gap-1 text-sm font-bold text-primary-600 hover:text-primary-700 transition-all group/link"
                     >
-                        {t('projects.view_live')}
+                        <span>{t('projects.view_live')}</span>
                         <svg
                             className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'rotate-180 group-hover/link:-translate-x-1' : 'group-hover/link:translate-x-1'}`}
                             fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -109,4 +113,4 @@ const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
     );
 };
 
-export default ProjectCard;
+export default memo(ProjectCard);
