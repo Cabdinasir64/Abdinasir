@@ -1,4 +1,5 @@
 "use client";
+import React, { useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
@@ -11,11 +12,12 @@ const AboutStory = () => {
     const { currentLang } = useLanguageStore();
     const isRTL = currentLang === 'ar';
 
-    const renderText = (text: string) => {
+    const renderText = useCallback((text: string) => {
+        if (!text) return null;
         return text.split("**").map((part, index) =>
             index % 2 === 1 ? <span key={index} className="text-primary-600 font-bold">{part}</span> : part
         );
-    };
+    }, []);
 
     return (
         <section
@@ -40,6 +42,7 @@ const AboutStory = () => {
                                 src={MyImage}
                                 alt="Abdinasir Story"
                                 fill
+                                sizes="(max-width: 768px) 100vw, 500px"
                                 className="object-cover"
                             />
                         </div>
@@ -78,10 +81,10 @@ const AboutStory = () => {
                         </h2>
 
                         <div className="space-y-6 text-lg text-surface-600 dark:text-surface-300 leading-relaxed">
-                            <p>
+                            <p >
                                 {renderText(t('about_story.p1'))}
                             </p>
-                            <p>
+                            <p suppressHydrationWarning>
                                 {renderText(t('about_story.p2'))}
                             </p>
                         </div>
