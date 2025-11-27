@@ -146,6 +146,7 @@
       "FRONTEND": "Frontend",
       "BACKEND": "Backend",
       "FRAMEWORK": "Frameworks",
+      "STATEMANAGMENT": "State Management",
       "DATABASE": "Databases",
       "TOOL": "Tools",
       "CLOUD": "Cloud"
