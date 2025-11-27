@@ -3,6 +3,7 @@ export enum SkillCategory {
     FRONTEND = "FRONTEND",
     BACKEND = "BACKEND",
     FRAMEWORK = "FRAMEWORK",
+    STATEMANAGMENT= "State Management",
     DATABASE = "DATABASE",
     TOOL = "TOOL",
     CLOUD = "CLOUD"
