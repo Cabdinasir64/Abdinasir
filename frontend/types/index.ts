@@ -8,7 +8,7 @@ export interface Project {
   categories: string[];
   tech: string[];
   link: string | null;
-  status: string; // "PUBLISHED", "PENDING", etc.
+  status: string; 
   likes: number;
   rating: number;
   comments: number;
@@ -30,10 +30,11 @@ export interface ProjectsApiResponse {
 }
 
 export enum ProjectCategory {
-  PORTFOLIO = "PORTFOLIO",
-  WEB_DESIGN = "WEB_DESIGN",
+  FRONTEND = "FRONTEND",
+  BACKEND = "BACKEND",
+  FULL_STACK = "FULL_STACK",
   MOBILE_APP = "MOBILE_APP",
+  SAAS = "SAAS",
   UI_UX = "UI_UX",
-  MACHINE_LEARNING = "MACHINE_LEARNING",
   OTHER = "OTHER"
 }
