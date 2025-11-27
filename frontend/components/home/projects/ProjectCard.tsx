@@ -41,7 +41,7 @@ const ProjectCard = ({ project, index, isRTL }: ProjectCardProps) => {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px]">
                     <Link
-                        href={project.link}
+                        href={project.link || "#"}
                         target="_blank"
                         className="w-14 h-14 flex items-center justify-center bg-white rounded-full text-surface-900 shadow-xl transform scale-0 group-hover:scale-100 transition-transform duration-300 delay-100"
                     >
