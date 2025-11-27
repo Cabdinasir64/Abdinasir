@@ -8,12 +8,13 @@ generator client {
 }
 
 enum ProjectCategory {
-  PORTFOLIO
-  WEB_DESIGN
-  MOBILE_APP
-  UI_UX
-  MACHINE_LEARNING
-  OTHER
+  FRONTEND
+  BACKEND 
+  FULL_STACK 
+  MOBILE_APP 
+  SAAS 
+  UI_UX 
+  OTHER 
 }
 
 enum SkillCategory {
@@ -25,7 +26,6 @@ enum SkillCategory {
   STATEMANAGMENT
   TOOL
   CLOUD
-
 }
 
 model user {
