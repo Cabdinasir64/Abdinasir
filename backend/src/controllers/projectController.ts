@@ -54,7 +54,23 @@ export const ProjectController = {
     getProjectById: async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const project = await ProjectService.getOne(id);
+            const visitorId = req.query.visitorId as string | undefined;
+
+            const project = await ProjectService.getOne(id, visitorId);
+            return res.status(200).json(project);
+        } catch (error: any) {
+            return res.status(404).json({ message: error.message });
+        }
+    },
+
+    getProjectByName: async (req: Request, res: Response) => {
+        try {
+            const { name } = req.params;
+            const visitorId = req.query.visitorId as string | undefined;
+
+            const decodedName = decodeURIComponent(name);
+
+            const project = await ProjectService.getOneByName(decodedName, visitorId);
             return res.status(200).json(project);
         } catch (error: any) {
             return res.status(404).json({ message: error.message });
@@ -80,7 +96,7 @@ export const ProjectController = {
             const parsedCategories = categories ? (Array.isArray(categories) ? categories : JSON.parse(categories)) : undefined;
             const parsedTech = tech ? (Array.isArray(tech) ? tech : JSON.parse(tech)) : undefined;
 
-            const updatedProject = await ProjectService.update(id, req.user.id, {
+            const updatedProject = await ProjectService.update(id, req.user.userId, {
                 name,
                 description,
                 mainImage,
@@ -93,8 +109,7 @@ export const ProjectController = {
 
             return res.status(200).json(updatedProject);
         } catch (error: any) {
-            const status = error.message.includes("Unauthorized") ? 403 : 400;
-            return res.status(status).json({ message: error.message });
+            return res.status(400).json({ message: error.message });
         }
     },
 
@@ -104,8 +119,40 @@ export const ProjectController = {
             await ProjectService.delete(id);
             return res.status(200).json({ message: "Project deleted successfully" });
         } catch (error: any) {
-            const status = error.message.includes("Unauthorized") ? 403 : 404;
-            return res.status(status).json({ message: error.message });
+            return res.status(404).json({ message: error.message });
+        }
+    },
+
+
+    incrementView: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            await ProjectService.incrementView(id);
+            return res.status(200).json({ message: "View incremented" });
+        } catch (error: any) {
+            return res.status(500).json({ message: error.message });
+        }
+    },
+
+    toggleLike: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const { visitorId } = req.body;
+            const result = await ProjectService.toggleLike(id, visitorId);
+            return res.status(200).json(result);
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message });
+        }
+    },
+
+    rateProject: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            const { visitorId, rating } = req.body;
+            const result = await ProjectService.rateProject(id, visitorId, rating);
+            return res.status(200).json(result);
+        } catch (error: any) {
+            return res.status(400).json({ message: error.message });
         }
     }
 };
