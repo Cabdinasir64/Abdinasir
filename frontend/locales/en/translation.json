@@ -93,13 +93,13 @@
   },
   "about_story": {
     "badge": "My Journey",
-    "title": "Bridging Theory & Practice: The Self-Taught Engineer",
-    "p1": "My academic foundation is rooted in Computer Science, where I am currently advancing through my **5th Semester**. While the university provides the essential theoretical frameworks and algorithmic thinking, I realized early on that true mastery comes from going beyond the syllabus.",
-    "p2": "I define myself as a relentless **self-taught developer**. When classes end, my real work begins. I dive deep into modern ecosystems like Next.js, Cloud Architecture, and Full Stack patterns. My goal isn't just to pass exams, but to build scalable, real-world solutions that solve actual problems and bridge the gap between academic theory and industry standards.",
+    "title": "From Classroom to Real-World Development",
+    "p1": "I am currently in my **5th semester** of Computer Science. University provides the foundation in theory and algorithms, but I complement this with practical learning outside the classroom to gain hands-on experience.",
+    "p2": "I am a self-motivated developer, continuously exploring technologies like Next.js, cloud computing, and full-stack development. My focus is on creating real-world solutions that combine academic knowledge with industry practices.",
     "stats": {
       "semester": "Semester 5",
       "status": "CS Student",
-      "focus": "Self-Driven"
+      "focus": "Self-Motivated"
     }
   },
   "workflow": {
@@ -153,5 +153,15 @@
     },
     "no_results": "No skills found in this category.",
     "...": "..."
+  },
+  "projects_hero": {
+    "badge": "Portfolio Showcase",
+    "title": "Ideas Turned Into Reality",
+    "description": "Explore a collection of my recent work, side projects, and open source contributions.",
+    "stats": {
+      "projects": "Projects Completed",
+      "experience": "Years Experience",
+      "coffee": "Cups of Coffee"
+    }
   }
 }
