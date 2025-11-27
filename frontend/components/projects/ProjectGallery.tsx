@@ -35,13 +35,13 @@ const ProjectGallery = ({ images, mainImage }: { images: string[], mainImage: st
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeModal}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 cursor-zoom-out"
+            className="fixed inset-0 h-screen -top-6 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center  cursor-zoom-out"
           >
             <motion.div
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.8 }}
-              className="relative w-full max-w-5xl aspect-video rounded-xl overflow-hidden shadow-2xl border border-white/10"
+              className="relative w-full max-w-5xl aspect-video rounded-xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <Image
