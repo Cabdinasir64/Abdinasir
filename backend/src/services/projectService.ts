@@ -50,10 +50,6 @@ export const ProjectService = {
             throw new Error("The description contains invalid data (HTML/Script). Please enter a valid description.");
         }
 
-        if (data.categories.length === 0 || !data.categories.every(c => validateProjectCategory(c))) {
-            throw new Error("Invalid or empty project categories.");
-        }
-
         if (!validateTechStack(data.tech)) {
             throw new Error("Invalid tech stack format.");
         }
@@ -145,10 +141,6 @@ export const ProjectService = {
             updateData.description = sanitizeInput(data.description);
         }
 
-        if (data.categories && !data.categories.every(c => validateProjectCategory(c))) {
-            throw new Error("Invalid Category");
-        }
-
         if (data.link && !validateURL(data.link)) {
             throw new Error("Invalid URL");
         }
@@ -165,7 +157,7 @@ export const ProjectService = {
         const existingProject = await prisma.project.findUnique({ where: { id } });
         if (!existingProject) throw new Error("Project not found");
 
-        
+
 
         return await prisma.project.delete({
             where: { id }
