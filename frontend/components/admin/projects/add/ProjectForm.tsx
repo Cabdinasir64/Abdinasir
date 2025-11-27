@@ -29,13 +29,7 @@ interface ProjectFormProps {
 
 interface Skill {
   id: string;
-  userId: string;
   name: string;
-  level: string;
-  category: string[];
-  skillImage: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 interface SkillsResponse {
@@ -48,11 +42,12 @@ const fetcher = (url: string) => fetch(url).then(res => {
 });
 
 const PROJECT_CATEGORIES: { value: ProjectCategory; label: string }[] = [
-  { value: ProjectCategory.PORTFOLIO, label: "Portfolio" },
-  { value: ProjectCategory.WEB_DESIGN, label: "Web Design" },
+  { value: ProjectCategory.FRONTEND, label: "Frontend Development" },
+  { value: ProjectCategory.BACKEND, label: "Backend Development" },
+  { value: ProjectCategory.FULL_STACK, label: "Full Stack" },
   { value: ProjectCategory.MOBILE_APP, label: "Mobile App" },
-  { value: ProjectCategory.UI_UX, label: "UI/UX" },
-  { value: ProjectCategory.MACHINE_LEARNING, label: "Machine Learning" },
+  { value: ProjectCategory.SAAS, label: "SaaS Product" },
+  { value: ProjectCategory.UI_UX, label: "UI/UX Design" },
   { value: ProjectCategory.OTHER, label: "Other" },
 ];
 
@@ -87,16 +82,17 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
   const mainImageInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
 
-  const { data: skillsData, error: skillsError } = useSWR<SkillsResponse>(
+  const { data: skillsData } = useSWR<SkillsResponse>(
     `${process.env.NEXT_PUBLIC_API_URL}/api/skills`,
     fetcher,
     {
       revalidateOnFocus: false,
-      dedupingInterval: 60000,
     }
   );
 
-  const skillsSuggestions = skillsData?.skills?.map(skill => skill.name) || [];
+  const skillsSuggestions = skillsData?.skills?.map(skill =>
+    typeof skill.name === 'string' ? skill.name : JSON.stringify(skill.name).replace(/"/g, '')
+  ) || [];
 
   const filteredTechSuggestions = skillsSuggestions.filter(skill =>
     skill.toLowerCase().includes(techInput.toLowerCase()) &&
@@ -207,7 +203,6 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
       if (mainImageFile) {
         formData.append("mainImage", mainImageFile);
       } else if (isEditing && mainImagePreview && !mainImageFile) {
-        formData.append("mainImage", mainImagePreview);
       }
 
       galleryFiles.forEach(file => {
@@ -255,24 +250,12 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: easeOut
-      }
-    }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOut } }
   };
 
   return (
@@ -299,10 +282,7 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
                 {isEditing ? "Edit Project" : "Create New Project"}
               </h1>
               <p className="text-gray-600 mt-1">
-                {isEditing
-                  ? `Update "${initialData?.name}" details`
-                  : "Add a new project to your portfolio"
-                }
+                {isEditing ? `Update "${initialData?.name}" details` : "Add a new project to your portfolio"}
               </p>
             </div>
           </div>
@@ -327,7 +307,6 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
             <ImageIcon size={20} />
             Main Cover Image {!isEditing && <span className="text-red-500">*</span>}
           </label>
-
           <div className="relative">
             <div
               onClick={() => mainImageInputRef.current?.click()}
@@ -350,7 +329,6 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
                 </div>
               )}
             </div>
-
             {mainImagePreview && (
               <button
                 type="button"
@@ -360,60 +338,38 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
                 <Trash2 size={16} />
               </button>
             )}
-
-            <input
-              type="file"
-              accept="image/*"
-              ref={mainImageInputRef}
-              onChange={handleMainImageChange}
-              className="hidden"
-            />
+            <input type="file" accept="image/*" ref={mainImageInputRef} onChange={handleMainImageChange} className="hidden" />
           </div>
-
           {formErrors.mainImage && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
-              {formErrors.mainImage}
-            </p>
+            <p className="text-red-500 text-sm flex items-center gap-1"><AlertCircle size={14} />{formErrors.mainImage}</p>
           )}
         </motion.div>
 
         <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-              <Tag size={16} />
-              Project Name <span className="text-red-500">*</span>
+              <Tag size={16} /> Project Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               required
               value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setFormErrors(prev => ({ ...prev, name: "" }));
-              }}
-              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all
-                ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`}
+              onChange={(e) => { setName(e.target.value); setFormErrors(prev => ({ ...prev, name: "" })); }}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${formErrors.name ? 'border-red-500' : 'border-gray-300'}`}
               placeholder="e.g. Portfolio Website"
             />
-            {formErrors.name && (
-              <p className="text-red-500 text-sm flex items-center gap-1">
-                <AlertCircle size={14} />
-                {formErrors.name}
-              </p>
-            )}
+            {formErrors.name && <p className="text-red-500 text-sm flex items-center gap-1"><AlertCircle size={14} />{formErrors.name}</p>}
           </div>
 
           <div className="space-y-2">
             <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-              <LinkIcon size={16} />
-              Project Link
+              <LinkIcon size={16} /> Project Link
             </label>
             <input
               type="url"
               value={link}
               onChange={(e) => setLink(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               placeholder="https://example.com"
             />
           </div>
@@ -427,20 +383,11 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
             required
             rows={5}
             value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              setFormErrors(prev => ({ ...prev, description: "" }));
-            }}
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none
-              ${formErrors.description ? 'border-red-500' : 'border-gray-300'}`}
-            placeholder="Describe your project details, features, and accomplishments..."
+            onChange={(e) => { setDescription(e.target.value); setFormErrors(prev => ({ ...prev, description: "" })); }}
+            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none ${formErrors.description ? 'border-red-500' : 'border-gray-300'}`}
+            placeholder="Describe your project details..."
           />
-          {formErrors.description && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
-              {formErrors.description}
-            </p>
-          )}
+          {formErrors.description && <p className="text-red-500 text-sm flex items-center gap-1"><AlertCircle size={14} />{formErrors.description}</p>}
         </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-4">
@@ -465,17 +412,13 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
             ))}
           </div>
           {formErrors.categories && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
-              {formErrors.categories}
-            </p>
+            <p className="text-red-500 text-sm flex items-center gap-1"><AlertCircle size={14} />{formErrors.categories}</p>
           )}
         </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-4">
           <label className="block text-sm font-medium text-gray-700 flex items-center gap-2">
-            <Code size={16} />
-            Technologies <span className="text-red-500">*</span>
+            <Code size={16} /> Technologies <span className="text-red-500">*</span>
           </label>
 
           <div className="relative">
@@ -483,22 +426,18 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
               <input
                 type="text"
                 value={techInput}
-                onChange={(e) => {
-                  setTechInput(e.target.value);
-                  setShowTechSuggestions(true);
-                }}
+                onChange={(e) => { setTechInput(e.target.value); setShowTechSuggestions(true); }}
                 onKeyPress={handleTechKeyPress}
                 onFocus={() => setShowTechSuggestions(true)}
                 placeholder="Type technology (e.g. React, Node.js)..."
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
               <button
                 type="button"
                 onClick={() => addTech()}
-                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
               >
-                <Plus size={16} />
-                Add
+                <Plus size={16} /> Add
               </button>
             </div>
 
@@ -527,39 +466,22 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
 
           <div className="flex flex-wrap gap-2">
             {tech.map((techItem) => (
-              <span
-                key={techItem}
-                className="bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2"
-              >
+              <span key={techItem} className="bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 px-3 py-1.5 rounded-full text-sm font-medium flex items-center gap-2">
                 {techItem}
-                <button
-                  type="button"
-                  onClick={() => removeTech(techItem)}
-                  className="hover:text-blue-900 transition-colors"
-                >
-                  <X size={14} />
-                </button>
+                <button type="button" onClick={() => removeTech(techItem)} className="hover:text-blue-900"><X size={14} /></button>
               </span>
             ))}
           </div>
-
-          {formErrors.tech && (
-            <p className="text-red-500 text-sm flex items-center gap-1">
-              <AlertCircle size={14} />
-              {formErrors.tech}
-            </p>
-          )}
+          {formErrors.tech && <p className="text-red-500 text-sm flex items-center gap-1"><AlertCircle size={14} />{formErrors.tech}</p>}
         </motion.div>
 
         <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">
-              Project Status
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Project Status</label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white outline-none transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white outline-none"
             >
               <option value="DRAFT">Draft</option>
               <option value="PENDING">Pending Review</option>
@@ -568,9 +490,7 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
           </div>
 
           <div className="space-y-3">
-            <label className="block text-sm font-medium text-gray-700">
-              Additional Images
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Additional Images</label>
             <div className="flex flex-wrap gap-4">
               {galleryPreviews.map((src, idx) => (
                 <div key={idx} className="relative group">
@@ -580,7 +500,7 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
                   <button
                     type="button"
                     onClick={() => removeGalleryImage(idx)}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                    className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 shadow-lg transition-opacity"
                   >
                     <Trash2 size={12} />
                   </button>
@@ -591,40 +511,23 @@ export default function ProjectForm({ initialData, isEditing }: ProjectFormProps
                 onClick={() => galleryInputRef.current?.click()}
                 className="h-20 w-20 rounded-lg border-2 border-dashed border-gray-300 hover:border-blue-500 flex flex-col items-center justify-center text-gray-400 hover:text-blue-500 transition-colors"
               >
-                <Plus size={20} />
-                <span className="text-xs mt-1">Add Image</span>
+                <Plus size={20} /> <span className="text-xs mt-1">Add Image</span>
               </button>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                ref={galleryInputRef}
-                onChange={handleGalleryChange}
-                className="hidden"
-              />
+              <input type="file" multiple accept="image/*" ref={galleryInputRef} onChange={handleGalleryChange} className="hidden" />
             </div>
           </div>
         </motion.div>
 
         <motion.div variants={itemVariants} className="flex justify-end gap-4 pt-6 border-t border-gray-100">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="px-8 py-3 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors flex items-center gap-2"
-          >
-            <X size={18} />
-            Cancel
+          <button type="button" onClick={() => router.back()} className="px-8 py-3 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 flex items-center gap-2">
+            <X size={18} /> Cancel
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="px-8 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg"
+            className="px-8 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 disabled:opacity-70 flex items-center gap-2 shadow-lg"
           >
-            {loading ? (
-              <Loader2 className="animate-spin h-5 w-5" />
-            ) : (
-              <Save size={18} />
-            )}
+            {loading ? <Loader2 className="animate-spin h-5 w-5" /> : <Save size={18} />}
             {isEditing ? "Update Project" : "Create Project"}
           </button>
         </motion.div>
