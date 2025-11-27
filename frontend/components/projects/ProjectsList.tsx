@@ -55,8 +55,6 @@ const ProjectsList = () => {
       result.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
     } else if (sortBy === "name") {
       result.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortBy === "views") {
-      result.sort((a, b) => b.viewCount - a.viewCount);
     }
 
     return result;
@@ -79,7 +77,6 @@ const ProjectsList = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="flex flex-col lg:flex-row justify-between items-center gap-6 mb-12">
-          {/* Categories */}
           <div className="w-full lg:w-auto overflow-x-auto pb-2 hide-scrollbar">
             <div className="flex gap-2">
               {categories.map((cat) => (
@@ -110,7 +107,6 @@ const ProjectsList = () => {
               <option value="newest">{t('skills_list.sort_newest')}</option>
               <option value="oldest">{t('skills_list.sort_oldest')}</option>
               <option value="name">{t('skills_list.sort_name')}</option>
-              <option value="views">Most Viewed</option>
             </select>
           </div>
         </div>
