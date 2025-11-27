@@ -362,6 +362,7 @@ export default function SkillFormClient() {
                                 <option value="BACKEND">Backend</option>
                                 <option value="FRAMEWORK">Framework</option>
                                 <option value="DATABASE">Database</option>
+                                <option value="STATEMANAGMENT">STATEMANAGMENT</option>
                                 <option value="TOOL">Tool</option>
                                 <option value="CLOUD">Cloud</option>
                                 <option value="OTHER">Other</option>
