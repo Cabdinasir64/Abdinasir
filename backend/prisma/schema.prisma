@@ -22,8 +22,10 @@ enum SkillCategory {
   BACKEND
   FRAMEWORK
   DATABASE
+  STATEMANAGMENT
   TOOL
   CLOUD
+
 }
 
 model user {
