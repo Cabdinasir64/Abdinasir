@@ -87,7 +87,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang='en'>
+    <html lang='en'  dir="ltr" suppressHydrationWarning>
       <body className={`${poppins.variable} ${playfair.variable}`}>
         <Toaster />
         <LanguageProvider />
