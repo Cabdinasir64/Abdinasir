@@ -27,7 +27,7 @@ const SkillsList = () => {
         totalPages
     } = useSkillsFilter();
 
-    const categories = useMemo(() => ["ALL", "PROGRAMMING", "FRONTEND", "BACKEND", "FRAMEWORK", "DATABASE", "TOOL", "CLOUD"], []);
+    const categories = useMemo(() => ["ALL", "PROGRAMMING", "FRONTEND", "STATEMANAGMENT", "BACKEND", "FRAMEWORK", "DATABASE", "TOOL", "CLOUD"], []);
 
     const handleCategoryChange = useCallback((cat: string) => setActiveCategory(cat), [setActiveCategory]);
     const handleSortChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value), [setSortBy]);
