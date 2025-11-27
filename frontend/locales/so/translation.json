@@ -93,9 +93,9 @@
   },
   "about_story": {
     "badge": "Safarkeyga",
-    "title": "Ka Baxsan Fasalka: Isku Xirka Aqoonta iyo Xirfadda",
-    "p1": "Aas-aaskeyga aqooneed wuxuu ku qotomaa Cilmiga Kumbuyuutarka (CS), halkaas oo aan hadda marayo **Simistarka 5-aad**. In kastoo jaamacaddu ay i siiso awoodda fekerka iyo fahanka nidaamyada, haddana waxaan goor hore fahmay in khibradda dhabta ah laga helo dadaalka shaqsiga ah.",
-    "p2": "Waxaan ahay **injineer is-baray (Self-taught)** oo aan ku koobnayn buugaagta kaliya. Marka casharradu dhamaadaan, waxaa ii bilaabma cilmi-baaristayda gaarka ah. Waxaan si qoto dheer u bartaa tiknoolajiyadaha casriga ah sida Next.js iyo Cloud Computing, anigoo hiigsanaya inaan dhiso xalal dhijitaal ah oo tayo leh, islamarkaana isku xira aragtida jaamacadda iyo baahida suuqa shaqada.",
+    "title": "Laga Bilaabo Fasalka ilaa Xalalka Dhabta ah",
+    "p1": "Waxaan hadda marayaa **Simistarka 5-aad** ee Cilmiga Kumbuyuutarka. Jaamacaddu waxay i siisay aasaaska aragtida iyo nidaamyada, laakiin waxaan sidoo kale ku dadaalaa barashada iyo ku dhaqanka farsamooyinka dibadda fasalka si aan u helo khibrad dhab ah.",
+    "p2": "Waxaan ahay horumariye is-xilqaan ah, marwalba sahminaya tiknoolajiyada casriga ah sida Next.js, Cloud Computing, iyo Full Stack. Ujeeddadaydu waa in aan dhiso xalal dhabta ah oo isku xidha aqoonta jaamacadeed iyo dhaqanka warshadaha.",
     "stats": {
       "semester": "Simistarka 5aad",
       "status": "Arday CS",
@@ -139,5 +139,15 @@
   "skills_list": {
     "no_results": "Lama helin xirfado ku jira qeybtaan.",
     "...": "..."
+  },
+  "projects_hero": {
+    "badge": "Bandhiga Mashaariicda",
+    "title": "Fikrado Loo Bedelay Xaqiiqo",
+    "description": "Sahami ururinta shaqooyinkeygii ugu dambeeyay, mashaariicda gaarka ah, iyo kuwa furan.",
+    "stats": {
+      "projects": "Mashruuc",
+      "experience": "Sano oo Khibrad ah",
+      "coffee": "Koob oo Bun ah"
+    }
   }
 }
