@@ -16,7 +16,7 @@ export const ContactController = {
             }
 
             const mailOptions = {
-                from: `${name}`, 
+                from: `"${name}" <${email}>`, 
                 to: process.env.EMAIL_USER, 
                 subject: `New Portfolio Message from ${name}`, 
                 html: `
