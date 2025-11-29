@@ -57,9 +57,6 @@ export default function Projects() {
         <>
             <Suspense>
                 <Hero />
-            </Suspense>
-
-            <Suspense>
                 <ProjectList />
             </Suspense>
         </>
