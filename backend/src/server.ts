@@ -13,8 +13,7 @@ import { requestLogger } from "./middleware/logger";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
-const allowedOrigins = process.env.FRONTEND_URLS?.split(',') || [];
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(cookieParser());
@@ -22,13 +21,8 @@ app.use(express.json());
 
 
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: 'https://abdinasir-tau.vercel.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
 
@@ -40,7 +34,7 @@ const generalLimiter = rateLimit({
 });
 
 app.use(generalLimiter);
-app.use(requestLogger); 
+app.use(requestLogger);
 
 app.use('/api/user', UserRoutes);
 app.use('/api/skills', SkillRoutes);
