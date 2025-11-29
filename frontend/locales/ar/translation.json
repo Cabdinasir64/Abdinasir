@@ -149,5 +149,30 @@
       "experience": "سنوات خبرة",
       "coffee": "أكواب قهوة"
     }
+  },
+  "contact": {
+    "title": "تواصل معي",
+    "subtitle": "هل لديك مشروع في ذهنك أو تريد فقط إلقاء التحية؟ أود أن أسمع منك.",
+    "form": {
+      "name_label": "الاسم",
+      "name_placeholder": "ما هو اسمك؟",
+      "email_label": "البريد الإلكتروني",
+      "email_placeholder": "example@domain.com",
+      "message_label": "الرسالة",
+      "message_placeholder": "أخبرني عن مشروعك...",
+      "submit": "إرسال الرسالة",
+      "sending": "جاري الإرسال..."
+    },
+    "info": {
+      "email": "راسلني",
+      "location": "الموقع",
+      "socials": "تابعني"
+    },
+    "errors": {
+      "required": "هذا الحقل مطلوب",
+      "email_invalid": "يرجى إدخال بريد إلكتروني صحيح",
+      "success": "تم إرسال الرسالة بنجاح!",
+      "failed": "فشل إرسال الرسالة. حاول مرة أخرى."
+    }
   }
 }
