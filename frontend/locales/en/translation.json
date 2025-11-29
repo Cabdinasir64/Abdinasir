@@ -163,5 +163,30 @@
       "experience": "Years Experience",
       "coffee": "Cups of Coffee"
     }
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Have a project in mind or just want to say hi? I'd love to hear from you.",
+    "form": {
+      "name_label": "Name",
+      "name_placeholder": "What's your name?",
+      "email_label": "Email",
+      "email_placeholder": "example@domain.com",
+      "message_label": "Message",
+      "message_placeholder": "Tell me about your project...",
+      "submit": "Send Message",
+      "sending": "Sending..."
+    },
+    "info": {
+      "email": "Email Me",
+      "location": "Location",
+      "socials": "Follow Me"
+    },
+    "errors": {
+      "required": "This field is required",
+      "email_invalid": "Please enter a valid email",
+      "success": "Message sent successfully!",
+      "failed": "Failed to send message. Try again."
+    }
   }
 }
