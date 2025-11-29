@@ -149,5 +149,30 @@
       "experience": "Sano oo Khibrad ah",
       "coffee": "Koob oo Bun ah"
     }
+  },
+  "contact": {
+    "title": "Ila Soo Xiriir",
+    "subtitle": "Ma heysaa mashruuc ama kaliya ma rabtaa inaad iska kay salaanto? Waan ku faraxsanahay fariintaada.",
+    "form": {
+      "name_label": "Magaca",
+      "name_placeholder": "Magacaaga halkan gali...",
+      "email_label": "Email",
+      "email_placeholder": "example@domain.com",
+      "message_label": "Fariinta",
+      "message_placeholder": "Iiga warbixi mashruucaaga...",
+      "submit": "Dir Fariinta",
+      "sending": "Waa la dirayaa..."
+    },
+    "info": {
+      "email": "Email ii soo dir",
+      "location": "Goobta",
+      "socials": "Igu Xirnow"
+    },
+    "errors": {
+      "required": "Qeybtan waa qasab",
+      "email_invalid": "Fadlan gali Email sax ah",
+      "success": "Fariintaada waa la diray!",
+      "failed": "Fariinta ma bixin. Fadlan ku celi."
+    }
   }
 }
