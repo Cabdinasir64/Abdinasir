@@ -3,8 +3,9 @@ import React, { useState, useCallback, memo } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "@/stores/languageStore";
-import { successToast, errorToast } from "@/components/ui/Toaster";
+import { successToast, errorToast, warningToast } from "@/components/ui/Toaster";
 import { FaMapMarkerAlt, FaEnvelope, FaPaperPlane, FaUser, FaRegCommentDots } from "react-icons/fa";
+import emailjs from '@emailjs/browser'; 
 
 const Contact = () => {
     const { t } = useTranslation();
@@ -28,7 +29,7 @@ const Contact = () => {
                         viewport={{ once: true }}
                         className="text-primary-600 dark:text-primary-400 font-bold tracking-widest uppercase text-xs mb-2 block"
                     >
-                        <span >{t('nav.contact')}</span>
+                        <span suppressHydrationWarning>{t('nav.contact')}</span>
                     </motion.span>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
@@ -36,7 +37,7 @@ const Contact = () => {
                         viewport={{ once: true }}
                         className="text-3xl md:text-5xl font-extrabold text-surface-900 dark:text-white mb-4"
                     >
-                        <span >{t('contact.title')}</span>
+                        <span suppressHydrationWarning>{t('contact.title')}</span>
                     </motion.h2>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -45,7 +46,7 @@ const Contact = () => {
                         transition={{ delay: 0.1 }}
                         className="text-lg text-surface-600 dark:text-surface-400"
                     >
-                        <span >{t('contact.subtitle')}</span>
+                        <span suppressHydrationWarning>{t('contact.subtitle')}</span>
                     </motion.p>
                 </div>
 
@@ -73,7 +74,7 @@ const ContactInfo = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
                     <FaEnvelope />
                 </div>
                 <div>
-                    <h3 className="text-lg font-bold text-surface-900 dark:text-white">{t('contact.info.email')}</h3>
+                    <h3 className="text-lg font-bold text-surface-900 dark:text-white" suppressHydrationWarning>{t('contact.info.email')}</h3>
                     <p className="text-surface-500 text-sm font-medium">abdinasirahmedbashir@gmail.com</p>
                 </div>
             </div>
@@ -83,7 +84,7 @@ const ContactInfo = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
                     <FaMapMarkerAlt />
                 </div>
                 <div>
-                    <h3 className="text-lg font-bold text-surface-900 dark:text-white">{t('contact.info.location')}</h3>
+                    <h3 className="text-lg font-bold text-surface-900 dark:text-white" suppressHydrationWarning>{t('contact.info.location')}</h3>
                     <p className="text-surface-500 text-sm font-medium">Mogadishu, Somalia</p>
                 </div>
             </div>
@@ -148,16 +149,20 @@ const ContactForm = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
         setIsSubmitting(true);
 
         try {
-            const baseUrl = process.env.NEXT_PUBLIC_API_URL
-            const res = await fetch(`${baseUrl}/api/contact`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
+            const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+            const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+            const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
-            if (!res.ok) throw new Error("Failed");
+
+            await emailjs.send(serviceId, templateId, {
+                name: formData.name,
+                email: formData.email,
+                message: formData.message
+            }, publicKey);
+
             successToast(t('contact.errors.success'));
             setFormData({ name: "", email: "", message: "" });
+            
         } catch (error) {
             errorToast(t('contact.errors.failed'));
         } finally {
@@ -180,7 +185,7 @@ const ContactForm = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2 group">
                         <label className="text-sm font-bold text-surface-900 dark:text-white ml-1 flex items-center gap-2">
-                            <FaUser className="text-primary-500" /> <span >{t('contact.form.name_label')}</span>
+                            <FaUser className="text-primary-500" /> <span suppressHydrationWarning>{t('contact.form.name_label')}</span>
                         </label>
                         <input
                             type="text"
@@ -195,7 +200,7 @@ const ContactForm = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
 
                     <div className="space-y-2 group">
                         <label className="text-sm font-bold text-surface-900 dark:text-white ml-1 flex items-center gap-2">
-                            <FaEnvelope className="text-primary-500" /> <span >{t('contact.form.email_label')}</span>
+                            <FaEnvelope className="text-primary-500" /> <span suppressHydrationWarning>{t('contact.form.email_label')}</span>
                         </label>
                         <input
                             type="email"
@@ -212,7 +217,7 @@ const ContactForm = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
 
                 <div className="space-y-2 group">
                     <label className="text-sm font-bold text-surface-900 dark:text-white ml-1 flex items-center gap-2">
-                        <FaRegCommentDots className="text-primary-500" /> <span >{t('contact.form.message_label')}</span>
+                        <FaRegCommentDots className="text-primary-500" /> <span suppressHydrationWarning>{t('contact.form.message_label')}</span>
                     </label>
                     <textarea
                         name="message"
@@ -234,7 +239,7 @@ const ContactForm = memo(({ isRTL, t }: { isRTL: boolean, t: any }) => {
                         <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     ) : (
                         <>
-                            <span >{t('contact.form.submit')}</span>
+                            <span suppressHydrationWarning>{t('contact.form.submit')}</span>
                             <FaPaperPlane className={`group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`} />
                         </>
                     )}
