@@ -133,7 +133,7 @@ const ProjectHero = memo(({ project, onLike }: { project: ProjectDetails, onLike
                 priority
                 sizes="100vw" 
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface-900 via-surface-950/60 to-transparent" />
 
             <div className="absolute bottom-0 left-0 w-full p-6 md:p-16 container mx-auto z-10">
                 <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
