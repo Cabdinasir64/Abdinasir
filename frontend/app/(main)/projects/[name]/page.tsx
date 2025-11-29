@@ -38,7 +38,6 @@ export default function ProjectDetailsPage() {
 
                 setProject(data);
                 
-                // Fire and forget view count update
                 fetch(`${baseUrl}/api/projects/${data.id}/view`, { method: 'POST' }).catch(() => {});
 
             } catch (err) {
@@ -96,9 +95,7 @@ export default function ProjectDetailsPage() {
     if (!project) return <div className="h-screen flex items-center justify-center text-lg font-medium text-surface-600">Project Not Found</div>;
 
     return (
-        // FIX 1: Waxaan ku darnay 'pt-24' (Padding Top) si headerka uusan wax u qarin.
-        // Haddii headerkaaga uu ka dheer yahay 96px, kordhi (ts: pt-28 or pt-32).
-        <main className="min-h-screen bg-surface-50 dark:bg-surface-950 pb-20 pt-24">
+        <main className="min-h-screen bg-surface-50 dark:bg-surface-900 pb-20 pt-24">
 
             <ProjectHero project={project} onLike={handleLike} />
 
@@ -118,13 +115,10 @@ export default function ProjectDetailsPage() {
     );
 }
 
-// Qeybta Qurxinta (Hero Section)
 const ProjectHero = memo(({ project, onLike }: { project: ProjectDetails, onLike: () => void }) => {
     const displayRating = (project.rating || 0).toFixed(1);
 
     return (
-        // STYLE UPDATE: Waxaan ka dhignay 'rounded-3xl' container-ka sawirka 
-        // sidoo kale waxaan siinay 'overflow-hidden' iyo shadow qurux badan.
         <div className="container mx-auto px-4 md:px-8 mb-8">
             <div className="relative h-[60vh] md:h-[70vh] w-full bg-surface-900 rounded-[2.5rem] overflow-hidden shadow-2xl ring-1 ring-black/5 dark:ring-white/10">
                 <Image
@@ -136,7 +130,6 @@ const ProjectHero = memo(({ project, onLike }: { project: ProjectDetails, onLike
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 />
                 
-                {/* Gradient-ka waa la hagaajiyay si qoraalka sifiican u muuqdo */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
 
                 <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 z-10">
