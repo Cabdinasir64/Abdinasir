@@ -94,7 +94,7 @@ const ProjectsHero = () => {
                         className="grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-surface-200 dark:border-surface-800/50 pt-10 mt-10 max-w-3xl mx-auto"
                     >
                         <div className="text-center">
-                            <div className="text-3xl font-bold text-surface-900 dark:text-white mb-1">20+</div>
+                            <div className="text-3xl font-bold text-surface-900 dark:text-white mb-1">5+</div>
                             <div className="text-sm text-surface-500 font-medium uppercase tracking-wider">{t('projects_hero.stats.projects')}</div>
                         </div>
                         <div className="text-center">
