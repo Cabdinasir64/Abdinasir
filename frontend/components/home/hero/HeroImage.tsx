@@ -72,7 +72,7 @@ const HeroImage = ({ delay, isRTL }: { delay: number, isRTL: boolean }) => {
             >
                 <span className="text-3xl">💻</span>
                 <div className="text-left">
-                    <p className="font-bold text-surface-900 text-lg leading-none">20+</p>
+                    <p className="font-bold text-surface-900 text-lg leading-none">5+</p>
                     <p className="text-xs text-surface-500 font-bold uppercase">{t('hero.projects_badge')}</p>
                 </div>
             </motion.div>
