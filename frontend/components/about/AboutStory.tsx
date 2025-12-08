@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "@/stores/languageStore";
 
-import MyImage from "@/assets/A31.png";
+import ImageStory from "@/assets/PortfolioImage.jpg"
 
 const AboutStory = () => {
     const { t } = useTranslation();
@@ -39,7 +39,7 @@ const AboutStory = () => {
 
                         <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-surface-800 rotate-3 transition-transform hover:rotate-0 duration-500">
                             <Image
-                                src={MyImage}
+                                src={ImageStory}
                                 alt="Abdinasir Story"
                                 fill
                                 sizes="(max-width: 768px) 100vw, 500px"
@@ -84,7 +84,7 @@ const AboutStory = () => {
                             <p >
                                 {renderText(t('about_story.p1'))}
                             </p>
-                            <p suppressHydrationWarning>
+                            <p >
                                 {renderText(t('about_story.p2'))}
                             </p>
                         </div>
