@@ -21,7 +21,7 @@ app.use(express.json());
 
 
 app.use(cors({
-    origin: 'https://abdinasir-tau.vercel.app',
+    origin: 'https://www.abdinasir.dev',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
