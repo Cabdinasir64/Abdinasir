@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 3600; 
-
 export async function GET() {
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/projects?limit=100`;
 
